@@ -1,0 +1,13 @@
+sentence-transformers
+transformers
+torch
+faiss-cpu
+numpy
+pandas
+scikit-learn
+langchain
+chromadb
+matplotlib
+jupyter
+python-dotenv
+tqdm
