@@ -12,3 +12,5 @@ results/
 *.index
 *.pkl
 .DS_Store
+data/chroma_utterances/
+*.npy
