@@ -218,14 +218,14 @@ For each evaluation question, run it through **all three systems** and record re
 
 ```bash
 # System 1 — Baseline
-python src/baseline.py
+python src_mhd/baseline.py
 
 # System 2 — RAG
-python src/rag_chatbot.py
+python src_mhd/rag_chatbot.py
 # recommended: mode=qa, n_results=8
 
 # System 3 — RAG + Reranking
-python src/rag_chatbot_reranked.py
+python src_mhd/rag_chatbot_reranked.py
 # recommended: mode=qa, n_results=8
 ```
 
