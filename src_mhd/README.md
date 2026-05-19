@@ -86,9 +86,9 @@ Choose system (1/2/3, default: 2):
 
 ### Run systems individually
 ```bash
-python src/baseline.py              # System 1
-python src/rag_chatbot.py           # System 2
-python src/rag_chatbot_reranked.py  # System 3
+python src_mhd/baseline.py              # System 1
+python src_mhd/rag_chatbot.py           # System 2
+python src_mhd/rag_chatbot_reranked.py  # System 3
 ```
 
 ---
