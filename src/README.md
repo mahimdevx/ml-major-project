@@ -11,9 +11,9 @@ We built three systems for comparison:
 
 | System | File | Description |
 |--------|------|-------------|
-| 1 — Baseline | `src_mhd/baseline.py` | No retrieval — raw Gemma 3 4B only |
-| 2 — RAG | `src_mhd/rag_chatbot.py` | Utterance-level ChromaDB retrieval |
-| 3 — RAG + Reranking | `src_mhd/rag_chatbot_reranked.py` | RAG + cross-encoder reranking + diversity |
+| 1 — Baseline | `src/baseline.py` | No retrieval — raw Gemma 3 4B only |
+| 2 — RAG | `src/rag_chatbot.py` | Utterance-level ChromaDB retrieval |
+| 3 — RAG + Reranking | `src/rag_chatbot_reranked.py` | RAG + cross-encoder reranking + diversity |
 
 ---
 
@@ -68,7 +68,7 @@ Always run from the **project root** (`assignment2/`), not from inside `src/mhd`
 
 ### Single entry point — recommended
 ```bash
-python src_mhd/main.py
+python src/main.py
 ```
 
 This launches an interactive menu:
@@ -86,9 +86,9 @@ Choose system (1/2/3, default: 2):
 
 ### Run systems individually
 ```bash
-python src_mhd/baseline.py              # System 1
-python src_mhd/rag_chatbot.py           # System 2
-python src_mhd/rag_chatbot_reranked.py  # System 3
+python src/baseline.py              # System 1
+python src/rag_chatbot.py           # System 2
+python src/rag_chatbot_reranked.py  # System 3
 ```
 
 ---
@@ -146,7 +146,7 @@ assignment2/
 │   ├── raw/                          ← professor's JSONL files
 │   ├── processed/                    ← embeddings + metadata
 │   └── chroma_utterances/            ← ChromaDB index
-├── src_mhd/
+├── src/
 │   ├── main.py                       ← entry point
 │   ├── baseline.py                   ← System 1
 │   ├── rag_chatbot.py                ← System 2
@@ -218,14 +218,14 @@ For each evaluation question, run it through **all three systems** and record re
 
 ```bash
 # System 1 — Baseline
-python src_mhd/baseline.py
+python src/baseline.py
 
 # System 2 — RAG
-python src_mhd/rag_chatbot.py
+python src/rag_chatbot.py
 # recommended: mode=qa, n_results=8
 
 # System 3 — RAG + Reranking
-python src_mhd/rag_chatbot_reranked.py
+python src/rag_chatbot_reranked.py
 # recommended: mode=qa, n_results=8
 ```
 
