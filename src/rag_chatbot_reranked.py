@@ -5,12 +5,15 @@ import ollama
 import os
 import sys
 sys.path.insert(0, os.path.dirname(__file__))
-from real_retriever import retrieve
+from real_retriever import retrieve, collection
 from sentence_transformers import CrossEncoder
 
 # --- Load re-ranker ---
 print("Loading re-ranker model...")
 reranker = CrossEncoder("cross-encoder/ms-marco-MiniLM-L-6-v2")
+
+# --- Collection size cap ---
+MAX_COLLECTION = collection.count()
 
 # --- LLM ---
 def generate(prompt):
@@ -22,19 +25,29 @@ def generate(prompt):
 
 # --- Re-ranking retriever ---
 def retrieve_and_rerank(query, n_retrieve=15, n_return=5):
+    # Cap n_return and n_retrieve to collection size
+    n_return   = min(n_return,   MAX_COLLECTION)
+    n_retrieve = min(n_retrieve, MAX_COLLECTION)
+
     # Step 1 — broad retrieval from ChromaDB
     docs, metas = retrieve(query, n=n_retrieve)
 
     # Step 2 — re-score with cross-encoder
     pairs = [[query, doc] for doc in docs]
-    scores = reranker.predict(pairs)
+    raw_scores = reranker.predict(pairs)
+
+    # Handle both float and dict output formats across sentence-transformers versions
+    scores = [
+        float(s) if not isinstance(s, dict) else float(s["score"])
+        for s in raw_scores
+    ]
 
     # Step 3 — sort by re-rank score
     ranked = sorted(zip(scores, docs, metas), reverse=True)
 
     # Step 4 — diversify: max 2 results per scene
-    top_docs  = []
-    top_metas = []
+    top_docs   = []
+    top_metas  = []
     scene_counts = {}
 
     for score, doc, meta in ranked:
@@ -130,6 +143,7 @@ if __name__ == "__main__":
 
     n_results = input("Number of passages to retrieve (default: 5): ").strip()
     n_results = int(n_results) if n_results.isdigit() else 5
+    n_results = min(n_results, MAX_COLLECTION)
 
     query = input("Question: ").strip()
     chat(query, mode, n_results)
