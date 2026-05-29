@@ -303,6 +303,376 @@ the scene-level diversity constraint is implemented as a maximum cap
 rather than a minimum coverage guarantee, which may reduce retrieval
 quality on focused single-scene questions.
 
+
+% ============================================================
+%  GenAI Usage Log — Model and RAG Lead (Moinul)
+%  CSCI433/933 Assignment 2 — Shakespeare-Aware RAG System
+%  Appendix D — to be included in main report
+% ============================================================
+
+\section*{Appendix D: GenAI Usage Log --- Model and RAG Lead}
+
+All prompts below are verbatim or lightly paraphrased where noted.
+Summaries are written in my own words, not quoted from the AI output,
+in line with the assignment's transparency requirements.
+
+% ----------------------------------------------------------
+\subsection*{Entry 1 --- Comparing Available Small Language Models}
+
+\textbf{Prompt:}
+\begin{quote}
+``Give me a list of free to download small language models that I can use
+to build a RAG pipeline. It must run locally on any standard computer.
+Give me specifications like how many parameters, context window, etc.,
+and a scale to judge their speciality.''
+\end{quote}
+
+\textbf{Summary of what it returned:}
+Claude produced a comparison of seven locally runnable models: Gemma~3~4B,
+Mistral~7B~Q4, Llama~3.2~3B, Phi-3.5~Mini, Qwen2.5~3B, TinyLlama~1.1B,
+and Gemma~4~E4B. For each model it listed parameter count, context window
+size, approximate RAM requirement at 4-bit quantisation, and a rough rating
+across instruction following, literary quality, and how genuine the RAG
+evaluation would be. The key insight it gave was that models with a
+larger context window, like the 128k token window on Gemma~3~4B, can
+comfortably hold multiple retrieved passages in a single generation call,
+which is useful for this project. It also pointed out that all of these
+models can be installed with a single \texttt{ollama pull} command,
+which removes a lot of the setup friction.
+
+\textbf{What I did with it:}
+Used the comparison as a structured reference when evaluating candidates
+against the group's hardware constraint. The table helped me see at a
+glance which models were within reach and which were not. I did not use
+the AI output directly in the report; instead I used it to narrow down
+the shortlist and then did my own verification of the key figures.
+
+\textbf{What I verified manually:}
+Checked the RAM estimates against the Ollama model library page and
+confirmed the download sizes listed there matched what Claude described.
+
+% ----------------------------------------------------------
+\subsection*{Entry 2 --- Why Gemma~3~4B Is the Right Choice for This Project}
+
+\textbf{Prompt:}
+\begin{quote}
+``I think Gemma~3~4B is the most suitable choice for my project to answer
+questions from Shakespeare literature retrieval. What are your opinions
+on that?''
+\end{quote}
+
+\textbf{Summary of what it returned:}
+Claude agreed and explained why, which was useful because it made the
+reasoning concrete rather than just confirmatory. The core argument it
+made was about evaluation genuineness. A model like Gemini Flash or
+GPT-4o Mini has been trained on enormous amounts of text including
+Shakespeare, so it can answer questions about Macbeth or Hamlet
+reasonably well even without any retrieved context. That means the
+baseline system would score nearly as high as the RAG system, and the
+comparison would not prove much. Gemma~3~4B, on the other hand, has
+limited Shakespeare knowledge, so when retrieval fails the answer gets
+noticeably worse, and when retrieval works the answer improves. That
+makes the experiment meaningful. Claude also noted the 128k context
+window and the comfortable 2.5~GB RAM footprint as practical advantages.
+
+\textbf{What I did with it:}
+Used this reasoning directly as the basis for the model justification in
+Section~III-C of the report. The argument about evaluation genuineness
+is something I had thought about partially but Claude made it much
+clearer. That is why that argument appears front and centre in the
+justification rather than buried at the end.
+
+\textbf{What I verified manually:}
+Ran the model locally and asked ``Why does Macbeth kill Duncan?'' without
+any retrieved context. The answer was vague and missed key details like
+the role of the witches and Lady Macbeth. This confirmed that retrieval
+would make a visible difference, which is exactly what the evaluation
+needs to demonstrate.
+
+% ----------------------------------------------------------
+\subsection*{Entry 3 --- Assessing Model Size from Parameter Count}
+
+\textbf{Prompt:}
+\begin{quote}
+``How to assess model size based on the number of parameters?''
+\end{quote}
+
+\textbf{Summary of what it returned:}
+Claude explained the formula: model size in gigabytes equals the number
+of parameters multiplied by the bits per parameter, divided by eight
+billion. It introduced quantisation as a compression technique that
+reduces bits per parameter from 32-bit full precision down to 4-bit,
+which shrinks a 7B model from roughly 28~GB down to about 3.5~GB.
+It gave a quick mental shortcut: parameters in billions multiplied by
+0.5 gives the approximate GB needed at 4-bit. It also distinguished
+between RAM (CPU memory) and VRAM (GPU memory), and noted that running
+on CPU is slower but perfectly fine for coursework where generation
+speed is not critical.
+
+\textbf{What I did with it:}
+Applied the formula to evaluate all candidate models against the 8~GB
+constraint. This confirmed that Gemma~3~4B at roughly 2.5~GB is well
+within range, while Gemma~4~E4B at roughly 8~GB sits right at the
+ceiling with no headroom for the operating system and other processes.
+
+\textbf{What I verified manually:}
+Cross-checked the RAM estimates against the official Ollama model library
+page and Google's QAT release notes, which confirmed the 2.5~GB figure
+for Gemma~3~4B at Q4\_K\_M quantisation.
+
+% ----------------------------------------------------------
+\subsection*{Entry 4 --- Understanding Cross-Encoder vs Bi-Encoder}
+
+\textbf{Prompt:}
+\begin{quote}
+``What does a cross encoder do differently than MiniLM-L6-v2?
+They are both doing semantic search. What will it actually improve?''
+\end{quote}
+
+\textbf{Summary of what it returned:}
+Claude explained that both models do semantic matching but in different
+ways. The bi-encoder (MiniLM-L6-v2) encodes the query and each document
+independently into separate vectors and compares them using cosine
+similarity. The two texts never see each other during encoding. The
+cross-encoder takes the query and document together as a single
+concatenated input, which lets the transformer attend to interactions
+between specific tokens across both texts. This produces more accurate
+relevance scores but at a higher computation cost because you cannot
+pre-compute the document vectors ahead of time. Claude illustrated this
+with an example: a bi-encoder might rank the line ``Stars, hide your
+fires'' low for the query ``Why does Macbeth kill Duncan?'' because the
+exact words do not match, while a cross-encoder would recognise the
+thematic connection and score it higher.
+
+\textbf{What I did with it:}
+Adopted the two-stage retrieve-then-rerank design based on this
+explanation. The bi-encoder handles broad retrieval from ChromaDB
+quickly, and the cross-encoder rescores only the shortlisted candidates
+where accuracy matters most. This explanation directly shaped the
+architecture of \texttt{rag\_chatbot\_reranked.py} and the justification
+written in Section~III-B.
+
+\textbf{What I verified manually:}
+Ran both systems on the same query and observed that the reranked
+pipeline surfaced different passages than the standard pipeline.
+
+% ----------------------------------------------------------
+\subsection*{Entry 5 --- How Many Results to Retrieve (Choosing k)}
+
+\textbf{Prompt:}
+\begin{quote}
+``How do I decide how many top-k should I use for retrieval?
+I know that the more k I choose, the slower output I will get.
+But what is the sweet spot and how much is worth sacrificing?''
+\end{quote}
+
+\textbf{Summary of what it returned:}
+Claude pointed out that the trade-off has three sides, not two. More k
+means more relevant passages, but it also means more irrelevant ones
+mixed in, and at some point the model cannot tell the useful passages
+apart from the noise. It recommended k~=~5 for the standard RAG
+pipeline and a retrieve-15-then-rerank-to-5 strategy for the reranked
+pipeline. The reasoning was that the instructor questions are focused
+on specific events and motivations, and the core evidence for any one
+question typically fits within five passages. Going higher starts
+pulling in tangentially related lines that add length without adding
+clarity. For the reranked pipeline, retrieving more candidates first
+gives the cross-encoder more to work with, so it can filter more
+aggressively and return five high-confidence results rather than five
+medium-confidence ones. Claude also mentioned that the proper way to
+find the optimal k empirically is to sweep across k~=~3, 5, 8, and 10
+and score each configuration, which could work as an extension if time
+allowed.
+
+\textbf{What I did with it:}
+Kept k~=~5 for the standard pipeline and used 15-to-5 reranking for
+the improved pipeline. These values are used in
+\texttt{rag\_chatbot.py} and \texttt{rag\_chatbot\_reranked.py}
+respectively. The three-sided trade-off framing (speed, relevance,
+noise) was useful and I referenced it when writing the implementation
+notes in Section~IV-B.
+
+\textbf{What I verified manually:}
+Ran the same query at k~=~3, 5, and 8 manually and observed that at
+k~=~8 the retrieved evidence for Q1 included lines from unrelated
+scenes that did not contribute to the answer. That confirmed k~=~5
+was a reasonable stopping point for this corpus.
+
+% ----------------------------------------------------------
+\subsection*{Entry 6 --- How Embedding Models Handle Archaic Text}
+
+\textbf{Prompt:}
+\begin{quote}
+``How will the embedding model handle archaic text?''
+\end{quote}
+
+\textbf{Summary of what it returned:}
+Claude explained that during pretraining the embedding model learned
+that words like ``kill'', ``murder'', ``slay'', and ``do the deed''
+cluster together in vector space because they appear in similar
+contexts across millions of training documents. That is why a modern
+English query maps to roughly the same region of vector space as its
+archaic equivalent. Without enrichment, a raw 10-word Shakespearean
+utterance embeds into a relatively isolated region because the model
+has too little context to place it accurately. The scene summaries and
+keywords added during data preparation provide modern English context
+that bridges this gap, ensuring utterances land near semantically
+related modern queries.
+
+\textbf{What I did with it:}
+Used this explanation to add a clarifying passage in Section~III-B
+explaining why enriched embedding strings were necessary and why the
+system can retrieve relevant passages even when archaic words do not
+appear in the query. It also strengthened the justification for the
+data engineering team's embedding design, which I referenced when
+writing the methodology section.
+
+\textbf{What I verified manually:}
+Tested the system with the query ``Why does Macbeth kill Duncan?'' and
+confirmed that utterances containing words like ``deed'', ``dark
+desires'', and ``ambition'' were retrieved even though ``kill'' and
+``Duncan'' did not appear in them directly.
+
+% ----------------------------------------------------------
+\subsection*{Entry 7 --- What Fine-Tuning Would Actually Change}
+
+\textbf{Prompt:}
+\begin{quote}
+``If I fine-tune the SLM, how will it improve the performance?
+How will the parameters change and what will the extra layers represent?
+Will it have more knowledge about Shakespeare or will it only predict
+more Shakespearean tone as the next word?''
+\end{quote}
+
+\textbf{Summary of what it returned:}
+Claude clarified that fine-tuning with LoRA or QLoRA does not add new
+layers on top of the model. Instead it injects small trainable matrices,
+called low-rank adapters, into the existing attention layers. The
+original weights stay frozen and only these adapters are updated, adding
+roughly one to ten million parameters on top of the four billion base
+parameters. More importantly, Claude explained what those adapters
+actually learn: they shift the probability distribution over the next
+token toward outputs that look like the fine-tuning data. Fine-tuning
+does not give the model new factual knowledge the way pretraining does.
+It teaches the model to respond in a particular style and follow patterns
+in the training examples. So fine-tuning on Shakespeare text would
+improve the stylised generation mode because the model would learn to
+produce Early Modern English constructions more naturally, but it would
+not make the model more factually reliable about plot events. A
+fine-tuned model without retrieval could still hallucinate, just now in
+a more convincing Shakespearean register, which is arguably harder to
+detect.
+
+\textbf{What I did with it:}
+This clarified why the current approach of RAG without fine-tuning is
+the right design for the assignment. The goal is to demonstrate that
+retrieval improves answers, not that the model has memorised the plays.
+Fine-tuning would blur that experimental signal. I used this reasoning
+to justify the decision to skip fine-tuning in Section~III-C, alongside
+the practical constraint of the submission deadline.
+
+
+% ----------------------------------------------------------
+\subsection*{Entry 8 --- Why the Vector Space Has 384 Dimensions}
+
+\textbf{Prompt:}
+\begin{quote}
+``Why does our vector space have 384 dimensions? What will happen
+if we add more dimensions or take away some from this?''
+\end{quote}
+
+\textbf{Summary of what it returned:}
+Claude explained that 384 comes from the architecture of
+\texttt{all-MiniLM-L6-v2}, chosen by the researchers during pretraining
+through experimentation. It is not a fundamental constant but a design
+decision. Each dimension represents a learned axis of semantic variation,
+and the meaning of a text is encoded across all 384 values together
+rather than in any single one. If you increase dimensions, the model can
+represent finer semantic distinctions, which is why larger models like
+\texttt{text-embedding-3-large} use 3,072 dimensions. But for
+Shakespeare retrieval the distinctions you need, such as murder versus
+ambition versus betrayal, are broad enough that 384 handles them well.
+If you reduce dimensions, distinct concepts start colliding in the
+smaller space and retrieval quality degrades because previously
+separated clusters begin overlapping. Claude also noted that the
+dimension is baked into the model weights, so you cannot change it
+without switching to a different embedding model entirely. The critical
+constraint is consistency: the index and every query must go through the
+same model, because vectors from different models are not comparable.
+
+\textbf{What I did with it:}
+Used this to understand why 384 is appropriate for this task and why
+no change is needed. It also helped me write a cleaner explanation in
+the methodology section of why \texttt{all-MiniLM-L6-v2} is sufficient
+for the semantic range required by the three plays, without needing to
+justify using a larger embedding model.
+
+\textbf{What I verified manually:}
+Confirmed the output dimension of the model by running a quick Python
+check: \texttt{model.encode("test").shape} returns \texttt{(384,)},
+matching what Claude described.
+
+% ----------------------------------------------------------
+\subsection*{Entry 9 --- What ``Surface Form'' Means}
+
+\textbf{Prompt:}
+\begin{quote}
+``What does it mean with surface form and why it is relevant?''
+\end{quote}
+
+\textbf{Summary of what it returned:}
+Claude explained that ``surface form'' is a linguistics term referring
+to the literal written characters of a word as it appears on the page.
+The words ``kill'', ``killeth'', and ``slayeth'' are different surface
+forms but carry the same meaning. It suggested replacing the term with
+simpler phrasing, such as ``regardless of how they are written or
+phrased'', to keep the report accessible to readers without a
+linguistics background.
+
+\textbf{What I did with it:}
+Replaced ``surface form'' in the Section~III-B draft with the simpler
+phrasing. The report now reads ``regardless of how they are written or
+phrased'', which fits the beginner-accessible tone the assignment
+requires.
+
+\textbf{What I verified manually:}
+Re-read the paragraph in context to confirm the revised phrasing
+preserved the intended meaning without losing technical accuracy.
+
+\subsection*{Entry 10 --- Should the User Be Able to Choose the Retrieval Depth?}
+
+\textbf{Prompt:}
+\begin{quote}
+``Should I let the user choose the top k?''
+\end{quote}
+
+\textbf{Summary of what it returned:}
+Claude pointed out that the answer depends on who the user actually is.
+The current \texttt{main.py} already exposes k as a configurable input,
+so the mechanism is there. The question is whether that choice helps or
+hurts. For the assignment demo and evaluation it is genuinely useful,
+because you might want to test k~=~3 versus k~=~8 on the same question
+to observe how retrieval depth affects answer quality, and that kind of
+comparison is worth documenting in the report. But for a real end user
+with no Shakespeare background, asking them to choose k is like asking
+someone to choose their database page size before reading a document.
+They have no basis for the decision, and if they pick a bad value the
+answer degrades silently. Claude recommended keeping the input as it is
+for demo and evaluation purposes, treating k~=~5 as the well-tested
+default, and documenting the choice in Section~IV-B with reference to
+manual testing across the instructor questions.
+
+\textbf{What I did with it:}
+Kept the configurable input in \texttt{main.py} as it is, since the
+assignment context makes it useful for evaluation runs. Added a note
+in Section~IV-B explaining that k~=~5 was selected based on manual
+testing and that higher values introduced noise without improving answer
+quality on the instructor question set.
+
+\textbf{What I verified manually:}
+Confirmed that the upper bound validation on k was already in place in
+\texttt{main.py}, so a user entering an arbitrarily large value would
+not cause the retrieval to crash or time out.
 % ============================================================
 \bibliographystyle{IEEEtran}
 \bibliography{references}
