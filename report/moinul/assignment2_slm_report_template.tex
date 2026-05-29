@@ -205,6 +205,8 @@ comparison between the baseline and RAG system meaningful and the evaluation gen
 powerful hosted model such as Gemini Flash already has strong Shakespeare knowledge and may
 produce correct answers even without retrieved context, which would make evaluation
 inconclusive and undermine the purpose of the RAG pipeline.
+
+Fine-tuning was considered and set aside for two reasons. First, adapter-based methods such as LoRA shift the model's output distribution toward training patterns rather than injecting new factual knowledge, so fine-tuning on Shakespeare text would improve stylised generation but would not make the model more reliable on plot questions. Second, it would blur the experimental signal the evaluation depends on: a fine-tuned baseline would perform differently from the RAG system for reasons unrelated to retrieval, making the comparison harder to interpret. Prompt engineering and retrieval are therefore the sole adaptation strategies used.
  
 Gemma~3~4B also demonstrates reliable instruction following and sufficient language quality
 for both beginner-friendly explanation and stylised generation, making it appropriate for all
