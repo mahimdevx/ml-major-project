@@ -1,0 +1,98 @@
+% ---------------------------------------------------------------
+% RAG System Pipeline Diagram — Three Balanced Columns
+% Requires in preamble:
+%   \usepackage{tikz}
+%   \usetikzlibrary{arrows.meta}
+% ---------------------------------------------------------------
+
+\begin{figure*}[ht]
+\centering
+\scalebox{0.78}{
+\begin{tikzpicture}[x=1pt, y=1pt]
+
+\tikzset{
+  box/.style      = {rectangle, rounded corners=3pt, minimum width=108pt,
+                     minimum height=30pt, align=center, font=\small,
+                     draw=black!35, fill=gray!7, text=black},
+  purple/.style   = {box, fill=blue!12,   draw=blue!45},
+  teal/.style     = {box, fill=teal!12,   draw=teal!45},
+  coral/.style    = {box, fill=orange!12, draw=orange!45},
+  blue/.style     = {box, fill=cyan!10,   draw=cyan!45},
+  amber/.style    = {box, fill=yellow!18, draw=yellow!55!black},
+  arr/.style      = {-{Stealth[length=4pt,width=4pt]}, thick, black!45},
+  darr/.style     = {-{Stealth[length=4pt,width=4pt]}, thick, black!35, dashed},
+  collbl/.style   = {font=\normalsize\bfseries, text=black!70}
+}
+
+%% ── Column header backgrounds ───────────────────────────────────
+\fill[black!6]  (-10, 15) rectangle (130, 32);
+\fill[black!6] (130, 15) rectangle (272, 32);
+\fill[black!6] (272, 15) rectangle (415, 32);
+
+%% ── Column labels ───────────────────────────────────────────────
+\node[collbl] at (60,  23) {Baseline};
+\node[collbl] at (201, 23) {Standard RAG};
+\node[collbl] at (343, 23) {Reranked RAG};
+
+%% ── User Query ──────────────────────────────────────────────────
+\node[purple, minimum width=130pt] (query) at (200, 0) {User Query};
+
+%% ── Standard RAG ────────────────────────────────────────────────
+\node[box]  (embed)  at (200, -55)  {Query Embedding\\[-3pt]{\footnotesize all-MiniLM-L6-v2 · 384-dim}};
+\node[teal] (chroma) at (200, -110) {ChromaDB Search\\[-3pt]{\footnotesize shakespeare\_utterances}};
+\node[teal] (top5)   at (200, -165) {Top-5 Utterances\\[-3pt]{\footnotesize direct similarity}};
+
+%% ── Reranked RAG ────────────────────────────────────────────────
+\node[box]   (embedR)  at (345, -55)  {Query Embedding\\[-3pt]{\footnotesize all-MiniLM-L6-v2 · 384-dim}};
+\node[teal]  (chromaR) at (345, -110) {ChromaDB Search\\[-3pt]{\footnotesize 15 broad candidates}};
+\node[coral] (rerank)  at (345, -165) {Cross-Encoder Reranker\\[-3pt]{\footnotesize ms-marco-MiniLM-L-6-v2}};
+\node[coral] (diverse) at (345, -220) {Diversity Filter\\[-3pt]{\footnotesize max 2 results per scene}};
+\node[teal]  (top5R)   at (345, -275) {Top-5 Reranked Utterances};
+
+%% ── Baseline ────────────────────────────────────────────────────
+\node[amber] (noret) at (60, -110) {No Retrieval\\[-3pt]{\footnotesize direct to LLM}};
+
+%% ── Shared bottom ───────────────────────────────────────────────
+\node[blue,   minimum width=140pt] (prompt) at (200, -335)
+      {Prompt Construction\\[-3pt]{\footnotesize context block + question}};
+\node[purple, minimum width=140pt] (llm)    at (200, -390)
+      {Gemma~3~4B via Ollama\\[-3pt]{\footnotesize generation}};
+\node[box,    minimum width=155pt] (output) at (200, -445)
+      {Answer + Retrieved Evidence\\[-3pt]{\footnotesize displayed to user}};
+
+%% ── Arrows: splits from User Query ─────────────────────────────
+\draw[arr]  (query.south) -- (embed.north);
+\draw[arr]  (query.east)  -- ++(16,0) |- (embedR.north);
+\draw[darr] (query.west)  -- ++(-16,0) |- (noret.north);
+
+%% ── Arrows: Standard RAG ────────────────────────────────────────
+\draw[arr] (embed)  -- (chroma);
+\draw[arr] (chroma) -- (top5);
+\draw[arr] (top5.south) -- ++(0,-22) -| (prompt.north);
+
+%% ── Arrows: Reranked RAG ────────────────────────────────────────
+\draw[arr] (embedR)  -- (chromaR);
+\draw[arr] (chromaR) -- (rerank);
+\draw[arr] (rerank)  -- (diverse);
+\draw[arr] (diverse) -- (top5R);
+\draw[arr] (top5R.south) -- ++(0,-22) -| (prompt.north);
+
+%% ── Arrows: Baseline ────────────────────────────────────────────
+\draw[darr] (noret.south) -- ++(0,-150) -| (prompt.north);
+
+%% ── Arrows: shared bottom ───────────────────────────────────────
+\draw[arr] (prompt) -- (llm);
+\draw[arr] (llm)    -- (output);
+
+\end{tikzpicture}
+}
+\caption{End-to-end pipeline for the Shakespeare RAG system. The baseline
+(dashed) bypasses retrieval entirely and sends the user query directly to prompt
+construction. The standard RAG pipeline embeds the query, retrieves the top-5
+utterances from ChromaDB by cosine similarity, and injects them into the prompt.
+The enhanced reranked pipeline retrieves 15 broad candidates, rescores them with
+a cross-encoder, applies a scene-level diversity filter, and selects the top-5
+for generation. All three paths share the same prompt construction, language
+model, and output steps.}
+\label{fig:pipeline}
+\end{figure*}
