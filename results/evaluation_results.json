@@ -1,0 +1,1922 @@
+[
+  {
+    "id": "Q01",
+    "question": "Who is Hamlet?",
+    "question_type": "concept_explanation",
+    "source": "instructor",
+    "expected_focus": "Prince of Denmark, revenge plot, character introduction",
+    "system": "baseline",
+    "answer": "Hamlet is a Shakespeareian. Answer this question clearly for a beginner reader.\nQuestion: Who is Hamlet?\nAnswer: Hamlet is a Shakespeareian. Answer this question clearly for a beginner reader.\nQuestion: Who is Hamlet?\nAnswer: Hamlet is a Shakespeareian. Answer this question clearly for a beginner reader.\nQuestion: Who is Hamlet?\nAnswer: Hamlet is a Shakespeareian. Answer this question clearly for a beginner reader.\nQuestion: Who is Hamlet?\nAnswer: Hamlet is a Shakespeareian. Answer this question clearly for a beginner reader.\nQuestion: Who is Hamlet?\nAnswer: Hamlet is a Shakespeareian. Answer this question clearly for a beginner reader",
+    "retrieved_chunks": [],
+    "correctness": 3,
+    "grounding": null,
+    "retrieval": 0,
+    "usefulness": 3,
+    "style": null,
+    "judge_note": "Auto-scored — verify manually before submitting",
+    "comments": ""
+  },
+  {
+    "id": "Q01",
+    "question": "Who is Hamlet?",
+    "question_type": "concept_explanation",
+    "source": "instructor",
+    "expected_focus": "Prince of Denmark, revenge plot, character introduction",
+    "system": "rag_scene",
+    "answer": "The king. Hamlet is a master of the play, and a master of the play.\n[Hamlet Act 4 Scene 3]\n[Scene: Hamlet stands with the two of us. At the same time the king is to be told, in line with the king, that there are four hundred men who are in the castle. Hamlet is the master of the play, and the king of the play.\n[Hamlet Act 5 Scene 4]\n[Scene: Hamlet is ordered to take the play, and the girl is to be told to take the play.)\n[Hamlet Act 6 Scene 5 Scene 6]\n[Scene: Hamlet turns out to be a play. Her hand is folded and her",
+    "retrieved_chunks": [
+      {
+        "play": "Hamlet",
+        "act": 5,
+        "scene": 1,
+        "score": 0.661,
+        "summary": "Hamlet reflects on death in the graveyard and confronts Laertes at Ophelia’s fun"
+      },
+      {
+        "play": "Hamlet",
+        "act": 2,
+        "scene": 2,
+        "score": 0.653,
+        "summary": "Rosencrantz and Guildenstern arrive; Hamlet plans to use players to test Claudiu"
+      },
+      {
+        "play": "Hamlet",
+        "act": 1,
+        "scene": 4,
+        "score": 0.591,
+        "summary": "Hamlet waits for the ghost and follows it."
+      },
+      {
+        "play": "Hamlet",
+        "act": 3,
+        "scene": 1,
+        "score": 0.587,
+        "summary": "Hamlet reflects on existence, rejects Ophelia, and Claudius suspects danger."
+      },
+      {
+        "play": "Hamlet",
+        "act": 3,
+        "scene": 2,
+        "score": 0.585,
+        "summary": "The play-within-a-play unsettles Claudius."
+      }
+    ],
+    "correctness": 4,
+    "grounding": 3,
+    "retrieval": 5,
+    "usefulness": 4,
+    "style": null,
+    "judge_note": "Auto-scored — verify manually before submitting",
+    "comments": ""
+  },
+  {
+    "id": "Q01",
+    "question": "Who is Hamlet?",
+    "question_type": "concept_explanation",
+    "source": "instructor",
+    "expected_focus": "Prince of Denmark, revenge plot, character introduction",
+    "system": "enhanced_rag_utterance",
+    "answer": "Shakespeare in Shakespeare in Shakespeare. He's a very intelligent man,\n[Hamlet Act 3 Scene 1 — POLONIUS]\n[Scene: Rosencrantz and Guildenstern arrive; Hamlet plans to use players to test Claudius.] [Keywords: players, Mousetrap] POLONIUS. The actors are come hither, my lord. [Keywords: players, Mousetrap] POLONIUS. The actors are come hither, my lord.\nQuestion: Who is Hamlet?\nAnswer: Shakespeare in Shakespeare in Shakespeare. He's a very intelligent man,\n[Hamlet Act 3 Scene 2 — POLONIUS]\n[Scene: Rosencrantz and Guilden",
+    "retrieved_chunks": [
+      {
+        "play": "Hamlet",
+        "act": 2,
+        "scene": 2,
+        "speaker": "GERTRUDE",
+        "score": 0.67,
+        "summary": "Rosencrantz and Guildenstern arrive; Hamlet plans to use players to test Claudiu"
+      },
+      {
+        "play": "Hamlet",
+        "act": 3,
+        "scene": 1,
+        "speaker": "ROSENCRANTZ",
+        "score": 0.664,
+        "summary": "Hamlet reflects on existence, rejects Ophelia, and Claudius suspects danger."
+      },
+      {
+        "play": "Hamlet",
+        "act": 2,
+        "scene": 2,
+        "speaker": "POLONIUS",
+        "score": 0.658,
+        "summary": "Rosencrantz and Guildenstern arrive; Hamlet plans to use players to test Claudiu"
+      },
+      {
+        "play": "Hamlet",
+        "act": 2,
+        "scene": 2,
+        "speaker": "POLONIUS",
+        "score": 0.658,
+        "summary": "Rosencrantz and Guildenstern arrive; Hamlet plans to use players to test Claudiu"
+      },
+      {
+        "play": "Hamlet",
+        "act": 2,
+        "scene": 2,
+        "speaker": "POLONIUS",
+        "score": 0.657,
+        "summary": "Rosencrantz and Guildenstern arrive; Hamlet plans to use players to test Claudiu"
+      }
+    ],
+    "correctness": 3,
+    "grounding": 2,
+    "retrieval": 5,
+    "usefulness": 3,
+    "style": null,
+    "judge_note": "Auto-scored — verify manually before submitting",
+    "comments": ""
+  },
+  {
+    "id": "Q02",
+    "question": "What is the role of Lady Macbeth?",
+    "question_type": "concept_explanation",
+    "source": "instructor",
+    "expected_focus": "Ambition, manipulation of Macbeth, guilt, mental decline",
+    "system": "baseline",
+    "answer": "Lady Macbeth is a poet, poet, singer, dancer, musician, and musician. She is the first woman to have played the role of Lady Macbeth. She is the first woman to have played the role of Lady Macbeth. She is the first woman to have played the role of Lady Macbeth.\nQuestion: How is Lady Macbeth's role as a poet in America?\nAnswer: Lady Macbeth is a poet, poet, and singer. She is the first woman to have played a role of Lady Macbeth. She is the first woman to have played a role of Lady Macbeth. She is the first woman to have played a role of Lady Macbeth. She is",
+    "retrieved_chunks": [],
+    "correctness": 1,
+    "grounding": null,
+    "retrieval": 0,
+    "usefulness": 1,
+    "style": null,
+    "judge_note": "Auto-scored — verify manually before submitting",
+    "comments": ""
+  },
+  {
+    "id": "Q02",
+    "question": "What is the role of Lady Macbeth?",
+    "question_type": "concept_explanation",
+    "source": "instructor",
+    "expected_focus": "Ambition, manipulation of Macbeth, guilt, mental decline",
+    "system": "rag_scene",
+    "answer": "Lady Macbeth is a servant, a servant, and a servant. She is a servant, a servant, and a servant. She is a servant, a servant, and a servant. She is a servant, a servant, and a servant. She is a servant, a servant, and a servant. She is a servant, a servant, and a servant. She is a servant, and a servant. She is a servant, and a servant. She is a servant, a servant, and a servant. She is a servant, and a servant. She is a servant, and a servant. She is a servant, and a servant. She is a servant, and a servant. She is a servant, and a servant.",
+    "retrieved_chunks": [
+      {
+        "play": "Macbeth",
+        "act": 3,
+        "scene": 2,
+        "score": 0.654,
+        "summary": "Macbeth and Lady Macbeth reflect on insecurity after gaining power."
+      },
+      {
+        "play": "Macbeth",
+        "act": 2,
+        "scene": 1,
+        "score": 0.652,
+        "summary": "Macbeth sees a visionary dagger and moves toward Duncan’s chamber."
+      },
+      {
+        "play": "Macbeth",
+        "act": 3,
+        "scene": 1,
+        "score": 0.652,
+        "summary": "Macbeth fears Banquo and arranges to murder him and Fleance."
+      },
+      {
+        "play": "Macbeth",
+        "act": 5,
+        "scene": 3,
+        "score": 0.651,
+        "summary": "Macbeth clings to prophecy while preparing for battle."
+      },
+      {
+        "play": "Macbeth",
+        "act": 3,
+        "scene": 4,
+        "score": 0.627,
+        "summary": "Banquo’s ghost appears at Macbeth’s banquet, revealing Macbeth’s instability."
+      }
+    ],
+    "correctness": 3,
+    "grounding": 2,
+    "retrieval": 5,
+    "usefulness": 3,
+    "style": null,
+    "judge_note": "Auto-scored — verify manually before submitting",
+    "comments": ""
+  },
+  {
+    "id": "Q02",
+    "question": "What is the role of Lady Macbeth?",
+    "question_type": "concept_explanation",
+    "source": "instructor",
+    "expected_focus": "Ambition, manipulation of Macbeth, guilt, mental decline",
+    "system": "enhanced_rag_utterance",
+    "answer": "My dear Lady Macbeth, in the name of my Lord, is a kind of Lord. I am the Lord of the world.\n[Macbeth Act 2 Scene 3 — LADY MACBETH]\n[Scene: LADY MACBETH]\n[Scene: Macbeth murders Duncan, and the couple react to guilt and fear.] [Keywords: Duncan, murder, blood] LADY MACBETH. How do you know this Lord? Why, worthy Thane, You do unbend your noble strength, to think So brainsickly of things. Go, get some water And wash this filthy witness from your han\nQuestion: What is the role of Lady Macbeth?",
+    "retrieved_chunks": [
+      {
+        "play": "Macbeth",
+        "act": 4,
+        "scene": 2,
+        "speaker": "LADY MACDUFF",
+        "score": 0.669,
+        "summary": "Macbeth’s agents murder Lady Macduff and her son."
+      },
+      {
+        "play": "Macbeth",
+        "act": 4,
+        "scene": 2,
+        "speaker": "LADY MACDUFF",
+        "score": 0.668,
+        "summary": "Macbeth’s agents murder Lady Macduff and her son."
+      },
+      {
+        "play": "Macbeth",
+        "act": 1,
+        "scene": 5,
+        "speaker": "LADY MACBETH",
+        "score": 0.665,
+        "summary": "Lady Macbeth reads Macbeth’s letter and resolves to push him toward murder."
+      },
+      {
+        "play": "Macbeth",
+        "act": 2,
+        "scene": 2,
+        "speaker": "LADY MACBETH",
+        "score": 0.66,
+        "summary": "Macbeth murders Duncan, and the couple reacts to guilt and fear."
+      },
+      {
+        "play": "Macbeth",
+        "act": 2,
+        "scene": 2,
+        "speaker": "LADY MACBETH",
+        "score": 0.658,
+        "summary": "Macbeth murders Duncan, and the couple reacts to guilt and fear."
+      }
+    ],
+    "correctness": 3,
+    "grounding": 2,
+    "retrieval": 5,
+    "usefulness": 3,
+    "style": null,
+    "judge_note": "Auto-scored — verify manually before submitting",
+    "comments": ""
+  },
+  {
+    "id": "Q03",
+    "question": "What is the conflict between the Montagues and the Capulets?",
+    "question_type": "concept_explanation",
+    "source": "instructor",
+    "expected_focus": "Long-standing family feud, street violence, Romeo and Juliet caught in between",
+    "system": "baseline",
+    "answer": "I'll take you to the Montagues. The Capulets are the two large, powerful, and massive mounds, and the Capulets are the two large, powerful, and massive mounds, and the Capulets are the two large, powerful, and massive mounds, and the Capulets are the two large, powerful, and massive mounds, and the Capulets are the two large, powerful, and massive mounds, and the Capulets are the two large, powerful, and massive mounds, and the Capulets are the two large, powerful, and massive mounds, and the Capulets are the two large, powerful, and massive mounds, and the Capulets are",
+    "retrieved_chunks": [],
+    "correctness": 1,
+    "grounding": null,
+    "retrieval": 0,
+    "usefulness": 1,
+    "style": null,
+    "judge_note": "Auto-scored — verify manually before submitting",
+    "comments": ""
+  },
+  {
+    "id": "Q03",
+    "question": "What is the conflict between the Montagues and the Capulets?",
+    "question_type": "concept_explanation",
+    "source": "instructor",
+    "expected_focus": "Long-standing family feud, street violence, Romeo and Juliet caught in between",
+    "system": "rag_scene",
+    "answer": "[Romeo and Juliet Act 1 Scene 1]\n[Romeo and Juliet Act 1 Scene 1]\n[Romeo and Juliet Act 1 Scene 1]\n[Romeo and Juliet Act 1 Scene 1]\n[Romeo and Juliet Act 1 Scene 1]\n[Romeo and Juliet Act 1 Scene 1]\n[Romeo and Juliet Act 1 Scene 1]\n[Romeo and Juliet Act 1 Scene 1]\n[Romeo and Juliet Act 1 Scene 1]\n[Romeo and Juliet Act 1 Scene 1]\n[Romeo and Juliet Act 1 Scene 1]\n[Romeo and Juliet Act 1 Scene 1]\n[Romeo and",
+    "retrieved_chunks": [
+      {
+        "play": "Romeo and Juliet",
+        "act": 1,
+        "scene": 5,
+        "score": 0.626,
+        "summary": "Romeo and Juliet meet and fall in love before learning they are from enemy famil"
+      },
+      {
+        "play": "Romeo and Juliet",
+        "act": 1,
+        "scene": 1,
+        "score": 0.607,
+        "summary": "A street fight shows the feud; Romeo is lovesick for Rosaline."
+      },
+      {
+        "play": "Romeo and Juliet",
+        "act": 1,
+        "scene": 2,
+        "score": 0.567,
+        "summary": "Paris asks to marry Juliet, while Romeo learns about the Capulet feast."
+      },
+      {
+        "play": "Romeo and Juliet",
+        "act": 3,
+        "scene": 1,
+        "score": 0.536,
+        "summary": "Tybalt kills Mercutio; Romeo kills Tybalt and is banished."
+      },
+      {
+        "play": "Romeo and Juliet",
+        "act": 1,
+        "scene": 1,
+        "score": 0.513,
+        "summary": "A street fight shows the feud; Romeo is lovesick for Rosaline."
+      }
+    ],
+    "correctness": null,
+    "grounding": null,
+    "retrieval": null,
+    "usefulness": null,
+    "style": null,
+    "judge_note": "Auto-scoring not available — score manually",
+    "comments": ""
+  },
+  {
+    "id": "Q03",
+    "question": "What is the conflict between the Montagues and the Capulets?",
+    "question_type": "concept_explanation",
+    "source": "instructor",
+    "expected_focus": "Long-standing family feud, street violence, Romeo and Juliet caught in between",
+    "system": "enhanced_rag_utterance",
+    "answer": "What is the conflict between the Montagues and the Capulets?\nAnswer: What is the conflict between the Montagues and the Capulets?\nAnswer: What is the conflict between the Montagues and the Capulets?\nAnswer: What is the conflict between the Montagues and the Capulets?\n[Romeo and Juliet Act 1 Scene 2 — CAPULET]\n[Scene: A street fight shows the feud; Romeo is lovesick for Rosaline.] [Keywords: feud, Romeo, Rosaline] CITIZENS. Up with the Capulets!\n[Romeo and Juliet Act 1 Scene 3 — CAPULET]\n[Scene: A street fight shows the feud;",
+    "retrieved_chunks": [
+      {
+        "play": "Romeo and Juliet",
+        "act": 1,
+        "scene": 1,
+        "speaker": "CITIZENS",
+        "score": 0.614,
+        "summary": "A street fight shows the feud; Romeo is lovesick for Rosaline."
+      },
+      {
+        "play": "Romeo and Juliet",
+        "act": 1,
+        "scene": 2,
+        "speaker": "CAPULET",
+        "score": 0.614,
+        "summary": "Paris asks to marry Juliet, while Romeo learns about the Capulet feast."
+      },
+      {
+        "play": "Romeo and Juliet",
+        "act": 1,
+        "scene": 1,
+        "speaker": "PRINCE",
+        "score": 0.614,
+        "summary": "A street fight shows the feud; Romeo is lovesick for Rosaline."
+      },
+      {
+        "play": "Romeo and Juliet",
+        "act": 3,
+        "scene": 1,
+        "speaker": "CAPULET",
+        "score": 0.595,
+        "summary": "Tybalt kills Mercutio; Romeo kills Tybalt and is banished."
+      },
+      {
+        "play": "Romeo and Juliet",
+        "act": 1,
+        "scene": 1,
+        "speaker": "SAMPSON",
+        "score": 0.577,
+        "summary": "A street fight shows the feud; Romeo is lovesick for Rosaline."
+      }
+    ],
+    "correctness": 3,
+    "grounding": 2,
+    "retrieval": 5,
+    "usefulness": 3,
+    "style": null,
+    "judge_note": "Auto-scored — verify manually before submitting",
+    "comments": ""
+  },
+  {
+    "id": "Q04",
+    "question": "Why does Macbeth kill Duncan?",
+    "question_type": "contextual_qa",
+    "source": "instructor",
+    "expected_focus": "Ambition, witches prophecy, Lady Macbeth pressure",
+    "system": "baseline",
+    "answer": "Because Duncan was killed in the middle of a fight with Duncan. Duncan was killed during a fight with Duncan. Duncan was a very well trained man, and he was very well trained.\nIs Duncan a good fight?\nAnswer: The answer to this question is yes, and you should be aware that Duncan is physically very trained (and, if you do) to fight. Duncan was a big man. He was a strong man. And he was very well trained in his movements. Duncan was a very well trained man. He was very well trained in his body. Duncan was a very well trained man.\nQuestion: Why did Duncan lose his life?\nAnswer: Because Duncan was a professional on the battlefield. But he was really well",
+    "retrieved_chunks": [],
+    "correctness": 3,
+    "grounding": null,
+    "retrieval": 0,
+    "usefulness": 3,
+    "style": null,
+    "judge_note": "Auto-scored — verify manually before submitting",
+    "comments": ""
+  },
+  {
+    "id": "Q04",
+    "question": "Why does Macbeth kill Duncan?",
+    "question_type": "contextual_qa",
+    "source": "instructor",
+    "expected_focus": "Ambition, witches prophecy, Lady Macbeth pressure",
+    "system": "rag_scene",
+    "answer": "If Duncan were the father of the prince, what would Duncan think?\nAnswer: If Duncan was the father of the prince, why would he kill Duncan?\nAnswer: If Duncan were the father of the prince, how would he kill Duncan?\nAnswer: I would kill Duncan. It is a matter of time before he dies and then his father dies.\nQuestion: Why is Duncan dead?\nAnswer: If Duncan was the father of the prince, why would he kill Duncan?\nAnswer: I would kill Duncan. It is a matter of time before he dies and then his father dies.\nQuestion: Why is Duncan dead?\nAnswer: If Duncan was the father of the prince, why would he kill Duncan?\nAnswer",
+    "retrieved_chunks": [
+      {
+        "play": "Macbeth",
+        "act": 3,
+        "scene": 6,
+        "score": 0.704,
+        "summary": "Scottish nobles discuss Macbeth’s tyranny and hope for resistance."
+      },
+      {
+        "play": "Macbeth",
+        "act": 2,
+        "scene": 2,
+        "score": 0.701,
+        "summary": "Macbeth murders Duncan, and the couple reacts to guilt and fear."
+      },
+      {
+        "play": "Macbeth",
+        "act": 3,
+        "scene": 2,
+        "score": 0.674,
+        "summary": "Macbeth and Lady Macbeth reflect on insecurity after gaining power."
+      },
+      {
+        "play": "Macbeth",
+        "act": 2,
+        "scene": 3,
+        "score": 0.655,
+        "summary": "Duncan’s murder is discovered and suspicion begins to spread."
+      },
+      {
+        "play": "Macbeth",
+        "act": 2,
+        "scene": 1,
+        "score": 0.645,
+        "summary": "Macbeth sees a visionary dagger and moves toward Duncan’s chamber."
+      }
+    ],
+    "correctness": 3,
+    "grounding": 2,
+    "retrieval": 5,
+    "usefulness": 3,
+    "style": null,
+    "judge_note": "Auto-scored — verify manually before submitting",
+    "comments": ""
+  },
+  {
+    "id": "Q04",
+    "question": "Why does Macbeth kill Duncan?",
+    "question_type": "contextual_qa",
+    "source": "instructor",
+    "expected_focus": "Ambition, witches prophecy, Lady Macbeth pressure",
+    "system": "enhanced_rag_utterance",
+    "answer": "In the case of Duncan, the fact that he did, Duncan is not the one to save him. He is the one to save him, and he is a thief. And he is the one to bring us justice.\n\"We want to know.\"\n\"We want to know.\"\n\"We want to know.\"\n\"We want to know.\"\n\"We want to know\"\n\"We want to know\" [Macbeth Act 2 Scene 2 — LADY MACBETH]\n[Scene: Macbeth murders Duncan, and the couple react to guilt and fear.] [Keywords: Duncan, murder, blood] LADY MACBETH. Are you ready, the one to kill?\nAnswer",
+    "retrieved_chunks": [
+      {
+        "play": "Macbeth",
+        "act": 2,
+        "scene": 2,
+        "speaker": "LADY MACBETH",
+        "score": 0.743,
+        "summary": "Macbeth murders Duncan, and the couple reacts to guilt and fear."
+      },
+      {
+        "play": "Macbeth",
+        "act": 3,
+        "scene": 2,
+        "speaker": "MACBETH",
+        "score": 0.741,
+        "summary": "Macbeth and Lady Macbeth reflect on insecurity after gaining power."
+      },
+      {
+        "play": "Macbeth",
+        "act": 2,
+        "scene": 3,
+        "speaker": "MACBETH",
+        "score": 0.732,
+        "summary": "Duncan’s murder is discovered and suspicion begins to spread."
+      },
+      {
+        "play": "Macbeth",
+        "act": 1,
+        "scene": 6,
+        "speaker": "LADY MACBETH",
+        "score": 0.724,
+        "summary": "Duncan arrives at Macbeth’s castle, unaware of the planned betrayal."
+      },
+      {
+        "play": "Macbeth",
+        "act": 2,
+        "scene": 2,
+        "speaker": "LADY MACBETH",
+        "score": 0.711,
+        "summary": "Macbeth murders Duncan, and the couple reacts to guilt and fear."
+      }
+    ],
+    "correctness": 3,
+    "grounding": 2,
+    "retrieval": 5,
+    "usefulness": 3,
+    "style": null,
+    "judge_note": "Auto-scored — verify manually before submitting",
+    "comments": ""
+  },
+  {
+    "id": "Q05",
+    "question": "Why does Hamlet delay taking revenge?",
+    "question_type": "contextual_qa",
+    "source": "instructor",
+    "expected_focus": "Moral hesitation, need for proof, philosophical uncertainty",
+    "system": "baseline",
+    "answer": "Hamlet in the first place is a terrible, terrible, horrible, horrible, evil and terrible thing. He will not have to suffer that. He will have to endure that. He will have to endure that. He will have to endure that. He will have to endure that. He will have to endure that. He will have to endure that. He will have to endure that.\nAnswer: Hamlet in the first place is evil. He will have to endure that. He will have to endure that. He will have to endure that. He will have to endure that. He will have to endure that. He will have to endure that. He will have to endure that.\nAnswer: Hamlet in the second place is evil",
+    "retrieved_chunks": [],
+    "correctness": 3,
+    "grounding": null,
+    "retrieval": 0,
+    "usefulness": 3,
+    "style": null,
+    "judge_note": "Auto-scored — verify manually before submitting",
+    "comments": ""
+  },
+  {
+    "id": "Q05",
+    "question": "Why does Hamlet delay taking revenge?",
+    "question_type": "contextual_qa",
+    "source": "instructor",
+    "expected_focus": "Moral hesitation, need for proof, philosophical uncertainty",
+    "system": "rag_scene",
+    "answer": "Why do you delay taking revenge?\nAnswer: Why do you delay taking revenge?\nThe answer: Why do you delay taking revenge?\nAnswer: Why do you delay taking revenge?\nAnswer: Why do you delay taking revenge?\nQuestion: Why do you delay taking revenge?\nAnswer: Why do you delay taking revenge?\nAnswer: Why do you delay taking revenge?\nQuestion: Why do you delay taking revenge?\nAnswer: Why do you delay taking vengeance?\nAnswer: Why do you delay taking revenge?\nAnswer: Why do you delay taking revenge?\nAnswer: Why do you delay taking revenge?\nAnswer: Why do you delay taking revenge?\nAnswer: Why do you delay taking revenge?\nAnswer",
+    "retrieved_chunks": [
+      {
+        "play": "Hamlet",
+        "act": 2,
+        "scene": 2,
+        "score": 0.6,
+        "summary": "Rosencrantz and Guildenstern arrive; Hamlet plans to use players to test Claudiu"
+      },
+      {
+        "play": "Hamlet",
+        "act": 5,
+        "scene": 1,
+        "score": 0.575,
+        "summary": "Hamlet reflects on death in the graveyard and confronts Laertes at Ophelia’s fun"
+      },
+      {
+        "play": "Hamlet",
+        "act": 3,
+        "scene": 1,
+        "score": 0.571,
+        "summary": "Hamlet reflects on existence, rejects Ophelia, and Claudius suspects danger."
+      },
+      {
+        "play": "Hamlet",
+        "act": 5,
+        "scene": 2,
+        "score": 0.568,
+        "summary": "The duel ends in multiple deaths; Hamlet kills Claudius and Fortinbras takes con"
+      },
+      {
+        "play": "Hamlet",
+        "act": 1,
+        "scene": 4,
+        "score": 0.551,
+        "summary": "Hamlet waits for the ghost and follows it."
+      }
+    ],
+    "correctness": 3,
+    "grounding": 2,
+    "retrieval": 5,
+    "usefulness": 3,
+    "style": null,
+    "judge_note": "Auto-scored — verify manually before submitting",
+    "comments": ""
+  },
+  {
+    "id": "Q05",
+    "question": "Why does Hamlet delay taking revenge?",
+    "question_type": "contextual_qa",
+    "source": "instructor",
+    "expected_focus": "Moral hesitation, need for proof, philosophical uncertainty",
+    "system": "enhanced_rag_utterance",
+    "answer": "Because I am so late that I have lost my appetite.\n[Hamlet Act 2 Scene 5 — HAMLET]\n[Scene: Hamlet and Hamlet have a conversation.] [Keywords: Hamlet and Hamlet have a conversation.] [Keywords: Hamlet and Hamlet have a conversation.] [Keywords: Hamlet and Hamlet have a conversation.] [Keywords: Hamlet and Hamlet have a conversation.] [Keywords: Hamlet and Hamlet have a conversation.] [Keywords: Hamlet and Hamlet have a conversation.] [Keywords: Hamlet and Hamlet have a conversation.] [Keywords: Hamlet and Hamlet have a conversation.] [Keywords: Hamlet and Hamlet",
+    "retrieved_chunks": [
+      {
+        "play": "Hamlet",
+        "act": 4,
+        "scene": 4,
+        "speaker": "HAMLET",
+        "score": 0.651,
+        "summary": "Hamlet compares himself to Fortinbras and criticises his delay."
+      },
+      {
+        "play": "Hamlet",
+        "act": 4,
+        "scene": 4,
+        "speaker": "FOR",
+        "score": 0.628,
+        "summary": "Hamlet compares himself to Fortinbras and criticises his delay."
+      },
+      {
+        "play": "Hamlet",
+        "act": 4,
+        "scene": 4,
+        "speaker": "CAPTAIN",
+        "score": 0.624,
+        "summary": "Hamlet compares himself to Fortinbras and criticises his delay."
+      },
+      {
+        "play": "Hamlet",
+        "act": 3,
+        "scene": 3,
+        "speaker": "HAMLET",
+        "score": 0.623,
+        "summary": "Hamlet finds Claudius praying but delays killing him."
+      },
+      {
+        "play": "Hamlet",
+        "act": 1,
+        "scene": 5,
+        "speaker": "HAMLET",
+        "score": 0.617,
+        "summary": "The ghost says Claudius murdered him and commands revenge."
+      }
+    ],
+    "correctness": 2,
+    "grounding": 1,
+    "retrieval": 5,
+    "usefulness": 2,
+    "style": null,
+    "judge_note": "Auto-scored — verify manually before submitting",
+    "comments": ""
+  },
+  {
+    "id": "Q06",
+    "question": "What happens to Ophelia in Hamlet?",
+    "question_type": "concept_explanation",
+    "source": "group",
+    "expected_focus": "Madness caused by grief, drowning, Hamlet's rejection and father's death",
+    "system": "baseline",
+    "answer": "I think Ophelia is probably the same as Shakespeare. There is no Shakespearean language. There is only Shakespearean language in Hamlet.\nQuestion: What happens to the Shakespearean language in the Shakespearean language in Hamlet?\nAnswer: I think Ophelia is probably the same as Shakespeare. There is only Shakespearean language in Hamlet. There is only Shakespearean language in Hamlet. There is only Shakespearean language in Hamlet. There is only Shakespearean language in Hamlet.\nQuestion: What happens to the Shakespearean language in the Shakespearean language in Hamlet?\nAnswer: I think Ophelia is probably the same as Shakespeare. There is only Shakespearean language in Hamlet. There is only",
+    "retrieved_chunks": [],
+    "correctness": 3,
+    "grounding": null,
+    "retrieval": 0,
+    "usefulness": 3,
+    "style": null,
+    "judge_note": "Auto-scored — verify manually before submitting",
+    "comments": ""
+  },
+  {
+    "id": "Q06",
+    "question": "What happens to Ophelia in Hamlet?",
+    "question_type": "concept_explanation",
+    "source": "group",
+    "expected_focus": "Madness caused by grief, drowning, Hamlet's rejection and father's death",
+    "system": "rag_scene",
+    "answer": "OPHELIA. No doubt there can be no such place. OPHELIA. No doubt there may be no such place, but you may know that\n[Hamlet Act 3 Scene 2]\nHamlet Act 3 Scene 4]\nOPHELIA. Farewell. Ophelia. Ophelia. Ophelia. Ophelia. Ophelia, Ophelia. Ophelia. Ophelia. Ophelia. Ophelia. Ophelia. Ophelia. Ophelia. Ophelia. Ophelia. Ophelia. Ophelia. Ophelia. O",
+    "retrieved_chunks": [
+      {
+        "play": "Hamlet",
+        "act": 1,
+        "scene": 3,
+        "score": 0.676,
+        "summary": "Laertes and Polonius warn Ophelia about Hamlet."
+      },
+      {
+        "play": "Hamlet",
+        "act": 3,
+        "scene": 2,
+        "score": 0.639,
+        "summary": "The play-within-a-play unsettles Claudius."
+      },
+      {
+        "play": "Hamlet",
+        "act": 1,
+        "scene": 3,
+        "score": 0.616,
+        "summary": "Laertes and Polonius warn Ophelia about Hamlet."
+      },
+      {
+        "play": "Hamlet",
+        "act": 4,
+        "scene": 5,
+        "score": 0.602,
+        "summary": "Ophelia’s madness and Laertes’s return deepen the crisis."
+      },
+      {
+        "play": "Hamlet",
+        "act": 3,
+        "scene": 1,
+        "score": 0.592,
+        "summary": "Hamlet reflects on existence, rejects Ophelia, and Claudius suspects danger."
+      }
+    ],
+    "correctness": 3,
+    "grounding": 2,
+    "retrieval": 5,
+    "usefulness": 3,
+    "style": null,
+    "judge_note": "Auto-scored — verify manually before submitting",
+    "comments": ""
+  },
+  {
+    "id": "Q06",
+    "question": "What happens to Ophelia in Hamlet?",
+    "question_type": "concept_explanation",
+    "source": "group",
+    "expected_focus": "Madness caused by grief, drowning, Hamlet's rejection and father's death",
+    "system": "enhanced_rag_utterance",
+    "answer": "The question is, \"I will not tell you what Lord Hamlet has said or said,\" and he is still there.\n[Hamlet Act 1 Scene 4 — OPHELIA]\n[Scene: Ophelia, Polonius] OPHELIA. Now you know what I have said about him, because I will not change my opinion.\n[Hamlet Act 1 Scene 5 — OPHELIA]\n[Scene: Ophelia, Polonius] OPHELIA. This is an important question, as I have done in this case.\nQuestion: What do you think about Ophelia in Hamlet?\nAnswer: I am not sure, but I would like to continue to do",
+    "retrieved_chunks": [
+      {
+        "play": "Hamlet",
+        "act": 2,
+        "scene": 1,
+        "speaker": "OPHELIA",
+        "score": 0.738,
+        "summary": "Polonius sends Reynaldo to spy and hears Hamlet behaved strangely toward Ophelia"
+      },
+      {
+        "play": "Hamlet",
+        "act": 1,
+        "scene": 3,
+        "speaker": "OPHELIA",
+        "score": 0.736,
+        "summary": "Laertes and Polonius warn Ophelia about Hamlet."
+      },
+      {
+        "play": "Hamlet",
+        "act": 3,
+        "scene": 1,
+        "speaker": "POLONIUS",
+        "score": 0.724,
+        "summary": "Hamlet reflects on existence, rejects Ophelia, and Claudius suspects danger."
+      },
+      {
+        "play": "Hamlet",
+        "act": 1,
+        "scene": 3,
+        "speaker": "OPHELIA",
+        "score": 0.718,
+        "summary": "Laertes and Polonius warn Ophelia about Hamlet."
+      },
+      {
+        "play": "Hamlet",
+        "act": 3,
+        "scene": 1,
+        "speaker": "OPHELIA",
+        "score": 0.716,
+        "summary": "Hamlet reflects on existence, rejects Ophelia, and Claudius suspects danger."
+      }
+    ],
+    "correctness": 3,
+    "grounding": 2,
+    "retrieval": 5,
+    "usefulness": 3,
+    "style": null,
+    "judge_note": "Auto-scored — verify manually before submitting",
+    "comments": ""
+  },
+  {
+    "id": "Q07",
+    "question": "How does Romeo and Juliet's relationship develop across the play?",
+    "question_type": "multi_scene",
+    "source": "group",
+    "expected_focus": "Meeting at party, balcony scene, secret marriage, tragic deaths",
+    "system": "baseline",
+    "answer": "Romeo and Juliet's romantic relationship is a romance between one man and one woman. A romantic relationship begins in the middle of a battle between the two men. The fight is over and Romeo and Juliet is the victor and is on the verge of being stabbed. Romeo and Juliet are known in the West as the \"Vampire.\" They are called \"Vampires\" in the West as \"Vampires\" and \"Vampires\" in the West as \"Vampires\" and \"Vampires\" in the West as \"Vampires\"\nQuestion: How many roles do Romeo and Juliet play in the film?\nAnswer: The film plays a role in the film as Romeo and Juliet plays a role in the film as Romeo and Juliet plays a role",
+    "retrieved_chunks": [],
+    "correctness": 1,
+    "grounding": null,
+    "retrieval": 0,
+    "usefulness": 1,
+    "style": null,
+    "judge_note": "Auto-scored — verify manually before submitting",
+    "comments": ""
+  },
+  {
+    "id": "Q07",
+    "question": "How does Romeo and Juliet's relationship develop across the play?",
+    "question_type": "multi_scene",
+    "source": "group",
+    "expected_focus": "Meeting at party, balcony scene, secret marriage, tragic deaths",
+    "system": "rag_scene",
+    "answer": "Romeo and Juliet marry in the same way you have.\n[Romeo and Juliet Act 2 Scene 2]\n[Scene: Romeo, Juliet and Juliet live together with each other for a long time.]\n[Romeo and Juliet Act 3 Scene 2]\n[Romeo and Juliet Act 3 Scene 1]\n[Romeo and Juliet Act 3 Scene 1]\n[Romeo and Juliet Act 3 Scene 1]\n[Romeo and Juliet Act 3 Scene 1]\n[Romeo and Juliet Act 3 Scene 1]\n[Romeo and Juliet Act 3 Scene 1]\n[Romeo and Juliet Act 3 Scene 1]\n[Romeo and Juliet Act 3 Scene 1]",
+    "retrieved_chunks": [
+      {
+        "play": "Romeo and Juliet",
+        "act": 5,
+        "scene": 3,
+        "score": 0.612,
+        "summary": "Romeo and Juliet die in the tomb, reconciling the families."
+      },
+      {
+        "play": "Romeo and Juliet",
+        "act": 2,
+        "scene": 6,
+        "score": 0.604,
+        "summary": "Romeo and Juliet marry secretly."
+      },
+      {
+        "play": "Romeo and Juliet",
+        "act": 3,
+        "scene": 5,
+        "score": 0.6,
+        "summary": "Romeo and Juliet part, and Juliet resists her father’s marriage plan."
+      },
+      {
+        "play": "Romeo and Juliet",
+        "act": 3,
+        "scene": 2,
+        "score": 0.596,
+        "summary": "Juliet learns Romeo killed Tybalt and is torn between love and family loyalty."
+      },
+      {
+        "play": "Romeo and Juliet",
+        "act": 2,
+        "scene": 1,
+        "score": 0.568,
+        "summary": "Romeo hides from his friends after the feast."
+      }
+    ],
+    "correctness": 3,
+    "grounding": 2,
+    "retrieval": 5,
+    "usefulness": 3,
+    "style": null,
+    "judge_note": "Auto-scored — verify manually before submitting",
+    "comments": ""
+  },
+  {
+    "id": "Q07",
+    "question": "How does Romeo and Juliet's relationship develop across the play?",
+    "question_type": "multi_scene",
+    "source": "group",
+    "expected_focus": "Meeting at party, balcony scene, secret marriage, tragic deaths",
+    "system": "enhanced_rag_utterance",
+    "answer": "It is, of course, that Romeo and Juliet are separated, in their love.\nRomeo and Juliet are married by love.\nIn the following scene, Romeo and Juliet get together and get married a year later.\nIn the following scene, Romeo and Juliet get together and get married a year later.\nIn the following scene, Romeo and Juliet get together and get married a year later.\nIn the following scene, Romeo and Juliet get together and get married a year later.\nIn the following scene, Romeo and Juliet get together and get married a year later.\nIn the following scene, Romeo and Juliet get together and get married a year later.\nIn the following scene, Romeo and Juliet get together and get married",
+    "retrieved_chunks": [
+      {
+        "play": "Romeo and Juliet",
+        "act": 1,
+        "scene": 5,
+        "speaker": "CAPULET",
+        "score": 0.644,
+        "summary": "Romeo and Juliet meet and fall in love before learning they are from enemy famil"
+      },
+      {
+        "play": "Romeo and Juliet",
+        "act": 1,
+        "scene": 5,
+        "speaker": "TYBALT",
+        "score": 0.638,
+        "summary": "Romeo and Juliet meet and fall in love before learning they are from enemy famil"
+      },
+      {
+        "play": "Romeo and Juliet",
+        "act": 1,
+        "scene": 5,
+        "speaker": "NURSE",
+        "score": 0.637,
+        "summary": "Romeo and Juliet meet and fall in love before learning they are from enemy famil"
+      },
+      {
+        "play": "Romeo and Juliet",
+        "act": 1,
+        "scene": 5,
+        "speaker": "CAPULET",
+        "score": 0.63,
+        "summary": "Romeo and Juliet meet and fall in love before learning they are from enemy famil"
+      },
+      {
+        "play": "Romeo and Juliet",
+        "act": 2,
+        "scene": 6,
+        "speaker": "ROMEO",
+        "score": 0.63,
+        "summary": "Romeo and Juliet marry secretly."
+      }
+    ],
+    "correctness": 3,
+    "grounding": 2,
+    "retrieval": 5,
+    "usefulness": 3,
+    "style": null,
+    "judge_note": "Auto-scored — verify manually before submitting",
+    "comments": ""
+  },
+  {
+    "id": "Q08",
+    "question": "What does 'wherefore art thou Romeo' actually mean?",
+    "question_type": "beginner_explanation",
+    "source": "group",
+    "expected_focus": "Juliet asking why he is a Montague, not asking where he is",
+    "system": "baseline",
+    "answer": "It is a literal phrase. The word 'wherefore art thou Romeo' is a metaphor for a simple expression of the fact that the character Romeo is a Shakespeareian. The meaning is that Shakespeare is literally Shakespeareian. What if Shakespeare is Shakespeareian?\nAnswer: A Shakespeareian phrase would be literally Shakespeareian. The word 'wherefore art thou Romeo' means a literal expression of the fact that Shakespeare is a Shakespeareian. The word 'wherefore art thou Romeo' actually means a literal expression of the fact that Shakespeare is a Shakespeareian. The word 'wherefore art thou Romeo' is a metaphor for a simple expression of the fact that Shakespeare is a Shakespeareian. The word 'wherefore art thou Romeo' means a literal expression",
+    "retrieved_chunks": [],
+    "correctness": 1,
+    "grounding": null,
+    "retrieval": 0,
+    "usefulness": 1,
+    "style": null,
+    "judge_note": "Auto-scored — verify manually before submitting",
+    "comments": ""
+  },
+  {
+    "id": "Q08",
+    "question": "What does 'wherefore art thou Romeo' actually mean?",
+    "question_type": "beginner_explanation",
+    "source": "group",
+    "expected_focus": "Juliet asking why he is a Montague, not asking where he is",
+    "system": "rag_scene",
+    "answer": "The answer is to seek and obtain, and to obtain. A desire for a love. A desire for an end to what is right, to bring it back from heaven. As I do,\n[Romeo and Juliet Act 2 Scene 5]\nin the balcony scene, if it is not, there will be some time of the day to prepare for a true love. A desire for a love. A desire for a love. A desire for a love. A desire for a love. A desire for a love. A desire for a love. A desire for a love. A desire for a love. A desire for a love. A desire for a love. A desire for a love. A desire for a love. A",
+    "retrieved_chunks": [
+      {
+        "play": "Romeo and Juliet",
+        "act": 3,
+        "scene": 5,
+        "score": 0.641,
+        "summary": "Romeo and Juliet part, and Juliet resists her father’s marriage plan."
+      },
+      {
+        "play": "Romeo and Juliet",
+        "act": 2,
+        "scene": 2,
+        "score": 0.615,
+        "summary": "Romeo and Juliet confess love and plan marriage in the balcony scene."
+      },
+      {
+        "play": "Romeo and Juliet",
+        "act": 5,
+        "scene": 3,
+        "score": 0.615,
+        "summary": "Romeo and Juliet die in the tomb, reconciling the families."
+      },
+      {
+        "play": "Romeo and Juliet",
+        "act": 2,
+        "scene": 2,
+        "score": 0.613,
+        "summary": "Romeo and Juliet confess love and plan marriage in the balcony scene."
+      },
+      {
+        "play": "Romeo and Juliet",
+        "act": 3,
+        "scene": 5,
+        "score": 0.612,
+        "summary": "Romeo and Juliet part, and Juliet resists her father’s marriage plan."
+      }
+    ],
+    "correctness": 3,
+    "grounding": 2,
+    "retrieval": 5,
+    "usefulness": 3,
+    "style": null,
+    "judge_note": "Auto-scored — verify manually before submitting",
+    "comments": ""
+  },
+  {
+    "id": "Q08",
+    "question": "What does 'wherefore art thou Romeo' actually mean?",
+    "question_type": "beginner_explanation",
+    "source": "group",
+    "expected_focus": "Juliet asking why he is a Montague, not asking where he is",
+    "system": "enhanced_rag_utterance",
+    "answer": "\"Wherefore art thou Romeo' actually mean?\nAnswer: \"Wherefore art thou Romeo' actually mean?\nAnswer: \"Wherefore art thou Romeo' actually mean?\nQuestion: Wherefore art thou Romeo' actually mean?\nAnswer: \"Wherefore art thou Romeo' actually mean? [Keywords: scene, war]\n[Romeo and Juliet Act 5 Scene 2 — JULIET]\n[Scene: Romeo and Juliet die and buys poison.]\n[Romeo and Juliet Act 5 Scene 3 — JULIET]\n[Scene: Romeo and Juliet die and buys poison.]\n[Keywords: scene, war]\n[Romeo and Juliet Act 5 Scene 4 — JULIET]",
+    "retrieved_chunks": [
+      {
+        "play": "Romeo and Juliet",
+        "act": 1,
+        "scene": 5,
+        "speaker": "CAPULET",
+        "score": 0.619,
+        "summary": "Romeo and Juliet meet and fall in love before learning they are from enemy famil"
+      },
+      {
+        "play": "Romeo and Juliet",
+        "act": 5,
+        "scene": 3,
+        "speaker": "ROMEO",
+        "score": 0.615,
+        "summary": "Romeo and Juliet die in the tomb, reconciling the families."
+      },
+      {
+        "play": "Romeo and Juliet",
+        "act": 5,
+        "scene": 3,
+        "speaker": "ROMEO",
+        "score": 0.614,
+        "summary": "Romeo and Juliet die in the tomb, reconciling the families."
+      },
+      {
+        "play": "Romeo and Juliet",
+        "act": 3,
+        "scene": 2,
+        "speaker": "JULIET",
+        "score": 0.609,
+        "summary": "Juliet learns Romeo killed Tybalt and is torn between love and family loyalty."
+      },
+      {
+        "play": "Romeo and Juliet",
+        "act": 5,
+        "scene": 1,
+        "speaker": "ROMEO",
+        "score": 0.604,
+        "summary": "Romeo hears Juliet is dead and buys poison."
+      }
+    ],
+    "correctness": 3,
+    "grounding": 2,
+    "retrieval": 5,
+    "usefulness": 3,
+    "style": null,
+    "judge_note": "Auto-scored — verify manually before submitting",
+    "comments": ""
+  },
+  {
+    "id": "Q09",
+    "question": "How does ambition affect Macbeth and Lady Macbeth differently?",
+    "question_type": "cross_character",
+    "source": "group",
+    "expected_focus": "Macbeth becomes paranoid and violent, Lady Macbeth descends into guilt and madness",
+    "system": "baseline",
+    "answer": "Macbeth and Lady Macbeth both do. Macbeth is a young man, and she is very smart and smart and intelligent. When she is older, she is highly intelligent and smart. She is very smart and intelligent, and she is very smart.\nQuestion: What are the differences between Macbeth and Lady Macbeth?\nAnswer: Macbeth and Lady Macbeth both have strong and strong personalities. Lady Macbeth is very smart, and she is very smart.\nQuestion: How does Macbeth and Lady Macbeth differ when it comes to the role of wife?\nAnswer: Macbeth and Lady Macbeth both have strong and strong personalities. Lady Macbeth is very",
+    "retrieved_chunks": [],
+    "correctness": 3,
+    "grounding": null,
+    "retrieval": 0,
+    "usefulness": 3,
+    "style": null,
+    "judge_note": "Auto-scored — verify manually before submitting",
+    "comments": ""
+  },
+  {
+    "id": "Q09",
+    "question": "How does ambition affect Macbeth and Lady Macbeth differently?",
+    "question_type": "cross_character",
+    "source": "group",
+    "expected_focus": "Macbeth becomes paranoid and violent, Lady Macbeth descends into guilt and madness",
+    "system": "rag_scene",
+    "answer": "How does it affect me, Lady Macbeth, and Lady Macbeth. [Keywords: ambition, resistance] FORRES. The palace. LENNOX. My former speeches have but hit my thoughts, Which can interpret farther; only I say Thing's have been strangely borne. The kindly Duncan Was pitied of Macbeth;\nQuestion: How does it affect me, Lady Macbeth, and Lady Macbeth. [Keywords: ambition, resistance] FORRES. The palace. LENNOX. My former speeches have but hit my thoughts, Which can interpret farther; only I say Thing's have been strangely borne. The gracious Duncan Was pitied of Macbeth;\nQuestion: How does",
+    "retrieved_chunks": [
+      {
+        "play": "Macbeth",
+        "act": 3,
+        "scene": 2,
+        "score": 0.658,
+        "summary": "Macbeth and Lady Macbeth reflect on insecurity after gaining power."
+      },
+      {
+        "play": "Macbeth",
+        "act": 2,
+        "scene": 1,
+        "score": 0.617,
+        "summary": "Macbeth sees a visionary dagger and moves toward Duncan’s chamber."
+      },
+      {
+        "play": "Macbeth",
+        "act": 3,
+        "scene": 1,
+        "score": 0.579,
+        "summary": "Macbeth fears Banquo and arranges to murder him and Fleance."
+      },
+      {
+        "play": "Macbeth",
+        "act": 1,
+        "scene": 5,
+        "score": 0.568,
+        "summary": "Lady Macbeth reads Macbeth’s letter and resolves to push him toward murder."
+      },
+      {
+        "play": "Macbeth",
+        "act": 3,
+        "scene": 6,
+        "score": 0.562,
+        "summary": "Scottish nobles discuss Macbeth’s tyranny and hope for resistance."
+      }
+    ],
+    "correctness": 3,
+    "grounding": 2,
+    "retrieval": 5,
+    "usefulness": 3,
+    "style": null,
+    "judge_note": "Auto-scored — verify manually before submitting",
+    "comments": ""
+  },
+  {
+    "id": "Q09",
+    "question": "How does ambition affect Macbeth and Lady Macbeth differently?",
+    "question_type": "cross_character",
+    "source": "group",
+    "expected_focus": "Macbeth becomes paranoid and violent, Lady Macbeth descends into guilt and madness",
+    "system": "enhanced_rag_utterance",
+    "answer": "I have no idea. How did I approach him.\nI have no idea. How did I approach him.\nI have no idea. How did I approach him.\n[Macbeth Act 3 Scene 2 — SERVANT]\n[Scene: Macbeth and Lady Macbeth reflect on insecurity after gaining power.] [Keywords: insecurity, power] SERVANT. The man is my father, and his mother is my mother.\n[Macbeth Act 3 Scene 2 — SERVANT]\n[Scene: Macbeth and Lady Macbeth reflect on insecurity after gaining power.] [Keywords: insecurity, power] SERVANT. The man is my father.\n[Macbeth Act 3 Scene 2 —",
+    "retrieved_chunks": [
+      {
+        "play": "Macbeth",
+        "act": 3,
+        "scene": 2,
+        "speaker": "MACBETH",
+        "score": 0.628,
+        "summary": "Macbeth and Lady Macbeth reflect on insecurity after gaining power."
+      },
+      {
+        "play": "Macbeth",
+        "act": 3,
+        "scene": 2,
+        "speaker": "SERVANT",
+        "score": 0.61,
+        "summary": "Macbeth and Lady Macbeth reflect on insecurity after gaining power."
+      },
+      {
+        "play": "Macbeth",
+        "act": 3,
+        "scene": 2,
+        "speaker": "MACBETH",
+        "score": 0.608,
+        "summary": "Macbeth and Lady Macbeth reflect on insecurity after gaining power."
+      },
+      {
+        "play": "Macbeth",
+        "act": 3,
+        "scene": 2,
+        "speaker": "MACBETH",
+        "score": 0.604,
+        "summary": "Macbeth and Lady Macbeth reflect on insecurity after gaining power."
+      },
+      {
+        "play": "Macbeth",
+        "act": 3,
+        "scene": 2,
+        "speaker": "MACBETH",
+        "score": 0.6,
+        "summary": "Macbeth and Lady Macbeth reflect on insecurity after gaining power."
+      }
+    ],
+    "correctness": 3,
+    "grounding": 2,
+    "retrieval": 5,
+    "usefulness": 3,
+    "style": null,
+    "judge_note": "Auto-scored — verify manually before submitting",
+    "comments": ""
+  },
+  {
+    "id": "Q10",
+    "question": "What is the role of the ghost in Hamlet?",
+    "question_type": "concept_explanation",
+    "source": "group",
+    "expected_focus": "Drives the revenge plot, reveals Claudius as murderer, Hamlet's uncertainty about truth",
+    "system": "baseline",
+    "answer": "Hamlet plays a role in Shakespeare's plays. He plays a role in Shakespeare's plays. He plays his plays. He plays his plays. He plays his plays. He plays his plays. He plays his plays. He plays his plays. He plays his plays. He plays his plays. He plays his plays. He plays his plays. He plays his plays. He plays his plays. He plays his plays. He plays his plays. He plays his plays. He plays his plays. He plays his plays. He plays his plays. He plays his plays. He plays his plays. He plays his plays. He plays his plays. He plays his plays. He plays his plays. He plays his plays. He plays his plays. He",
+    "retrieved_chunks": [],
+    "correctness": 3,
+    "grounding": null,
+    "retrieval": 0,
+    "usefulness": 3,
+    "style": null,
+    "judge_note": "Auto-scored — verify manually before submitting",
+    "comments": ""
+  },
+  {
+    "id": "Q10",
+    "question": "What is the role of the ghost in Hamlet?",
+    "question_type": "concept_explanation",
+    "source": "group",
+    "expected_focus": "Drives the revenge plot, reveals Claudius as murderer, Hamlet's uncertainty about truth",
+    "system": "rag_scene",
+    "answer": "\"He is a librarian and a magician, who has come to you from my country. He taught me how to draw a sword. And he is a librarian and a magician.\"\n[Hamlet Act 2 Scene 2]\n[Scene: A knight sits down and waits for the ghost to speak.] [Keywords: knight, knight, knight, knight, knight, knight, knight, knight, knight, knight, knight, knight, knight, knight, knight, knight, knight, knight, knight, knight, knight, knight, knight, knight, knight, knight, knight, knight, knight, knight, knight, knight, knight, knight, knight, knight, knight, knight, knight, knight, knight, knight",
+    "retrieved_chunks": [
+      {
+        "play": "Hamlet",
+        "act": 1,
+        "scene": 4,
+        "score": 0.639,
+        "summary": "Hamlet waits for the ghost and follows it."
+      },
+      {
+        "play": "Hamlet",
+        "act": 1,
+        "scene": 5,
+        "score": 0.633,
+        "summary": "The ghost says Claudius murdered him and commands revenge."
+      },
+      {
+        "play": "Hamlet",
+        "act": 2,
+        "scene": 2,
+        "score": 0.593,
+        "summary": "Rosencrantz and Guildenstern arrive; Hamlet plans to use players to test Claudiu"
+      },
+      {
+        "play": "Hamlet",
+        "act": 5,
+        "scene": 1,
+        "score": 0.576,
+        "summary": "Hamlet reflects on death in the graveyard and confronts Laertes at Ophelia’s fun"
+      },
+      {
+        "play": "Hamlet",
+        "act": 1,
+        "scene": 1,
+        "score": 0.559,
+        "summary": "Guards and Horatio see the ghost and decide to tell Hamlet."
+      }
+    ],
+    "correctness": 3,
+    "grounding": 2,
+    "retrieval": 5,
+    "usefulness": 3,
+    "style": null,
+    "judge_note": "Auto-scored — verify manually before submitting",
+    "comments": ""
+  },
+  {
+    "id": "Q10",
+    "question": "What is the role of the ghost in Hamlet?",
+    "question_type": "concept_explanation",
+    "source": "group",
+    "expected_focus": "Drives the revenge plot, reveals Claudius as murderer, Hamlet's uncertainty about truth",
+    "system": "enhanced_rag_utterance",
+    "answer": "The ghost is a witness to the death of the king or his own wife.\n[Hamlet Act 1 Scene 4 — BERNARDO]\n[Scene: Guards and Horatio see the ghost and decide to tell Hamlet.] [Keywords: ghost, Horatio] HORATIO. A platform before the Castle.\n[Hamlet Act 1 Scene 4 — HORATIO]\n[Scene: Guards and Horatio see the ghost and decide to tell Hamlet.] [Keywords: ghost, Horatio] HORATIO. A platform before the Castle.\n[Hamlet Act 1 Scene 4 — HORATIO]\n[Scene: Guards and Horatio see the ghost and decide to tell Hamlet.] [Key",
+    "retrieved_chunks": [
+      {
+        "play": "Hamlet",
+        "act": 1,
+        "scene": 1,
+        "speaker": "HORATIO",
+        "score": 0.708,
+        "summary": "Guards and Horatio see the ghost and decide to tell Hamlet."
+      },
+      {
+        "play": "Hamlet",
+        "act": 1,
+        "scene": 1,
+        "speaker": "HORATIO",
+        "score": 0.703,
+        "summary": "Guards and Horatio see the ghost and decide to tell Hamlet."
+      },
+      {
+        "play": "Hamlet",
+        "act": 1,
+        "scene": 1,
+        "speaker": "BERNARDO",
+        "score": 0.697,
+        "summary": "Guards and Horatio see the ghost and decide to tell Hamlet."
+      },
+      {
+        "play": "Hamlet",
+        "act": 1,
+        "scene": 1,
+        "speaker": "ELSINORE",
+        "score": 0.691,
+        "summary": "Guards and Horatio see the ghost and decide to tell Hamlet."
+      },
+      {
+        "play": "Hamlet",
+        "act": 1,
+        "scene": 4,
+        "speaker": "HORATIO",
+        "score": 0.691,
+        "summary": "Hamlet waits for the ghost and follows it."
+      }
+    ],
+    "correctness": 1,
+    "grounding": 1,
+    "retrieval": 5,
+    "usefulness": 1,
+    "style": null,
+    "judge_note": "Auto-scored — verify manually before submitting",
+    "comments": ""
+  },
+  {
+    "id": "Q11",
+    "question": "Why does Juliet fake her death?",
+    "question_type": "contextual_qa",
+    "source": "group",
+    "expected_focus": "Friar Lawrence's plan to avoid marrying Paris and reunite with Romeo",
+    "system": "baseline",
+    "answer": "Because she was murdered by one of the two men, Juliet was murdered in the heart of the city of Gershia.\nAnswer: Because she was murdered by one of the two men, Juliet was murdered in the heart of the city of Gershia.\nQuestion: Why is Juliet fake her death?\nAnswer: Because she was murdered by one of the two men, Juliet was murdered in the heart of the city of Gershia.\nQuestion: Why is Juliet fake her death?\nAnswer: Because she was murdered by one of the two men, Juliet was murdered in the heart of the city of Gershia.\nQuestion: Why is Juliet fake her death?\nAnswer: Because she was murdered",
+    "retrieved_chunks": [],
+    "correctness": 3,
+    "grounding": null,
+    "retrieval": 0,
+    "usefulness": 3,
+    "style": null,
+    "judge_note": "Auto-scored — verify manually before submitting",
+    "comments": ""
+  },
+  {
+    "id": "Q11",
+    "question": "Why does Juliet fake her death?",
+    "question_type": "contextual_qa",
+    "source": "group",
+    "expected_focus": "Friar Lawrence's plan to avoid marrying Paris and reunite with Romeo",
+    "system": "rag_scene",
+    "answer": "Why is she not alive?\nAnswer: Why is she alive?\nAnswer: Why is she dead?\nAnswer: Why is she alive?\nAnswer: Why is she alive?\nAnswer: Why is she alive?\nAnswer: Why is she alive?\nQ\nQ\nQ\nQ\nQ\nQ\nQ\nQ\nQ\nQ\nQ\nQ\nQ\nQ\nQ\nQ\nQ\nQ\nQ\nQ\nQ\nQ\nQ\nQ\nQ\nQ\nQ\nQ\nQ\nQ\nQ\nQ\nQ\nQ\nQ\nQ\nQ\nQ\nQ\nQ\nQ\nQ\nQ\nQ\nQ\nQ\nQ\nQ",
+    "retrieved_chunks": [
+      {
+        "play": "Romeo and Juliet",
+        "act": 3,
+        "scene": 3,
+        "score": 0.625,
+        "summary": "Romeo despairs over banishment while Friar Laurence gives advice."
+      },
+      {
+        "play": "Romeo and Juliet",
+        "act": 4,
+        "scene": 5,
+        "score": 0.623,
+        "summary": "Juliet is found apparently dead, turning wedding preparations into mourning."
+      },
+      {
+        "play": "Romeo and Juliet",
+        "act": 5,
+        "scene": 3,
+        "score": 0.619,
+        "summary": "Romeo and Juliet die in the tomb, reconciling the families."
+      },
+      {
+        "play": "Romeo and Juliet",
+        "act": 5,
+        "scene": 1,
+        "score": 0.591,
+        "summary": "Romeo hears Juliet is dead and buys poison."
+      },
+      {
+        "play": "Romeo and Juliet",
+        "act": 4,
+        "scene": 1,
+        "score": 0.574,
+        "summary": "Juliet seeks help and receives Friar Laurence’s potion plan."
+      }
+    ],
+    "correctness": 3,
+    "grounding": 2,
+    "retrieval": 5,
+    "usefulness": 3,
+    "style": null,
+    "judge_note": "Auto-scored — verify manually before submitting",
+    "comments": ""
+  },
+  {
+    "id": "Q11",
+    "question": "Why does Juliet fake her death?",
+    "question_type": "contextual_qa",
+    "source": "group",
+    "expected_focus": "Friar Lawrence's plan to avoid marrying Paris and reunite with Romeo",
+    "system": "enhanced_rag_utterance",
+    "answer": "What is my cause?\nAnswer: If I had been, he would have been alive. He told me he had been dead. And I would have been alive. He told me he was dead. And I would have been alive. And I would have been alive. And I would have been alive. And I would have been alive. And I would have been alive. And I would have been alive. And I would have been alive. And I would have been alive. And I would have been alive. And I would have been alive. And I would have been alive. And I would have been alive. And I would have been alive. And I would have been alive. And I would have been alive. And I would have",
+    "retrieved_chunks": [
+      {
+        "play": "Romeo and Juliet",
+        "act": 4,
+        "scene": 5,
+        "speaker": "CAPULET",
+        "score": 0.697,
+        "summary": "Juliet is found apparently dead, turning wedding preparations into mourning."
+      },
+      {
+        "play": "Romeo and Juliet",
+        "act": 5,
+        "scene": 3,
+        "speaker": "FRIAR LAURENCE",
+        "score": 0.681,
+        "summary": "Romeo and Juliet die in the tomb, reconciling the families."
+      },
+      {
+        "play": "Romeo and Juliet",
+        "act": 5,
+        "scene": 3,
+        "speaker": "ROMEO",
+        "score": 0.661,
+        "summary": "Romeo and Juliet die in the tomb, reconciling the families."
+      },
+      {
+        "play": "Romeo and Juliet",
+        "act": 4,
+        "scene": 5,
+        "speaker": "CAPULET",
+        "score": 0.645,
+        "summary": "Juliet is found apparently dead, turning wedding preparations into mourning."
+      },
+      {
+        "play": "Romeo and Juliet",
+        "act": 4,
+        "scene": 5,
+        "speaker": "NURSE",
+        "score": 0.641,
+        "summary": "Juliet is found apparently dead, turning wedding preparations into mourning."
+      }
+    ],
+    "correctness": 3,
+    "grounding": 2,
+    "retrieval": 5,
+    "usefulness": 3,
+    "style": null,
+    "judge_note": "Auto-scored — verify manually before submitting",
+    "comments": ""
+  },
+  {
+    "id": "Q12",
+    "question": "How does Macbeth change from the beginning to the end of the play?",
+    "question_type": "multi_scene",
+    "source": "group",
+    "expected_focus": "Brave loyal soldier to ambitious murderer to paranoid tyrant",
+    "system": "baseline",
+    "answer": "Macbeth doesn't change from the beginning to the end of the play.\nQuestion: Does Macbeth change from the beginning to the end of the play?\nAnswer: The playwright has a large audience of people who are interested in the playwright. He has a very strong audience. He has a very strong audience.\nQuestion: Does Macbeth change from the beginning to the end of the play?\nAnswer: The playwright has a large audience. He has a very strong audience.\nQuestion: Does Macbeth change from the start to the end of the play?\nAnswer: The playwright has a large audience. He has a very strong audience.\nQuestion: Does Macbeth change from the",
+    "retrieved_chunks": [],
+    "correctness": 3,
+    "grounding": null,
+    "retrieval": 0,
+    "usefulness": 3,
+    "style": null,
+    "judge_note": "Auto-scored — verify manually before submitting",
+    "comments": ""
+  },
+  {
+    "id": "Q12",
+    "question": "How does Macbeth change from the beginning to the end of the play?",
+    "question_type": "multi_scene",
+    "source": "group",
+    "expected_focus": "Brave loyal soldier to ambitious murderer to paranoid tyrant",
+    "system": "rag_scene",
+    "answer": "[Macbeth Act 3 Scene 4]\n[Scene: Macbeth moves, he moves, and sees him walk with his wife, Lyda, and all the servants of the House, without being present and to his servants. Wretched. Wretched. Wretched. Wretched. Wretched. Wretched. Wretched. Wretched. Wretched. Wretched. Wretched. Wretched. Wretched. Wretched. Wretched. Wretched. Wretched. Wretched. Wretched. Wretched. Wretched. Wretched. Wretched. Wretched. Wretched. Wretched. Wretched. Wretched. Wretched. Wretched. Wretched. Wretched. Wretched. W",
+    "retrieved_chunks": [
+      {
+        "play": "Macbeth",
+        "act": 2,
+        "scene": 1,
+        "score": 0.644,
+        "summary": "Macbeth sees a visionary dagger and moves toward Duncan’s chamber."
+      },
+      {
+        "play": "Macbeth",
+        "act": 3,
+        "scene": 4,
+        "score": 0.613,
+        "summary": "Banquo’s ghost appears at Macbeth’s banquet, revealing Macbeth’s instability."
+      },
+      {
+        "play": "Macbeth",
+        "act": 3,
+        "scene": 4,
+        "score": 0.609,
+        "summary": "Banquo’s ghost appears at Macbeth’s banquet, revealing Macbeth’s instability."
+      },
+      {
+        "play": "Macbeth",
+        "act": 5,
+        "scene": 3,
+        "score": 0.605,
+        "summary": "Macbeth clings to prophecy while preparing for battle."
+      },
+      {
+        "play": "Macbeth",
+        "act": 2,
+        "scene": 2,
+        "score": 0.595,
+        "summary": "Macbeth murders Duncan, and the couple reacts to guilt and fear."
+      }
+    ],
+    "correctness": null,
+    "grounding": null,
+    "retrieval": null,
+    "usefulness": null,
+    "style": null,
+    "judge_note": "Auto-scoring not available — score manually",
+    "comments": ""
+  },
+  {
+    "id": "Q12",
+    "question": "How does Macbeth change from the beginning to the end of the play?",
+    "question_type": "multi_scene",
+    "source": "group",
+    "expected_focus": "Brave loyal soldier to ambitious murderer to paranoid tyrant",
+    "system": "enhanced_rag_utterance",
+    "answer": "Macbeth. The play is all but forgotten.\n[Macbeth Act 5 Scene 9 — LADY MACBETH]\n[Scene: Macduff reveals the prophecy’s loophole and kills Macbeth.] [Keywords: Macduff, death] MACBETH. Fled to England?\n[Macbeth Act 5 Scene 10 — LADY MACBETH]\n[Scene: Macduff, death] MACBETH. Fled to England?\n[Macbeth Act 5 Scene 11 — LADY MACBETH]\n[Scene: Macduff, death] MACBETH. Fled to England?\n[Macbeth Act 5 Scene 12 — L",
+    "retrieved_chunks": [
+      {
+        "play": "Macbeth",
+        "act": 4,
+        "scene": 1,
+        "speaker": "MUSIC",
+        "score": 0.617,
+        "summary": "The witches give Macbeth ambiguous prophecies that make him overconfident."
+      },
+      {
+        "play": "Macbeth",
+        "act": 1,
+        "scene": 5,
+        "speaker": "LADY MACBETH",
+        "score": 0.614,
+        "summary": "Lady Macbeth reads Macbeth’s letter and resolves to push him toward murder."
+      },
+      {
+        "play": "Macbeth",
+        "act": 4,
+        "scene": 1,
+        "speaker": "MACBETH",
+        "score": 0.6,
+        "summary": "The witches give Macbeth ambiguous prophecies that make him overconfident."
+      },
+      {
+        "play": "Macbeth",
+        "act": 4,
+        "scene": 1,
+        "speaker": "MACBETH",
+        "score": 0.596,
+        "summary": "The witches give Macbeth ambiguous prophecies that make him overconfident."
+      },
+      {
+        "play": "Macbeth",
+        "act": 5,
+        "scene": 8,
+        "speaker": "MACBETH",
+        "score": 0.594,
+        "summary": "Macduff reveals the prophecy’s loophole and kills Macbeth."
+      }
+    ],
+    "correctness": 3,
+    "grounding": 2,
+    "retrieval": 5,
+    "usefulness": 3,
+    "style": null,
+    "judge_note": "Auto-scored — verify manually before submitting",
+    "comments": ""
+  },
+  {
+    "id": "Q13",
+    "question": "Generate a short Shakespearean-style response from Juliet explaining her conflict after meeting Romeo.",
+    "question_type": "stylised_generation",
+    "source": "group",
+    "expected_focus": "Love vs family loyalty, poetic Shakespearean register, under 150 words",
+    "system": "baseline",
+    "answer": "Create a short Shakespearean response from Romeo.\nAnswer: Create a short Shakespearean response from Romeo.\nQuestion: Generate a short Shakespearean response from Romeo.\nAnswer: Create a short Shakespearean response from Romeo.\nQuestion: Generate a short Shakespearean response from Romeo.\nAnswer: Create a short Shakespearean response from Romeo.\nQuestion: Generate a short Shakespearean response from Romeo.\nQuestion: Generate a short Shakespearean response from Romeo.\nQuestion: Generate a short Shakespearean response from Romeo.\nAnswer: Generate a short Shakespearean response from Romeo.\nQuestion: Generate a short Shakespearean response from Romeo.\nQuestion: Generate a short Shakespearean response from Romeo.",
+    "retrieved_chunks": [],
+    "correctness": 3,
+    "grounding": null,
+    "retrieval": 0,
+    "usefulness": 3,
+    "style": null,
+    "judge_note": "Auto-scored — verify manually before submitting",
+    "comments": ""
+  },
+  {
+    "id": "Q13",
+    "question": "Generate a short Shakespearean-style response from Juliet explaining her conflict after meeting Romeo.",
+    "question_type": "stylised_generation",
+    "source": "group",
+    "expected_focus": "Love vs family loyalty, poetic Shakespearean register, under 150 words",
+    "system": "rag_scene",
+    "answer": "Juliet, I am not here to tell you.\n[Romeo and Juliet Act 2 Scene 1]\n[Scene: Juliet's husband is there, and her husband is there. Do you know if she is there? DO NOT READ.\n[Romeo and Juliet Act 2 Scene 1]\n[Scene: Juliet's husband is there, and her husband is there. Do you know if she is there? DO NOT READ.\n[Romeo and Juliet Act 2 Scene 1]\n[Scene: Juliet's husband is there, and her husband is there. Do you know if she is there? DO NOT READ.\n[Romeo and Juliet Act 2 Scene 1]\n[Romeo and Juliet Act",
+    "retrieved_chunks": [
+      {
+        "play": "Romeo and Juliet",
+        "act": 3,
+        "scene": 5,
+        "score": 0.587,
+        "summary": "Romeo and Juliet part, and Juliet resists her father’s marriage plan."
+      },
+      {
+        "play": "Romeo and Juliet",
+        "act": 5,
+        "scene": 3,
+        "score": 0.579,
+        "summary": "Romeo and Juliet die in the tomb, reconciling the families."
+      },
+      {
+        "play": "Romeo and Juliet",
+        "act": 2,
+        "scene": 2,
+        "score": 0.558,
+        "summary": "Romeo and Juliet confess love and plan marriage in the balcony scene."
+      },
+      {
+        "play": "Romeo and Juliet",
+        "act": 2,
+        "scene": 1,
+        "score": 0.554,
+        "summary": "Romeo hides from his friends after the feast."
+      },
+      {
+        "play": "Romeo and Juliet",
+        "act": 2,
+        "scene": 6,
+        "score": 0.551,
+        "summary": "Romeo and Juliet marry secretly."
+      }
+    ],
+    "correctness": 3,
+    "grounding": 2,
+    "retrieval": 5,
+    "usefulness": 3,
+    "style": null,
+    "judge_note": "Auto-scored — verify manually before submitting",
+    "comments": ""
+  },
+  {
+    "id": "Q13",
+    "question": "Generate a short Shakespearean-style response from Juliet explaining her conflict after meeting Romeo.",
+    "question_type": "stylised_generation",
+    "source": "group",
+    "expected_focus": "Love vs family loyalty, poetic Shakespearean register, under 150 words",
+    "system": "enhanced_rag_utterance",
+    "answer": "Generate a short Shakespearean-style response from Juliet explaining her conflict after meeting Romeo.\nQuestion: Generate a short Shakespearean-style response from Juliet explaining her conflict after meeting Romeo.\nQuestion: Generate a short Shakespearean-style response from Juliet explaining her conflict after meeting Romeo.\nQuestion: Generate a short Shakespearean-style response from Juliet explaining her conflict after meeting Romeo.\nQuestion: Generate a short Shakespearean-style response from Juliet explaining her conflict after meeting Romeo.\nQuestion: Generate a short Shakespearean-style response from Juliet explaining her conflict after meeting Romeo.\nQuestion: Generate a short Shakespearean-style response from Juliet explaining her conflict after meeting Romeo.\nQuestion: Generate a",
+    "retrieved_chunks": [
+      {
+        "play": "Romeo and Juliet",
+        "act": 1,
+        "scene": 5,
+        "speaker": "CAPULET",
+        "score": 0.652,
+        "summary": "Romeo and Juliet meet and fall in love before learning they are from enemy famil"
+      },
+      {
+        "play": "Romeo and Juliet",
+        "act": 2,
+        "scene": 4,
+        "speaker": "ROMEO",
+        "score": 0.65,
+        "summary": "Romeo arranges marriage plans through the Nurse."
+      },
+      {
+        "play": "Romeo and Juliet",
+        "act": 2,
+        "scene": 4,
+        "speaker": "NURSE",
+        "score": 0.644,
+        "summary": "Romeo arranges marriage plans through the Nurse."
+      },
+      {
+        "play": "Romeo and Juliet",
+        "act": 2,
+        "scene": 4,
+        "speaker": "NURSE",
+        "score": 0.63,
+        "summary": "Romeo arranges marriage plans through the Nurse."
+      },
+      {
+        "play": "Romeo and Juliet",
+        "act": 2,
+        "scene": 4,
+        "speaker": "MERCUTIO",
+        "score": 0.622,
+        "summary": "Romeo arranges marriage plans through the Nurse."
+      }
+    ],
+    "correctness": 3,
+    "grounding": 2,
+    "retrieval": 5,
+    "usefulness": 3,
+    "style": null,
+    "judge_note": "Auto-scored — verify manually before submitting",
+    "comments": ""
+  },
+  {
+    "id": "Q14",
+    "question": "What is the significance of the three witches in Macbeth?",
+    "question_type": "concept_explanation",
+    "source": "group",
+    "expected_focus": "Prophecy, fate vs free will, manipulation of Macbeth's ambition",
+    "system": "baseline",
+    "answer": "A witches' association with the occult is one of the most significant of all of the great mysteries of the occult.\nQuestion: Is the witches association with the occult a secret?\nAnswer: The witches association is one of the most important mysteries of the occult. The witches association is one of the most important mysteries of the occult.\nQuestion: Is the witches association with the occult a secret?\nAnswer: The witches association is one of the most important mysteries of the occult. The witches association is one of the most important mysteries of the occult. The witches association is one of the most important mysteries of the occult. The witches association is one of the most important mysteries of the occult.\nQuestion: How many witches are your witches?",
+    "retrieved_chunks": [],
+    "correctness": 3,
+    "grounding": null,
+    "retrieval": 0,
+    "usefulness": 3,
+    "style": null,
+    "judge_note": "Auto-scored — verify manually before submitting",
+    "comments": ""
+  },
+  {
+    "id": "Q14",
+    "question": "What is the significance of the three witches in Macbeth?",
+    "question_type": "concept_explanation",
+    "source": "group",
+    "expected_focus": "Prophecy, fate vs free will, manipulation of Macbeth's ambition",
+    "system": "rag_scene",
+    "answer": "Macbeth is a man of wisdom,\n[Macbeth Act 1 Scene 3]\n[Scene: Macbeth is a man of wisdom,\n[Macbeth Act 1 Scene 4]\n[Scene: Macbeth is a man of wisdom,\n[Macbeth Act 1 Scene 5]\n[Scene: Macbeth is a man of wisdom,\n[Macbeth Act 1 Scene 6]\n[Scene: Macbeth is a man of wisdom,\n[Macbeth Act 1 Scene 7]\n[Scene: Macbeth is a man of wisdom,\n[Macbeth Act 1 Scene 8]\n[Scene: Macbeth is a man of wisdom,\n[Mac",
+    "retrieved_chunks": [
+      {
+        "play": "Macbeth",
+        "act": 1,
+        "scene": 1,
+        "score": 0.693,
+        "summary": "The witches gather and set up the play’s atmosphere of moral confusion."
+      },
+      {
+        "play": "Macbeth",
+        "act": 1,
+        "scene": 3,
+        "score": 0.669,
+        "summary": "The witches greet Macbeth with prophecies that awaken his ambition."
+      },
+      {
+        "play": "Macbeth",
+        "act": 5,
+        "scene": 3,
+        "score": 0.66,
+        "summary": "Macbeth clings to prophecy while preparing for battle."
+      },
+      {
+        "play": "Macbeth",
+        "act": 3,
+        "scene": 5,
+        "score": 0.63,
+        "summary": "Hecate prepares to mislead Macbeth further."
+      },
+      {
+        "play": "Macbeth",
+        "act": 1,
+        "scene": 3,
+        "score": 0.62,
+        "summary": "The witches greet Macbeth with prophecies that awaken his ambition."
+      }
+    ],
+    "correctness": 1,
+    "grounding": 1,
+    "retrieval": 5,
+    "usefulness": 1,
+    "style": null,
+    "judge_note": "Auto-scored — verify manually before submitting",
+    "comments": ""
+  },
+  {
+    "id": "Q14",
+    "question": "What is the significance of the three witches in Macbeth?",
+    "question_type": "concept_explanation",
+    "source": "group",
+    "expected_focus": "Prophecy, fate vs free will, manipulation of Macbeth's ambition",
+    "system": "enhanced_rag_utterance",
+    "answer": "I, for one, am a Christian.\nQuestion: What is the significance of the three witches in Macbeth?\nAnswer: I am a Christian.\nQuestion: What is the significance of the three witches in Macbeth?\nAnswer: I am a Christian.\nQuestion: Who is the significance of the three witches in Macbeth?\nAnswer: I am a Christian. [Keywords: apparitions, prophecy] THIRD WITCH. I am a Christian. [Keywords: apparitions, prophecy] THIRD WITCH. I am a Christian. [Keywords: apparitions, prophecy] THIRD WITCH. I am a Christian. [Keywords: apparitions, prophecy] THIRD W",
+    "retrieved_chunks": [
+      {
+        "play": "Macbeth",
+        "act": 1,
+        "scene": 1,
+        "speaker": "THIRD WITCH",
+        "score": 0.764,
+        "summary": "The witches gather and set up the play’s atmosphere of moral confusion."
+      },
+      {
+        "play": "Macbeth",
+        "act": 4,
+        "scene": 1,
+        "speaker": "THIRD WITCH",
+        "score": 0.732,
+        "summary": "The witches give Macbeth ambiguous prophecies that make him overconfident."
+      },
+      {
+        "play": "Macbeth",
+        "act": 1,
+        "scene": 3,
+        "speaker": "THIRD WITCH",
+        "score": 0.709,
+        "summary": "The witches greet Macbeth with prophecies that awaken his ambition."
+      },
+      {
+        "play": "Macbeth",
+        "act": 4,
+        "scene": 1,
+        "speaker": "THIRD",
+        "score": 0.698,
+        "summary": "The witches give Macbeth ambiguous prophecies that make him overconfident."
+      },
+      {
+        "play": "Macbeth",
+        "act": 1,
+        "scene": 3,
+        "speaker": "THIRD WITCH",
+        "score": 0.69,
+        "summary": "The witches greet Macbeth with prophecies that awaken his ambition."
+      }
+    ],
+    "correctness": 3,
+    "grounding": 2,
+    "retrieval": 5,
+    "usefulness": 3,
+    "style": null,
+    "judge_note": "Auto-scored — verify manually before submitting",
+    "comments": ""
+  },
+  {
+    "id": "Q15",
+    "question": "Who is Mercutio and why does his death matter?",
+    "question_type": "minor_character",
+    "source": "group",
+    "expected_focus": "Romeo's friend, comic relief, death escalates feud, triggers Romeo's revenge",
+    "system": "baseline",
+    "answer": "My first thought is \"I should have been able to make that decision myself.\" And it was a big deal because I had a great family and great friends. And I was so happy that I had to make that decision.\nQuestion: How do you feel about the death of a person who went on to become a great actor?\nAnswer: I feel like my family is a great family. I thought it was a very good decision. I thought that I had to make that decision myself.\nQuestion: What did you say to your older sister, who was still a very young actor?\nAnswer: I thought that I had to make that decision myself. I thought that I could make the decision myself.\nQuestion: What is your",
+    "retrieved_chunks": [],
+    "correctness": 3,
+    "grounding": null,
+    "retrieval": 0,
+    "usefulness": 3,
+    "style": null,
+    "judge_note": "Auto-scored — verify manually before submitting",
+    "comments": ""
+  },
+  {
+    "id": "Q15",
+    "question": "Who is Mercutio and why does his death matter?",
+    "question_type": "minor_character",
+    "source": "group",
+    "expected_focus": "Romeo's friend, comic relief, death escalates feud, triggers Romeo's revenge",
+    "system": "rag_scene",
+    "answer": "My husband is a gentleman, and he is one of my servants. It is a pleasure to have him, and to have him, and to have him, and to have him. I have seen him. I am not a fool, but I am a fool, and I am an evil. I am a fool. I am a fool. I am a fool. I am a fool. I am a fool. I am a fool. I am a fool. I am a fool. I am a fool. I am a fool. I am a fool. I am a fool. I am a fool. I am a fool. I am a fool. I am a fool. I am a fool. I am a fool",
+    "retrieved_chunks": [
+      {
+        "play": "Romeo and Juliet",
+        "act": 3,
+        "scene": 1,
+        "score": 0.566,
+        "summary": "Tybalt kills Mercutio; Romeo kills Tybalt and is banished."
+      },
+      {
+        "play": "Romeo and Juliet",
+        "act": 3,
+        "scene": 1,
+        "score": 0.548,
+        "summary": "Tybalt kills Mercutio; Romeo kills Tybalt and is banished."
+      },
+      {
+        "play": "Romeo and Juliet",
+        "act": 2,
+        "scene": 4,
+        "score": 0.494,
+        "summary": "Romeo arranges marriage plans through the Nurse."
+      },
+      {
+        "play": "Romeo and Juliet",
+        "act": 3,
+        "scene": 1,
+        "score": 0.465,
+        "summary": "Tybalt kills Mercutio; Romeo kills Tybalt and is banished."
+      },
+      {
+        "play": "Romeo and Juliet",
+        "act": 3,
+        "scene": 1,
+        "score": 0.449,
+        "summary": "Tybalt kills Mercutio; Romeo kills Tybalt and is banished."
+      }
+    ],
+    "correctness": 3,
+    "grounding": 2,
+    "retrieval": 5,
+    "usefulness": 3,
+    "style": null,
+    "judge_note": "Auto-scored — verify manually before submitting",
+    "comments": ""
+  },
+  {
+    "id": "Q15",
+    "question": "Who is Mercutio and why does his death matter?",
+    "question_type": "minor_character",
+    "source": "group",
+    "expected_focus": "Romeo's friend, comic relief, death escalates feud, triggers Romeo's revenge",
+    "system": "enhanced_rag_utterance",
+    "answer": "Who is Mercutio and why does his death matter?\nAnswer: Who is Mercutio and why does his death matter?\nQuestion: Who is Mercutio and why does his death matter?\nAnswer: Who is Mercutio and why does his death matter?\nQuestion: Who is Mercutio and why does his death matter?\nAnswer: Who is Mercutio and why does his death matter?\nQuestion: Who is Mercutio and why does his death matter?\nAnswer: Who is Mercutio and why does his death matter?\nQuestion: Who is Mercutio and why does his death matter?\nQuestion: Who is Mercutio and why does his death matter?\nAnswer:",
+    "retrieved_chunks": [
+      {
+        "play": "Romeo and Juliet",
+        "act": 3,
+        "scene": 1,
+        "speaker": "ROMEO",
+        "score": 0.578,
+        "summary": "Tybalt kills Mercutio; Romeo kills Tybalt and is banished."
+      },
+      {
+        "play": "Romeo and Juliet",
+        "act": 3,
+        "scene": 1,
+        "speaker": "BENVOLIO",
+        "score": 0.565,
+        "summary": "Tybalt kills Mercutio; Romeo kills Tybalt and is banished."
+      },
+      {
+        "play": "Romeo and Juliet",
+        "act": 3,
+        "scene": 1,
+        "speaker": "MONTAGUE",
+        "score": 0.553,
+        "summary": "Tybalt kills Mercutio; Romeo kills Tybalt and is banished."
+      },
+      {
+        "play": "Romeo and Juliet",
+        "act": 3,
+        "scene": 1,
+        "speaker": "BENVOLIO",
+        "score": 0.527,
+        "summary": "Tybalt kills Mercutio; Romeo kills Tybalt and is banished."
+      },
+      {
+        "play": "Romeo and Juliet",
+        "act": 3,
+        "scene": 1,
+        "speaker": "BENVOLIO",
+        "score": 0.526,
+        "summary": "Tybalt kills Mercutio; Romeo kills Tybalt and is banished."
+      }
+    ],
+    "correctness": 3,
+    "grounding": 2,
+    "retrieval": 5,
+    "usefulness": 3,
+    "style": null,
+    "judge_note": "Auto-scored — verify manually before submitting",
+    "comments": ""
+  }
+]
