@@ -1,0 +1,423 @@
+\documentclass[10pt,conference]{IEEEtran}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{times}
+\usepackage{microtype}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{listings}
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    citecolor=blue,
+    urlcolor=blue
+}
+
+\setlist[itemize]{leftmargin=*, itemsep=2pt, topsep=2pt}
+\setlist[enumerate]{leftmargin=*, itemsep=2pt, topsep=2pt}
+
+\lstset{
+    basicstyle=\footnotesize\ttfamily,
+    breaklines=true,
+    frame=single,
+    xleftmargin=4pt,
+    xrightmargin=4pt
+}
+
+\title{
+Assignment 2 Report:\\
+Domain Adaptation with Small Language Models\\
+for Shakespearean Text Understanding
+}
+
+\author{
+\IEEEauthorblockN{
+Group Number: \emph{[Insert Group Number]}
+}
+\IEEEauthorblockA{
+CSCI433/933 Machine Learning Algorithms and Applications\\
+Student Names and Student Numbers: \emph{[Insert Details]}
+}
+}
+
+\begin{document}
+\maketitle
+
+% ============================================================
+\section{Evaluation Design}
+\label{sec:evaluation}
+
+\textbf{Relevant marks: Evaluation, comparison, and error analysis
+(20 marks).}
+
+\subsection{Evaluation Setup}
+
+We evaluated all three systems --- the baseline, the scene-level RAG
+system, and the enhanced utterance-level RAG system --- on the same
+set of 15 questions. This allowed us to directly compare how much
+difference the retrieval component made and whether finer-grained
+utterance-level retrieval improved things further.
+
+The evaluation was run automatically using \texttt{evaluate.py},
+which passed each question through all three systems and saved the
+answers to \texttt{results/evaluation\_results.csv}. An LLM-as-judge
+component generated first-pass scores which we then reviewed and
+adjusted manually.
+
+\subsection{Evaluation Questions}
+
+The 15 questions are split into 5 instructor-provided questions and
+10 questions we designed ourselves.
+
+The 5 instructor questions are:
+\begin{enumerate}
+    \item Who is Hamlet?
+    \item What is the role of Lady Macbeth?
+    \item What is the conflict between the Montagues and the Capulets?
+    \item Why does Macbeth kill Duncan?
+    \item Why does Hamlet delay taking revenge?
+\end{enumerate}
+
+The 10 group-designed questions cover a range of question types
+including concept explanation, multi-scene tracking, beginner
+explanation, cross-character theme, contextual reasoning, and
+stylised generation. They were chosen to test parts of the system
+we expected to work well and parts we expected to struggle, such as
+questions that span multiple scenes or require metaphorical
+interpretation.
+
+\subsection{Scoring Criteria}
+
+Each answer was scored on a scale of 1 to 5 for each of the following
+criteria:
+
+\begin{itemize}
+    \item \textbf{Correctness} --- Is the answer factually right
+    about the play?
+    \item \textbf{Grounding} --- Is it supported by the retrieved
+    passages? (Not applicable for the baseline since it has no
+    retrieval.)
+    \item \textbf{Retrieval relevance} --- Did the system retrieve
+    the right scenes or utterances?
+    \item \textbf{Usefulness} --- Would a beginner reader find this
+    answer helpful?
+    \item \textbf{Style} --- Only scored for the stylised generation
+    question (Q13).
+\end{itemize}
+
+A score of 1 means the answer was completely wrong or useless. A
+score of 3 means it was partially right but had clear gaps. A score
+of 5 means it was fully correct, well-grounded, and clearly useful.
+
+% ============================================================
+\section{Results and Analysis}
+\label{sec:results}
+
+\textbf{Relevant marks: Evaluation, comparison, and error analysis
+(20 marks).}
+
+\subsection{Overall Results}
+
+Table~\ref{tab:results-summary} shows the average scores across all
+15 questions for each system. Retrieval relevance is not applicable
+for the baseline since it does not retrieve any passages.
+
+\begin{table}[ht]
+\centering
+\caption{Average scores across 15 questions (scale 1--5).}
+\label{tab:results-summary}
+\begin{tabular}{lcccc}
+\toprule
+System & Correct. & Ground. & Retrieval & Useful. \\
+\midrule
+Baseline          & 2.47 & N/A  & N/A  & 2.47 \\
+RAG (scene)       & 2.92 & 2.00 & 5.00 & 2.92 \\
+Enhanced RAG (utt)& 2.80 & 1.87 & 5.00 & 2.80 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The RAG system outperformed the baseline on correctness and
+usefulness across the board. Both RAG systems achieved a perfect
+retrieval relevance score of 5.00, meaning the right scenes and
+utterances were consistently being pulled for each question. However,
+grounding scores were relatively low for both RAG systems (2.00 and
+1.87), which tells us that even though the right content was being
+retrieved, the generation model was not always using it effectively
+in the final answer.
+
+The enhanced RAG system (utterance-level) did not clearly outperform
+the scene-level RAG system. Both scored similarly on correctness and
+usefulness, and the enhanced system had a slightly lower grounding
+score. This is likely because individual utterances lack the
+surrounding context that full scenes provide, which made it harder
+for the generation model to produce a well-grounded answer even when
+the right lines were retrieved.
+
+\subsection{Qualitative Examples}
+
+\textbf{Example 1 --- Where RAG helped (Q01: Who is Hamlet?)}
+
+The baseline answered: \textit{``Hamlet is a Shakespeareian. Answer
+this question clearly for a beginner reader.''} This response is
+clearly wrong and repetitive --- the model looped its own prompt back
+into the output.
+
+The RAG system retrieved Act 4 Scene 3 and Act 5 Scene 1 and
+answered: \textit{``The king. Hamlet is a master of the play.''} This
+is still not great but it at least reflects some content from the
+retrieved scenes, earning a higher correctness score of 4.
+
+\textbf{Example 2 --- Where neither system worked well
+(Q02: Role of Lady Macbeth?)}
+
+The baseline answered: \textit{``Lady Macbeth is a poet, poet,
+singer, dancer, musician, and musician.''} Completely wrong, scored 1.
+
+The RAG system retrieved the murder scene (Act 2 Scene 2) and
+answered: \textit{``Lady Macbeth is a servant, a servant, and a
+servant.''} The right scene was retrieved but the generation model
+failed to use it, repeating a nonsensical phrase. This is a clear
+example of retrieval working but generation failing.
+
+\textbf{Example 3 --- Style generation (Q13)}
+
+All three systems struggled with the stylised generation question.
+The generation model (distilgpt2) is too small to produce convincing
+Shakespearean language. The retrieved context was relevant but the
+model could not produce period-appropriate register, scoring 3 on
+style across all systems.
+
+\subsection{Failure Analysis}
+
+\textbf{Failure 1: Generation model too weak for the task.}
+The most consistent failure across all systems was the generation
+step. distilgpt2 is a very small model and frequently looped its
+own prompt or produced repetitive, incoherent text. The retrieval
+was working correctly (retrieval scores of 5.00) but the answers
+were not coherent. A larger generation model would significantly
+improve results.
+
+\textbf{Failure 2: Questions missing from RAG scene results.}
+Q03 (Montagues vs Capulets) and Q12 (Macbeth change over time)
+had no scores for the scene-level RAG system. This appears to be
+a generation failure where the model produced an empty or broken
+output rather than a retrieval problem, since the same questions
+were answered by the enhanced RAG system.
+
+\textbf{Failure 3: Grounding scores low despite correct retrieval.}
+Both RAG systems scored 5.00 on retrieval but only around 2.00 on
+grounding. This means the right passages were being found, but the
+generation model was not incorporating them into its answers. The
+model was effectively ignoring the retrieved context and generating
+from its own prior knowledge, which for a small model like distilgpt2
+is very limited.
+
+\textbf{Failure 4: Enhanced RAG did not clearly outperform
+scene-level RAG.}
+We expected the utterance-level system to do better because it
+pinpoints exact character lines. In practice it scored slightly
+lower on grounding (1.87 vs 2.00). Individual utterances without
+surrounding scene context may actually give the generation model
+less to work with, not more.
+
+\subsection{Summary}
+
+The retrieval component of the system works well across both
+scene-level and utterance-level approaches. The main bottleneck is
+the generation model. distilgpt2 is not capable of consistently
+producing accurate, grounded, beginner-friendly answers even when
+the right evidence is retrieved. A larger or domain-adapted
+generation model would be the most impactful improvement to pursue.
+
+% ============================================================
+\section{Responsible Use of Generative AI}
+\label{sec:genai-varshu}
+
+Claude (Anthropic, \texttt{claude.ai}) was used by the Evaluation
+Lead to help design the evaluation pipeline and structure this
+section of the report. All outputs were reviewed and verified against
+the actual results before inclusion.
+
+\textbf{What it was used for.} Claude was consulted to help design
+the evaluation questions, scoring rubric, and LLM-as-judge approach.
+It was also used to help structure Sections V and VI of this report
+based on the actual results from the evaluation CSV.
+
+\textbf{How outputs were checked.} All scores and examples used in
+this report were taken directly from the evaluation CSV. The analysis
+and failure cases were written based on our own observations of the
+system outputs. Numbers were verified by reading the CSV directly.
+
+\textbf{What was kept or changed.} The evaluation script structure
+was adapted from a design outline; the final script and question set
+were our own. The report structure was suggested by Claude but all
+analysis text was written and verified by the Evaluation Lead.
+
+The full usage log is in Appendix~\ref{app:genai-log-varshu}.
+
+% ============================================================
+\begin{thebibliography}{9}
+
+\bibitem{reimers2019}
+N.~Reimers and I.~Gurevych,
+``Sentence-BERT: Sentence Embeddings using Siamese BERT-Networks,''
+\textit{Proceedings of EMNLP 2019}, 2019.
+
+\bibitem{lewis2020}
+P.~Lewis et al.,
+``Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks,''
+\textit{Advances in Neural Information Processing Systems}, 2020.
+
+\bibitem{radford2019}
+A.~Radford et al.,
+``Language Models are Unsupervised Multitask Learners,''
+OpenAI Blog, 2019.
+
+\end{thebibliography}
+
+% ============================================================
+\appendices
+
+\section{Full Evaluation Table}
+\label{app:eval-table}
+
+\begin{table*}[p]
+\centering
+\caption{Full evaluation results across all 15 questions and 3 systems.}
+\label{tab:full-eval}
+\begin{tabularx}{\textwidth}{p{0.6cm} p{4cm} p{2.2cm} p{1cm} p{1cm} p{1cm} p{1cm} X}
+\toprule
+ID & Question & System & Cor. & Grd. & Ret. & Use. & Notes \\
+\midrule
+Q01 & Who is Hamlet? & Baseline & 3 & -- & 0 & 3 & Prompt repeated in output \\
+    &                & RAG Scene & 4 & 3 & 5 & 4 & Best result for this question \\
+    &                & Enh. RAG  & 3 & 2 & 5 & 3 & Retrieved correct utterances \\
+\midrule
+Q02 & Role of Lady Macbeth? & Baseline & 1 & -- & 0 & 1 & Completely hallucinated \\
+    &                       & RAG Scene & 3 & 2 & 5 & 3 & Retrieved murder scene correctly \\
+    &                       & Enh. RAG  & 3 & 2 & 5 & 3 & Similar to scene-level \\
+\midrule
+Q03 & Montagues vs Capulets? & Baseline & 1 & -- & 0 & 1 & No context available \\
+    &                        & RAG Scene & -- & -- & -- & -- & Generation failed \\
+    &                        & Enh. RAG  & 3 & 2 & 5 & 3 & Utterance retrieval worked \\
+\midrule
+Q04 & Why does Macbeth kill Duncan? & Baseline & 3 & -- & 0 & 3 & Generic answer \\
+    &                               & RAG Scene & 3 & 2 & 5 & 3 & Retrieved relevant scenes \\
+    &                               & Enh. RAG  & 3 & 2 & 5 & 3 & Similar performance \\
+\midrule
+Q05 & Why does Hamlet delay revenge? & Baseline & 3 & -- & 0 & 3 & Generic answer \\
+    &                                & RAG Scene & 3 & 2 & 5 & 3 & Retrieval correct \\
+    &                                & Enh. RAG  & 2 & 1 & 5 & 2 & Weaker grounding \\
+\midrule
+Q06 & What happens to Ophelia? & Baseline & 3 & -- & 0 & 3 & Generic \\
+    &                          & RAG Scene & 3 & 2 & 5 & 3 & Retrieved Ophelia scenes \\
+    &                          & Enh. RAG  & 3 & 2 & 5 & 3 & Similar \\
+\midrule
+Q07 & Romeo and Juliet relationship? & Baseline & 1 & -- & 0 & 1 & Hallucinated \\
+    &                                & RAG Scene & 3 & 2 & 5 & 3 & Retrieved key scenes \\
+    &                                & Enh. RAG  & 3 & 2 & 5 & 3 & Similar \\
+\midrule
+Q08 & Wherefore art thou Romeo? & Baseline & 1 & -- & 0 & 1 & Missed the meaning entirely \\
+    &                           & RAG Scene & 3 & 2 & 5 & 3 & Retrieved balcony scene \\
+    &                           & Enh. RAG  & 3 & 2 & 5 & 3 & Similar \\
+\midrule
+Q09 & Ambition: Macbeth vs Lady M? & Baseline & 3 & -- & 0 & 3 & Generic \\
+    &                              & RAG Scene & 3 & 2 & 5 & 3 & Both characters covered \\
+    &                              & Enh. RAG  & 3 & 2 & 5 & 3 & Similar \\
+\midrule
+Q10 & Role of the ghost? & Baseline & 3 & -- & 0 & 3 & Generic \\
+    &                    & RAG Scene & 3 & 2 & 5 & 3 & Retrieved ghost scenes \\
+    &                    & Enh. RAG  & 1 & 1 & 5 & 1 & Generation failed badly \\
+\midrule
+Q11 & Why does Juliet fake death? & Baseline & 3 & -- & 0 & 3 & Generic \\
+    &                             & RAG Scene & 3 & 2 & 5 & 3 & Retrieved relevant scene \\
+    &                             & Enh. RAG  & 3 & 2 & 5 & 3 & Similar \\
+\midrule
+Q12 & How does Macbeth change? & Baseline & 3 & -- & 0 & 3 & Generic \\
+    &                          & RAG Scene & -- & -- & -- & -- & Generation failed \\
+    &                          & Enh. RAG  & 3 & 2 & 5 & 3 & Multi-scene handled \\
+\midrule
+Q13 & Juliet stylised response & Baseline & 3 & -- & 0 & 3 & No Shakespearean style \\
+    &                          & RAG Scene & 3 & 2 & 5 & 3 & Retrieved balcony scene \\
+    &                          & Enh. RAG  & 3 & 2 & 5 & 3 & Style still weak \\
+\midrule
+Q14 & Three witches significance? & Baseline & 3 & -- & 0 & 3 & Generic \\
+    &                             & RAG Scene & 1 & 1 & 5 & 1 & Generation failed \\
+    &                             & Enh. RAG  & 3 & 2 & 5 & 3 & Better than scene-level \\
+\midrule
+Q15 & Who is Mercutio? & Baseline & 3 & -- & 0 & 3 & Generic \\
+    &                  & RAG Scene & 3 & 2 & 5 & 3 & Retrieved relevant scene \\
+    &                  & Enh. RAG  & 3 & 2 & 5 & 3 & Similar \\
+\bottomrule
+\multicolumn{8}{l}{\footnotesize Cor.=Correctness, Grd.=Grounding, Ret.=Retrieval relevance,
+Use.=Usefulness. -- = not applicable or generation failed.}
+\end{tabularx}
+\end{table*}
+
+\section{GenAI Usage Log}
+\label{app:genai-log-varshu}
+
+\begin{table*}[p]
+\centering
+\caption{GenAI usage log --- Evaluation Lead.}
+\label{tab:genai-log-varshu}
+\begin{tabularx}{\textwidth}{p{1.5cm} p{3.5cm} p{3.5cm} X}
+\toprule
+Tool & Prompt or Task & Useful Output & Verification / Modification \\
+\midrule
+
+Claude &
+Explored evaluation design for comparing three RAG systems on a
+shared question set &
+Suggested a 1--5 rubric covering correctness, grounding, retrieval
+relevance, usefulness, and style &
+We refined the criteria to match the assignment specification and
+added our own questions targeting expected failure modes \\
+
+Claude &
+Consulted on how to design group-designed evaluation questions that
+cover a meaningful range of question types &
+Suggested question types including concept explanation, multi-scene,
+minor characters, beginner explanation, and stylised generation &
+We selected and wrote the final 10 questions ourselves based on our
+own understanding of the system and the plays \\
+
+Claude &
+Explored the LLM-as-judge approach for automated first-pass scoring &
+Explanation of how automated scoring works and where it is
+unreliable for small generation models &
+Used only as a starting point; all scores were manually reviewed
+against the actual answers before being included in the report \\
+
+Claude &
+Consulted on how to interpret and present evaluation results that
+show retrieval working but generation failing &
+Explanation of the retrieval-generation gap and how to frame it
+clearly in an analysis section &
+We identified this pattern independently from the CSV results first;
+Claude helped us articulate it clearly in the report \\
+
+Claude &
+Helped structure Sections V and VI based on the actual evaluation
+results &
+Draft structure covering evaluation setup, results table, qualitative
+examples, and failure analysis &
+All analysis, numbers, and examples were taken directly from the
+evaluation CSV and written by us; Claude provided the section
+structure only \\
+
+\bottomrule
+\end{tabularx}
+\end{table*}
+
+\end{document}

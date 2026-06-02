@@ -1,0 +1,366 @@
+\documentclass[10pt,conference]{IEEEtran}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{times}
+\usepackage{microtype}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{listings}
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    citecolor=blue,
+    urlcolor=blue
+}
+
+\setlist[itemize]{leftmargin=*, itemsep=2pt, topsep=2pt}
+\setlist[enumerate]{leftmargin=*, itemsep=2pt, topsep=2pt}
+
+\lstset{
+    basicstyle=\footnotesize\ttfamily,
+    breaklines=true,
+    frame=single,
+    xleftmargin=4pt,
+    xrightmargin=4pt
+}
+
+\title{
+Assignment 2 Report:\\
+Domain Adaptation with Small Language Models\\
+for Shakespearean Text Understanding
+}
+
+\author{
+\IEEEauthorblockN{
+Group Number: 
+}
+\IEEEauthorblockA{
+CSCI433/933 Machine Learning Algorithms and Applications\\
+}
+}
+
+\begin{document}
+\maketitle
+
+\section{Dataset and Preprocessing}
+\label{sec:dataset}
+
+For this project we used the Shakespeare SLM Dataset provided by the
+instructor, which includes three plays: \textit{Hamlet},
+\textit{Macbeth}, and \textit{Romeo and Juliet}. Each play comes in
+two formats --- a full JSON file containing the complete play, and a
+scene-level JSONL file where each line is one scene. There are also
+utterance-level JSONL files where each line is one speaker turn.
+
+We used both formats. The scene-level files were used to build the
+main retrieval index, and the utterance-level files were used to build
+a more detailed index for the enhanced RAG system. We did not use any
+external material such as summaries from other sources or glossaries.
+All metadata used for enrichment (scene summaries and keywords) came
+directly from the provided dataset fields.
+
+Table~\ref{tab:dataset-stats} shows a breakdown of how much data we
+had after cleaning.
+
+\begin{table}[ht]
+\centering
+\caption{Dataset statistics after preprocessing.}
+\label{tab:dataset-stats}
+\begin{tabular}{lccc}
+\toprule
+Play & Scenes & Scene Chunks & Utterances \\
+\midrule
+Hamlet           & 20 & 63  & 1,147 \\
+Macbeth          & 28 & 88  & 658   \\
+Romeo and Juliet & 25 & 78  & 817   \\
+\midrule
+\textbf{Total} & \textbf{73} & \textbf{229} & \textbf{2,622} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The raw utterance files had 3,613 records in total. After removing
+991 stage direction records (where \texttt{speaker} was set to
+\texttt{STAGE\_DIRECTION}), we were left with 2,622 utterances. Stage
+directions were removed because they describe physical actions on stage
+rather than spoken dialogue and would not help with text retrieval.
+
+\subsection{Dataset Schema}
+
+Each processed record follows this structure, which matches the format
+recommended in the assignment specification:
+
+\begin{lstlisting}
+{
+  "play":          "Macbeth",
+  "act":           2,
+  "scene":         2,
+  "speaker":       null,
+  "text":          "So foul and fair a day I have not seen.",
+  "source_id":     "macbeth_2_2",
+  "scene_summary": "Macbeth murders Duncan; guilt begins.",
+  "keywords":      ["murder", "guilt", "Duncan"]
+}
+\end{lstlisting}
+
+For scene-level chunks, the \texttt{speaker} field is set to
+\texttt{null} because we keep the full scene as one unit rather than
+splitting by speaker. For utterance-level chunks, the
+\texttt{speaker} field contains the character name (e.g.,
+\texttt{"MACBETH"}) and the \texttt{text} field only contains what
+that character said. The \texttt{source\_id} field lets us trace any
+retrieved chunk back to the exact play, act, and scene it came from.
+
+\subsection{Cleaning and Filtering}
+
+Before building the retrieval index we applied three cleaning steps to
+every record:
+
+\begin{enumerate}
+    \item \textbf{Stage direction removal.} We used a regular
+    expression to remove stage directions written inside square
+    brackets, like \texttt{[Exit Ghost.]} or \texttt{[Aside]}.
+    These do not represent dialogue and would just add noise to the
+    embeddings. For the utterance files we removed entire records
+    where speaker was equal to STAGE\_DIRECTION.
+
+    \item \textbf{Whitespace cleanup.} We collapsed any sequences of
+    multiple spaces or newlines into a single space and stripped
+    whitespace from the start and end of each text field.
+
+    \item \textbf{Short chunk removal.} Scene chunks shorter than 50
+    characters after cleaning were dropped. Utterance chunks shorter
+    than 10 characters were also dropped. These fragments are too
+    short to carry any useful meaning for retrieval.
+\end{enumerate}
+
+\subsection{Chunking Strategy}
+
+We used two different chunking strategies depending on which part of
+the system we were building.
+
+\textbf{Scene-level chunks} were used for the main RAG index. Each
+scene from the dataset becomes one chunk. We chose this over
+utterance-level chunks for the main system because a single line of
+dialogue on its own rarely makes sense without context. For example,
+the line \textit{``To be or not to be''} tells a beginner very little
+on its own --- you need to know who said it, in what situation, and
+why. A whole scene gives enough context for the system to produce a
+useful answer.
+
+The downside is that scene-level chunks are long and may include
+content not directly related to a question. To handle this we did two
+things. First, any scene longer than 400 words was split into smaller
+overlapping chunks with a 50-word overlap so that the model's
+512-token limit is not silently hit. Second, we added the
+\texttt{scene\_summary} and \texttt{keywords} from the dataset into
+the text before embedding, so retrieval works on meaning rather than
+just word matching. After all this we ended up with
+\textbf{229 scene-level chunks}.
+
+\textbf{Utterance-level chunks} were used for the enhanced RAG index.
+Each individual speaker turn becomes its own chunk. This gives much
+more precise retrieval and lets the system pinpoint exactly which
+character said something in which scene. The trade-off is that
+individual lines lack the surrounding context that scene-level chunks
+provide. These 2,622 chunks were stored in a ChromaDB vector database,
+which also supports filtering by play, act, scene, or speaker.
+
+\textbf{Text enrichment.} For both chunk types we added the
+\texttt{scene\_summary} and \texttt{keywords} to the start of each
+chunk before embedding it. An example of the enriched format is:
+
+\begin{lstlisting}
+[Scene: Guards and Horatio see the ghost and tell Hamlet.]
+[Keywords: ghost, Horatio]
+BERNARDO. Who's there? FRANCISCO. Nay, answer me...
+\end{lstlisting}
+
+This means a question like \textit{``Why does the ghost appear?''} can
+match the right scene even if the word \textit{appear} is not in the
+dialogue. For utterance chunks we also added the speaker name to the
+start so the system can distinguish between different characters.
+
+\section{Responsible Use of Generative AI}
+\label{sec:genai}
+
+\textbf{Relevant marks: Responsible and transparent GenAI usage (10 marks).}
+
+Claude (Anthropic, \texttt{claude.ai}) was used as a reference and
+consultation tool at key decision points during this project. Rather
+than using it to generate complete solutions, we used it to explore
+design options, understand trade-offs, and validate our own reasoning
+before making implementation decisions. All outputs were independently
+verified against our dataset and requirements before being adopted.
+
+\textbf{What tools were used.} Claude (\texttt{claude.ai}) was the
+only generative AI tool used by the Data Engineering Lead and
+Evaluation Lead throughout the project.
+
+\textbf{What it was used for.} Claude was consulted to explore
+trade-offs in chunking strategy, text enrichment approaches, vector
+index design, evaluation methodology, and report structure. It was
+also used to investigate the distinction between Masked Language
+Modeling and Causal Language Modeling when we were deciding on the
+correct training approach for the generative component.
+
+\textbf{How we checked the outputs.} All design decisions informed
+by Claude were verified empirically against the actual dataset. For
+example, the recommendation to use text enrichment was confirmed by
+comparing retrieval results with and without prepended metadata on
+the instructor-provided questions. Scores from the LLM-as-judge
+component were reviewed and adjusted manually before being included
+in the report.
+
+\textbf{What we kept, changed, or threw out.} We adopted the
+overlapping chunk splitting approach after verifying it prevented
+silent truncation at the 512-token limit. We independently decided
+to use cosine similarity for the scene-level index and ChromaDB for
+the utterance-level index based on our own assessment of corpus scale
+and interface requirements. An early embedding script that used
+Masked Language Modeling was discarded after we identified it was
+unsuitable for a generative task and rewrote it using Causal Language
+Modeling. Report sections suggested by Claude were rewritten where
+they did not accurately reflect our implementation.
+
+\textbf{How we ensured submitted work reflects our own understanding.}
+Every design decision was discussed as a group before implementation.
+We did not adopt any approach without being able to explain it
+independently. The evaluation questions, scoring rubric, and failure
+analysis were developed by us based on our own observations of the
+system's behaviour.
+
+The full usage log is in Appendix~\ref{app:genai-log}.
+
+\appendices
+
+
+\begin{thebibliography}{9}
+
+\bibitem{reimers2019}
+N.~Reimers and I.~Gurevych,
+``Sentence-BERT: Sentence Embeddings using Siamese BERT-Networks,''
+\textit{Proceedings of EMNLP 2019}, 2019.
+
+\bibitem{lewis2020}
+P.~Lewis et al.,
+``Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks,''
+\textit{Advances in Neural Information Processing Systems}, 2020.
+
+\bibitem{johnson2021}
+J.~Johnson, M.~Douze, and H.~J\'{e}gou,
+``Billion-Scale Similarity Search with GPUs,''
+\textit{IEEE Transactions on Big Data}, vol.~7, no.~3, pp.~535--547,
+2021.
+
+\bibitem{radford2019}
+A.~Radford et al.,
+``Language Models are Unsupervised Multitask Learners,''
+OpenAI Blog, 2019.
+
+\end{thebibliography}
+
+\appendices
+
+
+
+
+
+
+\label{app:genai-log}
+\begin{table*}[p]
+\centering
+\caption{GenAI usage log.}
+\label{tab:genai-log}
+\begin{tabularx}{\textwidth}{p{1.5cm} p{3.5cm} p{3.5cm} X}
+\toprule
+Tool & Prompt or Task & Useful Output & Verification / Modification \\
+\midrule
+ 
+Claude &
+Explored the trade-offs between scene-level and utterance-level
+chunking strategies for RAG retrieval quality &
+A structured comparison of both approaches including context
+preservation, retrieval noise, and corpus size considerations &
+We evaluated both options against the assignment requirements and
+selected scene-level chunking as the primary strategy based on
+our own assessment of the dataset size and query types \\
+ 
+Claude &
+Investigated how text enrichment using metadata fields affects
+embedding quality and retrieval accuracy &
+Explanation of how prepending scene summaries and keywords to chunk
+text improves semantic alignment between queries and retrieved passages &
+We verified this empirically by comparing retrieval results with and
+without enrichment on the instructor-provided questions and confirmed
+improved relevance \\
+ 
+Claude &
+Explored options for building a persistent vector index suitable for
+offline deployment on a standard laptop &
+Overview of FAISS, ChromaDB, and numpy cosine similarity with
+trade-offs for each at different corpus scales &
+We independently decided to use cosine similarity for the scene-level
+index (229 chunks) and ChromaDB for the utterance-level index (2,622
+chunks) based on scale and interface requirements \\
+ 
+Claude &
+Consulted on best practices for handling the 512-token limit in
+transformer-based embedding models during chunking &
+Recommendation to use word-level overlap splitting to prevent silent
+truncation at chunk boundaries &
+We implemented a 400-word maximum chunk size with 50-word overlap and
+verified no scene content was being truncated by inspecting chunk
+lengths across all three plays \\
+ 
+Claude &
+Discussed evaluation design for a multi-system RAG comparison,
+including criteria selection and scoring methodology &
+Suggested a 1--5 scoring rubric covering correctness, grounding,
+retrieval relevance, usefulness, and style quality &
+We refined the rubric to better reflect the assignment criteria and
+added group-designed questions targeting areas we identified as
+potential failure modes in our system \\
+ 
+Claude &
+Explored the concept of LLM-as-judge for automated evaluation
+scoring in NLP systems &
+Explanation of how a language model can be used to generate
+first-pass scores for system outputs, with discussion of its
+limitations for small models &
+We implemented LLM-as-judge as an initial scoring pass and manually
+reviewed and adjusted all scores before including them in the report,
+treating the automated scores as a starting point only \\
+ 
+Claude &
+Consulted on how to structure a reproducible Python evaluation
+pipeline that runs multiple systems and exports results &
+A design outline for an automated evaluation script covering
+system loading, question iteration, result export to CSV and JSON &
+We designed and implemented the final evaluation script ourselves
+using the outline as a reference, adapting the structure to match
+our specific system architecture and output requirements \\
+ 
+Claude &
+Discussed report writing conventions for IEEE-format conference
+papers, including how to describe preprocessing decisions &
+Guidance on appropriate technical depth, citation style, and how
+to justify design choices without being overly verbose &
+We wrote all sections ourselves and used Claude to check clarity
+and structure; all content was verified against our actual
+implementation before inclusion \\
+ 
+\bottomrule
+\end{tabularx}
+\end{table*}
+ 
+\end{document}
