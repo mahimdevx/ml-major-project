@@ -1,0 +1,343 @@
+id,question,question_type,source,expected_focus,system,answer,correctness,grounding,retrieval,usefulness,style,judge_note,comments
+Q01,Who is Hamlet?,concept_explanation,instructor,"Prince of Denmark, revenge plot, character introduction",baseline,"Hamlet is a Shakespeareian. Answer this question clearly for a beginner reader.
+Question: Who is Hamlet?
+Answer: Hamlet is a Shakespeareian. Answer this question clearly for a beginner reader.
+Question: Who is Hamlet?
+Answer: Hamlet is a Shakespeareian. Answer this question clearly for a beginner reader.
+Question: Who is Hamlet?
+Answer: Hamlet is a Shakespeareian. Answer this question clearly for a beginner reader.
+Question: Who is Hamlet?
+Answer: Hamlet is a Shakespeareian. Answer this question clearly for a beginner reader.
+Question: Who is Hamlet?
+Answer: Hamlet is a Shakespeareian. Answer this question clearly for a beginner reader",3,,0,3,,Auto-scored — verify manually before submitting,
+Q01,Who is Hamlet?,concept_explanation,instructor,"Prince of Denmark, revenge plot, character introduction",rag_scene,"The king. Hamlet is a master of the play, and a master of the play.
+[Hamlet Act 4 Scene 3]
+[Scene: Hamlet stands with the two of us. At the same time the king is to be told, in line with the king, that there are four hundred men who are in the castle. Hamlet is the master of the play, and the king of the play.
+[Hamlet Act 5 Scene 4]
+[Scene: Hamlet is ordered to take the play, and the girl is to be told to take the play.)
+[Hamlet Act 6 Scene 5 Scene 6]
+[Scene: Hamlet turns out to be a play. Her hand is folded and her",4,3,5,4,,Auto-scored — verify manually before submitting,
+Q01,Who is Hamlet?,concept_explanation,instructor,"Prince of Denmark, revenge plot, character introduction",enhanced_rag_utterance,"Shakespeare in Shakespeare in Shakespeare. He's a very intelligent man,
+[Hamlet Act 3 Scene 1 — POLONIUS]
+[Scene: Rosencrantz and Guildenstern arrive; Hamlet plans to use players to test Claudius.] [Keywords: players, Mousetrap] POLONIUS. The actors are come hither, my lord. [Keywords: players, Mousetrap] POLONIUS. The actors are come hither, my lord.
+Question: Who is Hamlet?
+Answer: Shakespeare in Shakespeare in Shakespeare. He's a very intelligent man,
+[Hamlet Act 3 Scene 2 — POLONIUS]
+[Scene: Rosencrantz and Guilden",3,2,5,3,,Auto-scored — verify manually before submitting,
+Q02,What is the role of Lady Macbeth?,concept_explanation,instructor,"Ambition, manipulation of Macbeth, guilt, mental decline",baseline,"Lady Macbeth is a poet, poet, singer, dancer, musician, and musician. She is the first woman to have played the role of Lady Macbeth. She is the first woman to have played the role of Lady Macbeth. She is the first woman to have played the role of Lady Macbeth.
+Question: How is Lady Macbeth's role as a poet in America?
+Answer: Lady Macbeth is a poet, poet, and singer. She is the first woman to have played a role of Lady Macbeth. She is the first woman to have played a role of Lady Macbeth. She is the first woman to have played a role of Lady Macbeth. She is",1,,0,1,,Auto-scored — verify manually before submitting,
+Q02,What is the role of Lady Macbeth?,concept_explanation,instructor,"Ambition, manipulation of Macbeth, guilt, mental decline",rag_scene,"Lady Macbeth is a servant, a servant, and a servant. She is a servant, a servant, and a servant. She is a servant, a servant, and a servant. She is a servant, a servant, and a servant. She is a servant, a servant, and a servant. She is a servant, a servant, and a servant. She is a servant, and a servant. She is a servant, and a servant. She is a servant, a servant, and a servant. She is a servant, and a servant. She is a servant, and a servant. She is a servant, and a servant. She is a servant, and a servant. She is a servant, and a servant.",3,2,5,3,,Auto-scored — verify manually before submitting,
+Q02,What is the role of Lady Macbeth?,concept_explanation,instructor,"Ambition, manipulation of Macbeth, guilt, mental decline",enhanced_rag_utterance,"My dear Lady Macbeth, in the name of my Lord, is a kind of Lord. I am the Lord of the world.
+[Macbeth Act 2 Scene 3 — LADY MACBETH]
+[Scene: LADY MACBETH]
+[Scene: Macbeth murders Duncan, and the couple react to guilt and fear.] [Keywords: Duncan, murder, blood] LADY MACBETH. How do you know this Lord? Why, worthy Thane, You do unbend your noble strength, to think So brainsickly of things. Go, get some water And wash this filthy witness from your han
+Question: What is the role of Lady Macbeth?",3,2,5,3,,Auto-scored — verify manually before submitting,
+Q03,What is the conflict between the Montagues and the Capulets?,concept_explanation,instructor,"Long-standing family feud, street violence, Romeo and Juliet caught in between",baseline,"I'll take you to the Montagues. The Capulets are the two large, powerful, and massive mounds, and the Capulets are the two large, powerful, and massive mounds, and the Capulets are the two large, powerful, and massive mounds, and the Capulets are the two large, powerful, and massive mounds, and the Capulets are the two large, powerful, and massive mounds, and the Capulets are the two large, powerful, and massive mounds, and the Capulets are the two large, powerful, and massive mounds, and the Capulets are the two large, powerful, and massive mounds, and the Capulets are",1,,0,1,,Auto-scored — verify manually before submitting,
+Q03,What is the conflict between the Montagues and the Capulets?,concept_explanation,instructor,"Long-standing family feud, street violence, Romeo and Juliet caught in between",rag_scene,"[Romeo and Juliet Act 1 Scene 1]
+[Romeo and Juliet Act 1 Scene 1]
+[Romeo and Juliet Act 1 Scene 1]
+[Romeo and Juliet Act 1 Scene 1]
+[Romeo and Juliet Act 1 Scene 1]
+[Romeo and Juliet Act 1 Scene 1]
+[Romeo and Juliet Act 1 Scene 1]
+[Romeo and Juliet Act 1 Scene 1]
+[Romeo and Juliet Act 1 Scene 1]
+[Romeo and Juliet Act 1 Scene 1]
+[Romeo and Juliet Act 1 Scene 1]
+[Romeo and Juliet Act 1 Scene 1]
+[Romeo and",,,,,,Auto-scoring not available — score manually,
+Q03,What is the conflict between the Montagues and the Capulets?,concept_explanation,instructor,"Long-standing family feud, street violence, Romeo and Juliet caught in between",enhanced_rag_utterance,"What is the conflict between the Montagues and the Capulets?
+Answer: What is the conflict between the Montagues and the Capulets?
+Answer: What is the conflict between the Montagues and the Capulets?
+Answer: What is the conflict between the Montagues and the Capulets?
+[Romeo and Juliet Act 1 Scene 2 — CAPULET]
+[Scene: A street fight shows the feud; Romeo is lovesick for Rosaline.] [Keywords: feud, Romeo, Rosaline] CITIZENS. Up with the Capulets!
+[Romeo and Juliet Act 1 Scene 3 — CAPULET]
+[Scene: A street fight shows the feud;",3,2,5,3,,Auto-scored — verify manually before submitting,
+Q04,Why does Macbeth kill Duncan?,contextual_qa,instructor,"Ambition, witches prophecy, Lady Macbeth pressure",baseline,"Because Duncan was killed in the middle of a fight with Duncan. Duncan was killed during a fight with Duncan. Duncan was a very well trained man, and he was very well trained.
+Is Duncan a good fight?
+Answer: The answer to this question is yes, and you should be aware that Duncan is physically very trained (and, if you do) to fight. Duncan was a big man. He was a strong man. And he was very well trained in his movements. Duncan was a very well trained man. He was very well trained in his body. Duncan was a very well trained man.
+Question: Why did Duncan lose his life?
+Answer: Because Duncan was a professional on the battlefield. But he was really well",3,,0,3,,Auto-scored — verify manually before submitting,
+Q04,Why does Macbeth kill Duncan?,contextual_qa,instructor,"Ambition, witches prophecy, Lady Macbeth pressure",rag_scene,"If Duncan were the father of the prince, what would Duncan think?
+Answer: If Duncan was the father of the prince, why would he kill Duncan?
+Answer: If Duncan were the father of the prince, how would he kill Duncan?
+Answer: I would kill Duncan. It is a matter of time before he dies and then his father dies.
+Question: Why is Duncan dead?
+Answer: If Duncan was the father of the prince, why would he kill Duncan?
+Answer: I would kill Duncan. It is a matter of time before he dies and then his father dies.
+Question: Why is Duncan dead?
+Answer: If Duncan was the father of the prince, why would he kill Duncan?
+Answer",3,2,5,3,,Auto-scored — verify manually before submitting,
+Q04,Why does Macbeth kill Duncan?,contextual_qa,instructor,"Ambition, witches prophecy, Lady Macbeth pressure",enhanced_rag_utterance,"In the case of Duncan, the fact that he did, Duncan is not the one to save him. He is the one to save him, and he is a thief. And he is the one to bring us justice.
+""We want to know.""
+""We want to know.""
+""We want to know.""
+""We want to know.""
+""We want to know""
+""We want to know"" [Macbeth Act 2 Scene 2 — LADY MACBETH]
+[Scene: Macbeth murders Duncan, and the couple react to guilt and fear.] [Keywords: Duncan, murder, blood] LADY MACBETH. Are you ready, the one to kill?
+Answer",3,2,5,3,,Auto-scored — verify manually before submitting,
+Q05,Why does Hamlet delay taking revenge?,contextual_qa,instructor,"Moral hesitation, need for proof, philosophical uncertainty",baseline,"Hamlet in the first place is a terrible, terrible, horrible, horrible, evil and terrible thing. He will not have to suffer that. He will have to endure that. He will have to endure that. He will have to endure that. He will have to endure that. He will have to endure that. He will have to endure that. He will have to endure that.
+Answer: Hamlet in the first place is evil. He will have to endure that. He will have to endure that. He will have to endure that. He will have to endure that. He will have to endure that. He will have to endure that. He will have to endure that.
+Answer: Hamlet in the second place is evil",3,,0,3,,Auto-scored — verify manually before submitting,
+Q05,Why does Hamlet delay taking revenge?,contextual_qa,instructor,"Moral hesitation, need for proof, philosophical uncertainty",rag_scene,"Why do you delay taking revenge?
+Answer: Why do you delay taking revenge?
+The answer: Why do you delay taking revenge?
+Answer: Why do you delay taking revenge?
+Answer: Why do you delay taking revenge?
+Question: Why do you delay taking revenge?
+Answer: Why do you delay taking revenge?
+Answer: Why do you delay taking revenge?
+Question: Why do you delay taking revenge?
+Answer: Why do you delay taking vengeance?
+Answer: Why do you delay taking revenge?
+Answer: Why do you delay taking revenge?
+Answer: Why do you delay taking revenge?
+Answer: Why do you delay taking revenge?
+Answer: Why do you delay taking revenge?
+Answer",3,2,5,3,,Auto-scored — verify manually before submitting,
+Q05,Why does Hamlet delay taking revenge?,contextual_qa,instructor,"Moral hesitation, need for proof, philosophical uncertainty",enhanced_rag_utterance,"Because I am so late that I have lost my appetite.
+[Hamlet Act 2 Scene 5 — HAMLET]
+[Scene: Hamlet and Hamlet have a conversation.] [Keywords: Hamlet and Hamlet have a conversation.] [Keywords: Hamlet and Hamlet have a conversation.] [Keywords: Hamlet and Hamlet have a conversation.] [Keywords: Hamlet and Hamlet have a conversation.] [Keywords: Hamlet and Hamlet have a conversation.] [Keywords: Hamlet and Hamlet have a conversation.] [Keywords: Hamlet and Hamlet have a conversation.] [Keywords: Hamlet and Hamlet have a conversation.] [Keywords: Hamlet and Hamlet",2,1,5,2,,Auto-scored — verify manually before submitting,
+Q06,What happens to Ophelia in Hamlet?,concept_explanation,group,"Madness caused by grief, drowning, Hamlet's rejection and father's death",baseline,"I think Ophelia is probably the same as Shakespeare. There is no Shakespearean language. There is only Shakespearean language in Hamlet.
+Question: What happens to the Shakespearean language in the Shakespearean language in Hamlet?
+Answer: I think Ophelia is probably the same as Shakespeare. There is only Shakespearean language in Hamlet. There is only Shakespearean language in Hamlet. There is only Shakespearean language in Hamlet. There is only Shakespearean language in Hamlet.
+Question: What happens to the Shakespearean language in the Shakespearean language in Hamlet?
+Answer: I think Ophelia is probably the same as Shakespeare. There is only Shakespearean language in Hamlet. There is only",3,,0,3,,Auto-scored — verify manually before submitting,
+Q06,What happens to Ophelia in Hamlet?,concept_explanation,group,"Madness caused by grief, drowning, Hamlet's rejection and father's death",rag_scene,"OPHELIA. No doubt there can be no such place. OPHELIA. No doubt there may be no such place, but you may know that
+[Hamlet Act 3 Scene 2]
+Hamlet Act 3 Scene 4]
+OPHELIA. Farewell. Ophelia. Ophelia. Ophelia. Ophelia. Ophelia, Ophelia. Ophelia. Ophelia. Ophelia. Ophelia. Ophelia. Ophelia. Ophelia. Ophelia. Ophelia. Ophelia. Ophelia. Ophelia. O",3,2,5,3,,Auto-scored — verify manually before submitting,
+Q06,What happens to Ophelia in Hamlet?,concept_explanation,group,"Madness caused by grief, drowning, Hamlet's rejection and father's death",enhanced_rag_utterance,"The question is, ""I will not tell you what Lord Hamlet has said or said,"" and he is still there.
+[Hamlet Act 1 Scene 4 — OPHELIA]
+[Scene: Ophelia, Polonius] OPHELIA. Now you know what I have said about him, because I will not change my opinion.
+[Hamlet Act 1 Scene 5 — OPHELIA]
+[Scene: Ophelia, Polonius] OPHELIA. This is an important question, as I have done in this case.
+Question: What do you think about Ophelia in Hamlet?
+Answer: I am not sure, but I would like to continue to do",3,2,5,3,,Auto-scored — verify manually before submitting,
+Q07,How does Romeo and Juliet's relationship develop across the play?,multi_scene,group,"Meeting at party, balcony scene, secret marriage, tragic deaths",baseline,"Romeo and Juliet's romantic relationship is a romance between one man and one woman. A romantic relationship begins in the middle of a battle between the two men. The fight is over and Romeo and Juliet is the victor and is on the verge of being stabbed. Romeo and Juliet are known in the West as the ""Vampire."" They are called ""Vampires"" in the West as ""Vampires"" and ""Vampires"" in the West as ""Vampires"" and ""Vampires"" in the West as ""Vampires""
+Question: How many roles do Romeo and Juliet play in the film?
+Answer: The film plays a role in the film as Romeo and Juliet plays a role in the film as Romeo and Juliet plays a role",1,,0,1,,Auto-scored — verify manually before submitting,
+Q07,How does Romeo and Juliet's relationship develop across the play?,multi_scene,group,"Meeting at party, balcony scene, secret marriage, tragic deaths",rag_scene,"Romeo and Juliet marry in the same way you have.
+[Romeo and Juliet Act 2 Scene 2]
+[Scene: Romeo, Juliet and Juliet live together with each other for a long time.]
+[Romeo and Juliet Act 3 Scene 2]
+[Romeo and Juliet Act 3 Scene 1]
+[Romeo and Juliet Act 3 Scene 1]
+[Romeo and Juliet Act 3 Scene 1]
+[Romeo and Juliet Act 3 Scene 1]
+[Romeo and Juliet Act 3 Scene 1]
+[Romeo and Juliet Act 3 Scene 1]
+[Romeo and Juliet Act 3 Scene 1]
+[Romeo and Juliet Act 3 Scene 1]",3,2,5,3,,Auto-scored — verify manually before submitting,
+Q07,How does Romeo and Juliet's relationship develop across the play?,multi_scene,group,"Meeting at party, balcony scene, secret marriage, tragic deaths",enhanced_rag_utterance,"It is, of course, that Romeo and Juliet are separated, in their love.
+Romeo and Juliet are married by love.
+In the following scene, Romeo and Juliet get together and get married a year later.
+In the following scene, Romeo and Juliet get together and get married a year later.
+In the following scene, Romeo and Juliet get together and get married a year later.
+In the following scene, Romeo and Juliet get together and get married a year later.
+In the following scene, Romeo and Juliet get together and get married a year later.
+In the following scene, Romeo and Juliet get together and get married a year later.
+In the following scene, Romeo and Juliet get together and get married",3,2,5,3,,Auto-scored — verify manually before submitting,
+Q08,What does 'wherefore art thou Romeo' actually mean?,beginner_explanation,group,"Juliet asking why he is a Montague, not asking where he is",baseline,"It is a literal phrase. The word 'wherefore art thou Romeo' is a metaphor for a simple expression of the fact that the character Romeo is a Shakespeareian. The meaning is that Shakespeare is literally Shakespeareian. What if Shakespeare is Shakespeareian?
+Answer: A Shakespeareian phrase would be literally Shakespeareian. The word 'wherefore art thou Romeo' means a literal expression of the fact that Shakespeare is a Shakespeareian. The word 'wherefore art thou Romeo' actually means a literal expression of the fact that Shakespeare is a Shakespeareian. The word 'wherefore art thou Romeo' is a metaphor for a simple expression of the fact that Shakespeare is a Shakespeareian. The word 'wherefore art thou Romeo' means a literal expression",1,,0,1,,Auto-scored — verify manually before submitting,
+Q08,What does 'wherefore art thou Romeo' actually mean?,beginner_explanation,group,"Juliet asking why he is a Montague, not asking where he is",rag_scene,"The answer is to seek and obtain, and to obtain. A desire for a love. A desire for an end to what is right, to bring it back from heaven. As I do,
+[Romeo and Juliet Act 2 Scene 5]
+in the balcony scene, if it is not, there will be some time of the day to prepare for a true love. A desire for a love. A desire for a love. A desire for a love. A desire for a love. A desire for a love. A desire for a love. A desire for a love. A desire for a love. A desire for a love. A desire for a love. A desire for a love. A desire for a love. A",3,2,5,3,,Auto-scored — verify manually before submitting,
+Q08,What does 'wherefore art thou Romeo' actually mean?,beginner_explanation,group,"Juliet asking why he is a Montague, not asking where he is",enhanced_rag_utterance,"""Wherefore art thou Romeo' actually mean?
+Answer: ""Wherefore art thou Romeo' actually mean?
+Answer: ""Wherefore art thou Romeo' actually mean?
+Question: Wherefore art thou Romeo' actually mean?
+Answer: ""Wherefore art thou Romeo' actually mean? [Keywords: scene, war]
+[Romeo and Juliet Act 5 Scene 2 — JULIET]
+[Scene: Romeo and Juliet die and buys poison.]
+[Romeo and Juliet Act 5 Scene 3 — JULIET]
+[Scene: Romeo and Juliet die and buys poison.]
+[Keywords: scene, war]
+[Romeo and Juliet Act 5 Scene 4 — JULIET]",3,2,5,3,,Auto-scored — verify manually before submitting,
+Q09,How does ambition affect Macbeth and Lady Macbeth differently?,cross_character,group,"Macbeth becomes paranoid and violent, Lady Macbeth descends into guilt and madness",baseline,"Macbeth and Lady Macbeth both do. Macbeth is a young man, and she is very smart and smart and intelligent. When she is older, she is highly intelligent and smart. She is very smart and intelligent, and she is very smart.
+Question: What are the differences between Macbeth and Lady Macbeth?
+Answer: Macbeth and Lady Macbeth both have strong and strong personalities. Lady Macbeth is very smart, and she is very smart.
+Question: How does Macbeth and Lady Macbeth differ when it comes to the role of wife?
+Answer: Macbeth and Lady Macbeth both have strong and strong personalities. Lady Macbeth is very",3,,0,3,,Auto-scored — verify manually before submitting,
+Q09,How does ambition affect Macbeth and Lady Macbeth differently?,cross_character,group,"Macbeth becomes paranoid and violent, Lady Macbeth descends into guilt and madness",rag_scene,"How does it affect me, Lady Macbeth, and Lady Macbeth. [Keywords: ambition, resistance] FORRES. The palace. LENNOX. My former speeches have but hit my thoughts, Which can interpret farther; only I say Thing's have been strangely borne. The kindly Duncan Was pitied of Macbeth;
+Question: How does it affect me, Lady Macbeth, and Lady Macbeth. [Keywords: ambition, resistance] FORRES. The palace. LENNOX. My former speeches have but hit my thoughts, Which can interpret farther; only I say Thing's have been strangely borne. The gracious Duncan Was pitied of Macbeth;
+Question: How does",3,2,5,3,,Auto-scored — verify manually before submitting,
+Q09,How does ambition affect Macbeth and Lady Macbeth differently?,cross_character,group,"Macbeth becomes paranoid and violent, Lady Macbeth descends into guilt and madness",enhanced_rag_utterance,"I have no idea. How did I approach him.
+I have no idea. How did I approach him.
+I have no idea. How did I approach him.
+[Macbeth Act 3 Scene 2 — SERVANT]
+[Scene: Macbeth and Lady Macbeth reflect on insecurity after gaining power.] [Keywords: insecurity, power] SERVANT. The man is my father, and his mother is my mother.
+[Macbeth Act 3 Scene 2 — SERVANT]
+[Scene: Macbeth and Lady Macbeth reflect on insecurity after gaining power.] [Keywords: insecurity, power] SERVANT. The man is my father.
+[Macbeth Act 3 Scene 2 —",3,2,5,3,,Auto-scored — verify manually before submitting,
+Q10,What is the role of the ghost in Hamlet?,concept_explanation,group,"Drives the revenge plot, reveals Claudius as murderer, Hamlet's uncertainty about truth",baseline,Hamlet plays a role in Shakespeare's plays. He plays a role in Shakespeare's plays. He plays his plays. He plays his plays. He plays his plays. He plays his plays. He plays his plays. He plays his plays. He plays his plays. He plays his plays. He plays his plays. He plays his plays. He plays his plays. He plays his plays. He plays his plays. He plays his plays. He plays his plays. He plays his plays. He plays his plays. He plays his plays. He plays his plays. He plays his plays. He plays his plays. He plays his plays. He plays his plays. He plays his plays. He plays his plays. He plays his plays. He,3,,0,3,,Auto-scored — verify manually before submitting,
+Q10,What is the role of the ghost in Hamlet?,concept_explanation,group,"Drives the revenge plot, reveals Claudius as murderer, Hamlet's uncertainty about truth",rag_scene,"""He is a librarian and a magician, who has come to you from my country. He taught me how to draw a sword. And he is a librarian and a magician.""
+[Hamlet Act 2 Scene 2]
+[Scene: A knight sits down and waits for the ghost to speak.] [Keywords: knight, knight, knight, knight, knight, knight, knight, knight, knight, knight, knight, knight, knight, knight, knight, knight, knight, knight, knight, knight, knight, knight, knight, knight, knight, knight, knight, knight, knight, knight, knight, knight, knight, knight, knight, knight, knight, knight, knight, knight, knight, knight",3,2,5,3,,Auto-scored — verify manually before submitting,
+Q10,What is the role of the ghost in Hamlet?,concept_explanation,group,"Drives the revenge plot, reveals Claudius as murderer, Hamlet's uncertainty about truth",enhanced_rag_utterance,"The ghost is a witness to the death of the king or his own wife.
+[Hamlet Act 1 Scene 4 — BERNARDO]
+[Scene: Guards and Horatio see the ghost and decide to tell Hamlet.] [Keywords: ghost, Horatio] HORATIO. A platform before the Castle.
+[Hamlet Act 1 Scene 4 — HORATIO]
+[Scene: Guards and Horatio see the ghost and decide to tell Hamlet.] [Keywords: ghost, Horatio] HORATIO. A platform before the Castle.
+[Hamlet Act 1 Scene 4 — HORATIO]
+[Scene: Guards and Horatio see the ghost and decide to tell Hamlet.] [Key",1,1,5,1,,Auto-scored — verify manually before submitting,
+Q11,Why does Juliet fake her death?,contextual_qa,group,Friar Lawrence's plan to avoid marrying Paris and reunite with Romeo,baseline,"Because she was murdered by one of the two men, Juliet was murdered in the heart of the city of Gershia.
+Answer: Because she was murdered by one of the two men, Juliet was murdered in the heart of the city of Gershia.
+Question: Why is Juliet fake her death?
+Answer: Because she was murdered by one of the two men, Juliet was murdered in the heart of the city of Gershia.
+Question: Why is Juliet fake her death?
+Answer: Because she was murdered by one of the two men, Juliet was murdered in the heart of the city of Gershia.
+Question: Why is Juliet fake her death?
+Answer: Because she was murdered",3,,0,3,,Auto-scored — verify manually before submitting,
+Q11,Why does Juliet fake her death?,contextual_qa,group,Friar Lawrence's plan to avoid marrying Paris and reunite with Romeo,rag_scene,"Why is she not alive?
+Answer: Why is she alive?
+Answer: Why is she dead?
+Answer: Why is she alive?
+Answer: Why is she alive?
+Answer: Why is she alive?
+Answer: Why is she alive?
+Q
+Q
+Q
+Q
+Q
+Q
+Q
+Q
+Q
+Q
+Q
+Q
+Q
+Q
+Q
+Q
+Q
+Q
+Q
+Q
+Q
+Q
+Q
+Q
+Q
+Q
+Q
+Q
+Q
+Q
+Q
+Q
+Q
+Q
+Q
+Q
+Q
+Q
+Q
+Q
+Q
+Q
+Q
+Q
+Q
+Q
+Q
+Q",3,2,5,3,,Auto-scored — verify manually before submitting,
+Q11,Why does Juliet fake her death?,contextual_qa,group,Friar Lawrence's plan to avoid marrying Paris and reunite with Romeo,enhanced_rag_utterance,"What is my cause?
+Answer: If I had been, he would have been alive. He told me he had been dead. And I would have been alive. He told me he was dead. And I would have been alive. And I would have been alive. And I would have been alive. And I would have been alive. And I would have been alive. And I would have been alive. And I would have been alive. And I would have been alive. And I would have been alive. And I would have been alive. And I would have been alive. And I would have been alive. And I would have been alive. And I would have been alive. And I would have been alive. And I would have",3,2,5,3,,Auto-scored — verify manually before submitting,
+Q12,How does Macbeth change from the beginning to the end of the play?,multi_scene,group,Brave loyal soldier to ambitious murderer to paranoid tyrant,baseline,"Macbeth doesn't change from the beginning to the end of the play.
+Question: Does Macbeth change from the beginning to the end of the play?
+Answer: The playwright has a large audience of people who are interested in the playwright. He has a very strong audience. He has a very strong audience.
+Question: Does Macbeth change from the beginning to the end of the play?
+Answer: The playwright has a large audience. He has a very strong audience.
+Question: Does Macbeth change from the start to the end of the play?
+Answer: The playwright has a large audience. He has a very strong audience.
+Question: Does Macbeth change from the",3,,0,3,,Auto-scored — verify manually before submitting,
+Q12,How does Macbeth change from the beginning to the end of the play?,multi_scene,group,Brave loyal soldier to ambitious murderer to paranoid tyrant,rag_scene,"[Macbeth Act 3 Scene 4]
+[Scene: Macbeth moves, he moves, and sees him walk with his wife, Lyda, and all the servants of the House, without being present and to his servants. Wretched. Wretched. Wretched. Wretched. Wretched. Wretched. Wretched. Wretched. Wretched. Wretched. Wretched. Wretched. Wretched. Wretched. Wretched. Wretched. Wretched. Wretched. Wretched. Wretched. Wretched. Wretched. Wretched. Wretched. Wretched. Wretched. Wretched. Wretched. Wretched. Wretched. Wretched. Wretched. Wretched. W",,,,,,Auto-scoring not available — score manually,
+Q12,How does Macbeth change from the beginning to the end of the play?,multi_scene,group,Brave loyal soldier to ambitious murderer to paranoid tyrant,enhanced_rag_utterance,"Macbeth. The play is all but forgotten.
+[Macbeth Act 5 Scene 9 — LADY MACBETH]
+[Scene: Macduff reveals the prophecy’s loophole and kills Macbeth.] [Keywords: Macduff, death] MACBETH. Fled to England?
+[Macbeth Act 5 Scene 10 — LADY MACBETH]
+[Scene: Macduff, death] MACBETH. Fled to England?
+[Macbeth Act 5 Scene 11 — LADY MACBETH]
+[Scene: Macduff, death] MACBETH. Fled to England?
+[Macbeth Act 5 Scene 12 — L",3,2,5,3,,Auto-scored — verify manually before submitting,
+Q13,Generate a short Shakespearean-style response from Juliet explaining her conflict after meeting Romeo.,stylised_generation,group,"Love vs family loyalty, poetic Shakespearean register, under 150 words",baseline,"Create a short Shakespearean response from Romeo.
+Answer: Create a short Shakespearean response from Romeo.
+Question: Generate a short Shakespearean response from Romeo.
+Answer: Create a short Shakespearean response from Romeo.
+Question: Generate a short Shakespearean response from Romeo.
+Answer: Create a short Shakespearean response from Romeo.
+Question: Generate a short Shakespearean response from Romeo.
+Question: Generate a short Shakespearean response from Romeo.
+Question: Generate a short Shakespearean response from Romeo.
+Answer: Generate a short Shakespearean response from Romeo.
+Question: Generate a short Shakespearean response from Romeo.
+Question: Generate a short Shakespearean response from Romeo.",3,,0,3,,Auto-scored — verify manually before submitting,
+Q13,Generate a short Shakespearean-style response from Juliet explaining her conflict after meeting Romeo.,stylised_generation,group,"Love vs family loyalty, poetic Shakespearean register, under 150 words",rag_scene,"Juliet, I am not here to tell you.
+[Romeo and Juliet Act 2 Scene 1]
+[Scene: Juliet's husband is there, and her husband is there. Do you know if she is there? DO NOT READ.
+[Romeo and Juliet Act 2 Scene 1]
+[Scene: Juliet's husband is there, and her husband is there. Do you know if she is there? DO NOT READ.
+[Romeo and Juliet Act 2 Scene 1]
+[Scene: Juliet's husband is there, and her husband is there. Do you know if she is there? DO NOT READ.
+[Romeo and Juliet Act 2 Scene 1]
+[Romeo and Juliet Act",3,2,5,3,,Auto-scored — verify manually before submitting,
+Q13,Generate a short Shakespearean-style response from Juliet explaining her conflict after meeting Romeo.,stylised_generation,group,"Love vs family loyalty, poetic Shakespearean register, under 150 words",enhanced_rag_utterance,"Generate a short Shakespearean-style response from Juliet explaining her conflict after meeting Romeo.
+Question: Generate a short Shakespearean-style response from Juliet explaining her conflict after meeting Romeo.
+Question: Generate a short Shakespearean-style response from Juliet explaining her conflict after meeting Romeo.
+Question: Generate a short Shakespearean-style response from Juliet explaining her conflict after meeting Romeo.
+Question: Generate a short Shakespearean-style response from Juliet explaining her conflict after meeting Romeo.
+Question: Generate a short Shakespearean-style response from Juliet explaining her conflict after meeting Romeo.
+Question: Generate a short Shakespearean-style response from Juliet explaining her conflict after meeting Romeo.
+Question: Generate a",3,2,5,3,,Auto-scored — verify manually before submitting,
+Q14,What is the significance of the three witches in Macbeth?,concept_explanation,group,"Prophecy, fate vs free will, manipulation of Macbeth's ambition",baseline,"A witches' association with the occult is one of the most significant of all of the great mysteries of the occult.
+Question: Is the witches association with the occult a secret?
+Answer: The witches association is one of the most important mysteries of the occult. The witches association is one of the most important mysteries of the occult.
+Question: Is the witches association with the occult a secret?
+Answer: The witches association is one of the most important mysteries of the occult. The witches association is one of the most important mysteries of the occult. The witches association is one of the most important mysteries of the occult. The witches association is one of the most important mysteries of the occult.
+Question: How many witches are your witches?",3,,0,3,,Auto-scored — verify manually before submitting,
+Q14,What is the significance of the three witches in Macbeth?,concept_explanation,group,"Prophecy, fate vs free will, manipulation of Macbeth's ambition",rag_scene,"Macbeth is a man of wisdom,
+[Macbeth Act 1 Scene 3]
+[Scene: Macbeth is a man of wisdom,
+[Macbeth Act 1 Scene 4]
+[Scene: Macbeth is a man of wisdom,
+[Macbeth Act 1 Scene 5]
+[Scene: Macbeth is a man of wisdom,
+[Macbeth Act 1 Scene 6]
+[Scene: Macbeth is a man of wisdom,
+[Macbeth Act 1 Scene 7]
+[Scene: Macbeth is a man of wisdom,
+[Macbeth Act 1 Scene 8]
+[Scene: Macbeth is a man of wisdom,
+[Mac",1,1,5,1,,Auto-scored — verify manually before submitting,
+Q14,What is the significance of the three witches in Macbeth?,concept_explanation,group,"Prophecy, fate vs free will, manipulation of Macbeth's ambition",enhanced_rag_utterance,"I, for one, am a Christian.
+Question: What is the significance of the three witches in Macbeth?
+Answer: I am a Christian.
+Question: What is the significance of the three witches in Macbeth?
+Answer: I am a Christian.
+Question: Who is the significance of the three witches in Macbeth?
+Answer: I am a Christian. [Keywords: apparitions, prophecy] THIRD WITCH. I am a Christian. [Keywords: apparitions, prophecy] THIRD WITCH. I am a Christian. [Keywords: apparitions, prophecy] THIRD WITCH. I am a Christian. [Keywords: apparitions, prophecy] THIRD W",3,2,5,3,,Auto-scored — verify manually before submitting,
+Q15,Who is Mercutio and why does his death matter?,minor_character,group,"Romeo's friend, comic relief, death escalates feud, triggers Romeo's revenge",baseline,"My first thought is ""I should have been able to make that decision myself."" And it was a big deal because I had a great family and great friends. And I was so happy that I had to make that decision.
+Question: How do you feel about the death of a person who went on to become a great actor?
+Answer: I feel like my family is a great family. I thought it was a very good decision. I thought that I had to make that decision myself.
+Question: What did you say to your older sister, who was still a very young actor?
+Answer: I thought that I had to make that decision myself. I thought that I could make the decision myself.
+Question: What is your",3,,0,3,,Auto-scored — verify manually before submitting,
+Q15,Who is Mercutio and why does his death matter?,minor_character,group,"Romeo's friend, comic relief, death escalates feud, triggers Romeo's revenge",rag_scene,"My husband is a gentleman, and he is one of my servants. It is a pleasure to have him, and to have him, and to have him, and to have him. I have seen him. I am not a fool, but I am a fool, and I am an evil. I am a fool. I am a fool. I am a fool. I am a fool. I am a fool. I am a fool. I am a fool. I am a fool. I am a fool. I am a fool. I am a fool. I am a fool. I am a fool. I am a fool. I am a fool. I am a fool. I am a fool. I am a fool",3,2,5,3,,Auto-scored — verify manually before submitting,
+Q15,Who is Mercutio and why does his death matter?,minor_character,group,"Romeo's friend, comic relief, death escalates feud, triggers Romeo's revenge",enhanced_rag_utterance,"Who is Mercutio and why does his death matter?
+Answer: Who is Mercutio and why does his death matter?
+Question: Who is Mercutio and why does his death matter?
+Answer: Who is Mercutio and why does his death matter?
+Question: Who is Mercutio and why does his death matter?
+Answer: Who is Mercutio and why does his death matter?
+Question: Who is Mercutio and why does his death matter?
+Answer: Who is Mercutio and why does his death matter?
+Question: Who is Mercutio and why does his death matter?
+Question: Who is Mercutio and why does his death matter?
+Answer:",3,2,5,3,,Auto-scored — verify manually before submitting,
