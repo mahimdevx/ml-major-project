@@ -1,0 +1,16 @@
+__pycache__/
+*.pyc
+.env
+.vscode/
+.idea/
+.ipynb_checkpoints/
+venv/
+.venv/
+data/embeddings/
+results/
+*.faiss
+*.index
+*.pkl
+.DS_Store
+data/chroma_utterances/
+*.npy
