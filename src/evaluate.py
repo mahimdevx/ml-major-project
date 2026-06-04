@@ -33,15 +33,15 @@ from sklearn.metrics.pairwise import cosine_similarity
 from sentence_transformers import SentenceTransformer
 
 # ── Config ────────────────────────────────────────────────────────────────────
-PROJECT_ROOT   = Path(__file__).resolve().parents[1]
-DATA_DIR       = PROJECT_ROOT / "data" / "processed"
-RESULTS_DIR    = PROJECT_ROOT / "results"
-CHROMA_DIR     = PROJECT_ROOT / "data" / "chroma_utterances"
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
+DATA_DIR = PROJECT_ROOT / "data" / "processed"
+RESULTS_DIR = PROJECT_ROOT / "results"
+CHROMA_DIR = PROJECT_ROOT / "data" / "chroma_utterances"
 
-EMBEDDING_MODEL  = "sentence-transformers/all-MiniLM-L6-v2"
-GENERATION_MODEL = "distilgpt2"           # replace with your group's SLM
-TOP_K            = 5
-USE_LLM_JUDGE    = True                   # set False to skip auto-scoring
+EMBEDDING_MODEL = "sentence-transformers/all-MiniLM-L6-v2"
+GENERATION_MODEL = "gemma3:4b"
+TOP_K = 5
+USE_LLM_JUDGE = True  # set False to skip auto-scoring
 
 # ── Evaluation questions ──────────────────────────────────────────────────────
 QUESTIONS = [
@@ -159,6 +159,7 @@ QUESTIONS = [
 # SYSTEM 1: BASELINE
 # ════════════════════════════════════════════════════════════════════════════
 
+
 class BaselineSystem:
     """
     Prompt-only system — no retrieval.
@@ -169,6 +170,7 @@ class BaselineSystem:
         print("  Loading baseline generation model...")
         try:
             from transformers import pipeline
+
             self.generator = pipeline(
                 "text-generation",
                 model=GENERATION_MODEL,
@@ -195,7 +197,9 @@ class BaselineSystem:
             except Exception:
                 answer = "[Generation failed]"
         else:
-            answer = "[Baseline model not available — install transformers and distilgpt2]"
+            answer = (
+                "[Baseline model not available — install transformers and distilgpt2]"
+            )
 
         return {
             "system": "baseline",
@@ -210,6 +214,7 @@ class BaselineSystem:
 # SYSTEM 2: RAG (scene-level, numpy)
 # ════════════════════════════════════════════════════════════════════════════
 
+
 class RAGSystem:
     """
     Scene-level RAG using numpy cosine similarity index.
@@ -221,7 +226,7 @@ class RAGSystem:
         self.model = SentenceTransformer(EMBEDDING_MODEL)
 
         print("  Loading scene-level index...")
-        emb_path  = DATA_DIR / "embeddings.npy"
+        emb_path = DATA_DIR / "embeddings.npy"
         meta_path = DATA_DIR / "chunks_metadata.jsonl"
 
         if not emb_path.exists() or not meta_path.exists():
@@ -242,6 +247,7 @@ class RAGSystem:
         # Generation model
         try:
             from transformers import pipeline
+
             self.generator = pipeline(
                 "text-generation",
                 model=GENERATION_MODEL,
@@ -256,18 +262,17 @@ class RAGSystem:
 
     def retrieve(self, query: str, top_k: int = TOP_K) -> List[Dict]:
         query_vec = self.model.encode([query])
-        scores    = cosine_similarity(query_vec, self.embeddings)[0]
-        top_idx   = np.argsort(scores)[::-1][:top_k]
-        return [
-            {**self.chunks[i], "score": float(scores[i])}
-            for i in top_idx
-        ]
+        scores = cosine_similarity(query_vec, self.embeddings)[0]
+        top_idx = np.argsort(scores)[::-1][:top_k]
+        return [{**self.chunks[i], "score": float(scores[i])} for i in top_idx]
 
     def build_prompt(self, question: str, chunks: List[Dict]) -> str:
-        context = "\n\n".join([
-            f"[{c['play']} Act {c['act']} Scene {c['scene']}]\n{c['text'][:300]}"
-            for c in chunks
-        ])
+        context = "\n\n".join(
+            [
+                f"[{c['play']} Act {c['act']} Scene {c['scene']}]\n{c['text'][:300]}"
+                for c in chunks
+            ]
+        )
         return (
             f"You are a Shakespeare-aware assistant helping a beginner reader.\n"
             f"Use ONLY the retrieved context below to answer the question.\n"
@@ -278,7 +283,7 @@ class RAGSystem:
 
     def answer(self, question: str) -> Dict:
         retrieved = self.retrieve(question)
-        prompt    = self.build_prompt(question, retrieved)
+        prompt = self.build_prompt(question, retrieved)
 
         if self.gen_available:
             try:
@@ -311,6 +316,7 @@ class RAGSystem:
 # SYSTEM 3: ENHANCED RAG (utterance-level, ChromaDB)
 # ════════════════════════════════════════════════════════════════════════════
 
+
 class EnhancedRAGSystem:
     """
     Utterance-level Enhanced RAG using ChromaDB.
@@ -324,6 +330,7 @@ class EnhancedRAGSystem:
         print("  Loading ChromaDB utterance index...")
         try:
             import chromadb
+
             client = chromadb.PersistentClient(path=str(CHROMA_DIR))
             self.collection = client.get_collection("shakespeare_utterances")
             print(f"  ChromaDB loaded: {self.collection.count()} utterances")
@@ -336,6 +343,7 @@ class EnhancedRAGSystem:
         # Generation model
         try:
             from transformers import pipeline
+
             self.generator = pipeline(
                 "text-generation",
                 model=GENERATION_MODEL,
@@ -352,7 +360,7 @@ class EnhancedRAGSystem:
         if not self.available:
             return []
         query_vec = self.model.encode([query]).tolist()
-        results   = self.collection.query(
+        results = self.collection.query(
             query_embeddings=query_vec,
             n_results=top_k,
             include=["documents", "metadatas", "distances"],
@@ -360,22 +368,26 @@ class EnhancedRAGSystem:
         chunks = []
         for i in range(len(results["ids"][0])):
             meta = results["metadatas"][0][i]
-            chunks.append({
-                "play":          meta.get("play", ""),
-                "act":           meta.get("act", 0),
-                "scene":         meta.get("scene", 0),
-                "speaker":       meta.get("speaker", ""),
-                "scene_summary": meta.get("scene_summary", ""),
-                "text":          results["documents"][0][i],
-                "score":         round(1 - results["distances"][0][i], 3),
-            })
+            chunks.append(
+                {
+                    "play": meta.get("play", ""),
+                    "act": meta.get("act", 0),
+                    "scene": meta.get("scene", 0),
+                    "speaker": meta.get("speaker", ""),
+                    "scene_summary": meta.get("scene_summary", ""),
+                    "text": results["documents"][0][i],
+                    "score": round(1 - results["distances"][0][i], 3),
+                }
+            )
         return chunks
 
     def build_prompt(self, question: str, chunks: List[Dict]) -> str:
-        context = "\n\n".join([
-            f"[{c['play']} Act {c['act']} Scene {c['scene']} — {c['speaker']}]\n{c['text'][:300]}"
-            for c in chunks
-        ])
+        context = "\n\n".join(
+            [
+                f"[{c['play']} Act {c['act']} Scene {c['scene']} — {c['speaker']}]\n{c['text'][:300]}"
+                for c in chunks
+            ]
+        )
         return (
             f"You are a Shakespeare-aware assistant helping a beginner reader.\n"
             f"Use ONLY the retrieved context below to answer the question.\n"
@@ -386,7 +398,7 @@ class EnhancedRAGSystem:
 
     def answer(self, question: str) -> Dict:
         retrieved = self.retrieve(question)
-        prompt    = self.build_prompt(question, retrieved)
+        prompt = self.build_prompt(question, retrieved)
 
         if self.gen_available and retrieved:
             try:
@@ -404,11 +416,11 @@ class EnhancedRAGSystem:
             "question": question,
             "retrieved_chunks": [
                 {
-                    "play":    c["play"],
-                    "act":     c["act"],
-                    "scene":   c["scene"],
+                    "play": c["play"],
+                    "act": c["act"],
+                    "scene": c["scene"],
                     "speaker": c["speaker"],
-                    "score":   c["score"],
+                    "score": c["score"],
                     "summary": c.get("scene_summary", "")[:80],
                 }
                 for c in retrieved
@@ -421,6 +433,7 @@ class EnhancedRAGSystem:
 # ════════════════════════════════════════════════════════════════════════════
 # LLM-AS-JUDGE
 # ════════════════════════════════════════════════════════════════════════════
+
 
 class LLMJudge:
     """
@@ -440,6 +453,7 @@ class LLMJudge:
     def __init__(self):
         try:
             from transformers import pipeline
+
             self.judge = pipeline(
                 "text-generation",
                 model=GENERATION_MODEL,
@@ -451,8 +465,9 @@ class LLMJudge:
         except Exception:
             self.available = False
 
-    def score(self, question: str, expected_focus: str,
-              answer: str, retrieved_chunks: List) -> Dict:
+    def score(
+        self, question: str, expected_focus: str, answer: str, retrieved_chunks: List
+    ) -> Dict:
         """
         Score an answer on correctness, grounding, retrieval, and usefulness.
         Returns scores 1-5 for each criterion.
@@ -460,11 +475,11 @@ class LLMJudge:
         if not self.available or not answer or "[" in answer[:5]:
             return {
                 "correctness": None,
-                "grounding":   None,
-                "retrieval":   None,
-                "usefulness":  None,
-                "style":       None,
-                "judge_note":  "Auto-scoring not available — score manually",
+                "grounding": None,
+                "retrieval": None,
+                "usefulness": None,
+                "style": None,
+                "judge_note": "Auto-scoring not available — score manually",
             }
 
         prompt = (
@@ -477,25 +492,29 @@ class LLMJudge:
 
         try:
             output = self.judge(prompt)[0]["generated_text"]
-            raw    = output.replace(prompt, "").strip()
+            raw = output.replace(prompt, "").strip()
             # Extract first digit found
-            score  = next((int(c) for c in raw if c.isdigit() and c in "12345"), 3)
+            score = next((int(c) for c in raw if c.isdigit() and c in "12345"), 3)
         except Exception:
             score = None
 
         return {
             "correctness": score,
-            "grounding":   len(retrieved_chunks) > 0 and score is not None and max(1, score - 1) or None,
-            "retrieval":   len(retrieved_chunks),
-            "usefulness":  score,
-            "style":       None,
-            "judge_note":  "Auto-scored — verify manually before submitting",
+            "grounding": len(retrieved_chunks) > 0
+            and score is not None
+            and max(1, score - 1)
+            or None,
+            "retrieval": len(retrieved_chunks),
+            "usefulness": score,
+            "style": None,
+            "judge_note": "Auto-scored — verify manually before submitting",
         }
 
 
 # ════════════════════════════════════════════════════════════════════════════
 # EVALUATION RUNNER
 # ════════════════════════════════════════════════════════════════════════════
+
 
 def run_evaluation() -> None:
     print("=" * 60)
@@ -522,11 +541,11 @@ def run_evaluation() -> None:
     print("=" * 60)
 
     for q_data in QUESTIONS:
-        qid      = q_data["id"]
+        qid = q_data["id"]
         question = q_data["question"]
         expected = q_data["expected_focus"]
-        qtype    = q_data["type"]
-        source   = q_data["source"]
+        qtype = q_data["type"]
+        source = q_data["source"]
 
         print(f"\n{qid}: {question[:60]}...")
 
@@ -538,48 +557,59 @@ def run_evaluation() -> None:
                 result = system.answer(question)
             except Exception as e:
                 result = {
-                    "system":           sys_name,
-                    "question":         question,
+                    "system": sys_name,
+                    "question": question,
                     "retrieved_chunks": [],
-                    "answer":           f"[ERROR: {e}]",
-                    "prompt":           "",
+                    "answer": f"[ERROR: {e}]",
+                    "prompt": "",
                 }
 
             # LLM judge scoring
             scores = {}
             if judge:
                 scores = judge.score(
-                    question, expected,
-                    result["answer"],
-                    result["retrieved_chunks"]
+                    question, expected, result["answer"], result["retrieved_chunks"]
                 )
 
-            all_results.append({
-                "id":               qid,
-                "question":         question,
-                "question_type":    qtype,
-                "source":           source,
-                "expected_focus":   expected,
-                "system":           result["system"],
-                "answer":           result["answer"],
-                "retrieved_chunks": result["retrieved_chunks"],
-                "correctness":      scores.get("correctness"),
-                "grounding":        scores.get("grounding"),
-                "retrieval":        scores.get("retrieval"),
-                "usefulness":       scores.get("usefulness"),
-                "style":            scores.get("style"),
-                "judge_note":       scores.get("judge_note", ""),
-                "comments":         "",
-            })
+            all_results.append(
+                {
+                    "id": qid,
+                    "question": question,
+                    "question_type": qtype,
+                    "source": source,
+                    "expected_focus": expected,
+                    "system": result["system"],
+                    "answer": result["answer"],
+                    "retrieved_chunks": result["retrieved_chunks"],
+                    "correctness": scores.get("correctness"),
+                    "grounding": scores.get("grounding"),
+                    "retrieval": scores.get("retrieval"),
+                    "usefulness": scores.get("usefulness"),
+                    "style": scores.get("style"),
+                    "judge_note": scores.get("judge_note", ""),
+                    "comments": "",
+                }
+            )
 
             time.sleep(0.1)
 
     # Save CSV
     csv_path = RESULTS_DIR / "evaluation_results.csv"
     csv_fields = [
-        "id", "question", "question_type", "source", "expected_focus",
-        "system", "answer", "correctness", "grounding", "retrieval",
-        "usefulness", "style", "judge_note", "comments",
+        "id",
+        "question",
+        "question_type",
+        "source",
+        "expected_focus",
+        "system",
+        "answer",
+        "correctness",
+        "grounding",
+        "retrieval",
+        "usefulness",
+        "style",
+        "judge_note",
+        "comments",
     ]
     with csv_path.open("w", newline="", encoding="utf-8") as f:
         writer = csv.DictWriter(f, fieldnames=csv_fields)
