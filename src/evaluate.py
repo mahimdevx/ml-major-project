@@ -1,25 +1,3 @@
-"""
-evaluate.py — Automated evaluation for Assignment 2.
-
-WHAT THIS DOES:
-  Runs all 15 evaluation questions through all 3 systems:
-    1. Baseline     — prompt-only, no retrieval
-    2. RAG          — scene-level retrieval + generation
-    3. Enhanced RAG — utterance-level ChromaDB retrieval + generation
-
-  For each answer it optionally runs LLM-as-judge to score automatically.
-
-  Saves results to:
-    results/evaluation_results.csv   — spreadsheet for the report
-    results/evaluation_results.json  — full detail including retrieved chunks
-
-HOW TO RUN:
-  python src/evaluate.py
-
-REQUIREMENTS:
-  pip install sentence-transformers scikit-learn numpy chromadb transformers
-"""
-
 from __future__ import annotations
 
 import csv
@@ -32,20 +10,18 @@ import numpy as np
 from sklearn.metrics.pairwise import cosine_similarity
 from sentence_transformers import SentenceTransformer
 
-# ── Config ────────────────────────────────────────────────────────────────────
 PROJECT_ROOT   = Path(__file__).resolve().parents[1]
 DATA_DIR       = PROJECT_ROOT / "data" / "processed"
 RESULTS_DIR    = PROJECT_ROOT / "results"
 CHROMA_DIR     = PROJECT_ROOT / "data" / "chroma_utterances"
 
 EMBEDDING_MODEL  = "sentence-transformers/all-MiniLM-L6-v2"
-GENERATION_MODEL = "distilgpt2"           # replace with your group's SLM
+GENERATION_MODEL = "gemma3:4b"           
 TOP_K            = 5
-USE_LLM_JUDGE    = True                   # set False to skip auto-scoring
+USE_LLM_JUDGE    = True                  
 
-# ── Evaluation questions ──────────────────────────────────────────────────────
 QUESTIONS = [
-    # 5 Instructor questions
+    
     {
         "id": "Q01",
         "question": "Who is Hamlet?",
@@ -81,7 +57,7 @@ QUESTIONS = [
         "type": "contextual_qa",
         "source": "instructor",
     },
-    # 10 Group-designed questions
+   
     {
         "id": "Q06",
         "question": "What happens to Ophelia in Hamlet?",
@@ -155,48 +131,42 @@ QUESTIONS = [
 ]
 
 
-# ════════════════════════════════════════════════════════════════════════════
 # SYSTEM 1: BASELINE
-# ════════════════════════════════════════════════════════════════════════════
+
+def _generate(prompt: str) -> str:
+    """
+    Generate a response using Gemma 3 4B via Ollama.
+    Make sure Ollama is running before calling evaluate.py:
+      1. ollama serve
+      2. ollama pull gemma3:4b
+    """
+    try:
+        import ollama
+        response = ollama.chat(
+            model=GENERATION_MODEL,
+            messages=[{"role": "user", "content": prompt}],
+            options={"temperature": 0.7, "num_predict": 200},
+        )
+        return response["message"]["content"].strip()
+    except Exception as e:
+        return f"[Generation failed: {e}]"
+
 
 class BaselineSystem:
     """
     Prompt-only system — no retrieval.
-    Asks the language model directly without any Shakespeare context.
+    Asks Gemma 3 4B directly without any Shakespeare context.
     """
 
     def __init__(self):
-        print("  Loading baseline generation model...")
-        try:
-            from transformers import pipeline
-            self.generator = pipeline(
-                "text-generation",
-                model=GENERATION_MODEL,
-                max_new_tokens=150,
-                do_sample=True,
-                temperature=0.7,
-                pad_token_id=50256,
-            )
-            self.available = True
-        except Exception as e:
-            print(f"  [WARNING] Generation model not available: {e}")
-            print("  Baseline will return placeholder responses.")
-            self.available = False
+        print("  Baseline system ready (Gemma 3 4B via Ollama)")
 
     def answer(self, question: str) -> Dict:
         prompt = (
             f"You are a Shakespeare expert. Answer this question clearly "
             f"for a beginner reader.\n\nQuestion: {question}\n\nAnswer:"
         )
-        if self.available:
-            try:
-                output = self.generator(prompt)[0]["generated_text"]
-                answer = output.replace(prompt, "").strip()
-            except Exception:
-                answer = "[Generation failed]"
-        else:
-            answer = "[Baseline model not available — install transformers and distilgpt2]"
-
+        answer = _generate(prompt)
         return {
             "system": "baseline",
             "question": question,
@@ -206,9 +176,7 @@ class BaselineSystem:
         }
 
 
-# ════════════════════════════════════════════════════════════════════════════
 # SYSTEM 2: RAG (scene-level, numpy)
-# ════════════════════════════════════════════════════════════════════════════
 
 class RAGSystem:
     """
@@ -239,21 +207,6 @@ class RAGSystem:
 
         print(f"  Scene index loaded: {len(self.chunks)} chunks")
 
-        # Generation model
-        try:
-            from transformers import pipeline
-            self.generator = pipeline(
-                "text-generation",
-                model=GENERATION_MODEL,
-                max_new_tokens=150,
-                do_sample=True,
-                temperature=0.7,
-                pad_token_id=50256,
-            )
-            self.gen_available = True
-        except Exception:
-            self.gen_available = False
-
     def retrieve(self, query: str, top_k: int = TOP_K) -> List[Dict]:
         query_vec = self.model.encode([query])
         scores    = cosine_similarity(query_vec, self.embeddings)[0]
@@ -279,15 +232,7 @@ class RAGSystem:
     def answer(self, question: str) -> Dict:
         retrieved = self.retrieve(question)
         prompt    = self.build_prompt(question, retrieved)
-
-        if self.gen_available:
-            try:
-                output = self.generator(prompt)[0]["generated_text"]
-                answer = output.replace(prompt, "").strip()
-            except Exception:
-                answer = "[Generation failed]"
-        else:
-            answer = "[Generation model not available]"
+        answer    = _generate(prompt)
 
         return {
             "system": "rag_scene",
@@ -307,9 +252,7 @@ class RAGSystem:
         }
 
 
-# ════════════════════════════════════════════════════════════════════════════
-# SYSTEM 3: ENHANCED RAG (utterance-level, ChromaDB)
-# ════════════════════════════════════════════════════════════════════════════
+# SYSTEM 3: ENHANCED RAG 
 
 class EnhancedRAGSystem:
     """
@@ -333,20 +276,7 @@ class EnhancedRAGSystem:
             print("  Run build_utterance_chroma.py first.")
             self.available = False
 
-        # Generation model
-        try:
-            from transformers import pipeline
-            self.generator = pipeline(
-                "text-generation",
-                model=GENERATION_MODEL,
-                max_new_tokens=150,
-                do_sample=True,
-                temperature=0.7,
-                pad_token_id=50256,
-            )
-            self.gen_available = True
-        except Exception:
-            self.gen_available = False
+        print("  Enhanced RAG ready (Gemma 3 4B via Ollama)")
 
     def retrieve(self, query: str, top_k: int = TOP_K) -> List[Dict]:
         if not self.available:
@@ -387,17 +317,10 @@ class EnhancedRAGSystem:
     def answer(self, question: str) -> Dict:
         retrieved = self.retrieve(question)
         prompt    = self.build_prompt(question, retrieved)
-
-        if self.gen_available and retrieved:
-            try:
-                output = self.generator(prompt)[0]["generated_text"]
-                answer = output.replace(prompt, "").strip()
-            except Exception:
-                answer = "[Generation failed]"
-        elif not retrieved:
+        if not retrieved:
             answer = "[No chunks retrieved — ChromaDB not available]"
         else:
-            answer = "[Generation model not available]"
+            answer = _generate(prompt)
 
         return {
             "system": "enhanced_rag_utterance",
@@ -418,38 +341,12 @@ class EnhancedRAGSystem:
         }
 
 
-# ════════════════════════════════════════════════════════════════════════════
-# LLM-AS-JUDGE
-# ════════════════════════════════════════════════════════════════════════════
+# LLM JUDGE
 
 class LLMJudge:
-    """
-    Uses a language model to automatically score each answer on 4 criteria.
-
-    WHY LLM-AS-JUDGE:
-    - Faster than manual scoring across 45 answers (15 questions x 3 systems)
-    - Consistent scoring criteria applied uniformly
-    - Still requires human review — treat as a first pass, not final scores
-
-    LIMITATION:
-    - Small model (distilgpt2) may not judge accurately
-    - Use a larger model (GPT-4, Claude) for more reliable scores
-    - Always verify auto-scores manually before including in report
-    """
 
     def __init__(self):
-        try:
-            from transformers import pipeline
-            self.judge = pipeline(
-                "text-generation",
-                model=GENERATION_MODEL,
-                max_new_tokens=60,
-                do_sample=False,
-                pad_token_id=50256,
-            )
-            self.available = True
-        except Exception:
-            self.available = False
+        self.available = True  # uses _generate() via Ollama
 
     def score(self, question: str, expected_focus: str,
               answer: str, retrieved_chunks: List) -> Dict:
@@ -476,10 +373,8 @@ class LLMJudge:
         )
 
         try:
-            output = self.judge(prompt)[0]["generated_text"]
-            raw    = output.replace(prompt, "").strip()
-            # Extract first digit found
-            score  = next((int(c) for c in raw if c.isdigit() and c in "12345"), 3)
+            raw   = _generate(prompt)
+            score = next((int(c) for c in raw if c.isdigit() and c in "12345"), 3)
         except Exception:
             score = None
 
@@ -493,9 +388,7 @@ class LLMJudge:
         }
 
 
-# ════════════════════════════════════════════════════════════════════════════
 # EVALUATION RUNNER
-# ════════════════════════════════════════════════════════════════════════════
 
 def run_evaluation() -> None:
     print("=" * 60)
@@ -504,7 +397,7 @@ def run_evaluation() -> None:
 
     RESULTS_DIR.mkdir(parents=True, exist_ok=True)
 
-    # Load systems
+    
     print("\nLoading systems...")
     print("  [1/3] Baseline...")
     baseline = BaselineSystem()
@@ -574,7 +467,6 @@ def run_evaluation() -> None:
 
             time.sleep(0.1)
 
-    # Save CSV
     csv_path = RESULTS_DIR / "evaluation_results.csv"
     csv_fields = [
         "id", "question", "question_type", "source", "expected_focus",
@@ -589,13 +481,11 @@ def run_evaluation() -> None:
             writer.writerow(row)
     print(f"\nSaved CSV  → {csv_path}")
 
-    # Save JSON (includes full retrieved chunks)
     json_path = RESULTS_DIR / "evaluation_results.json"
     with json_path.open("w", encoding="utf-8") as f:
         json.dump(all_results, f, indent=2, ensure_ascii=False)
     print(f"Saved JSON → {json_path}")
 
-    # Print summary
     print("\n" + "=" * 60)
     print("SUMMARY")
     print("=" * 60)
@@ -613,8 +503,6 @@ def run_evaluation() -> None:
 
     print(f"\nResults saved to {RESULTS_DIR.resolve()}")
     print("Open evaluation_results.csv in Excel to review and fill in manual scores.")
-    print("\nNOTE: Auto-scores from LLM judge are a starting point only.")
-    print("      Always verify and adjust manually before including in report.")
 
 
 if __name__ == "__main__":
