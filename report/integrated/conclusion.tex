@@ -1,0 +1,43 @@
+% ===============================================================
+% Section VIII  --  Conclusion
+% Owner: Integration and Reporting Lead
+% ===============================================================
+\section{Conclusion}
+\label{sec:conclusion}
+
+This project set out to adapt a small, locally-hosted language model to a
+bounded domain, three Shakespeare plays, for a user with no prior
+exposure to the texts. We met the assignment's core objectives: a
+structured corpus prepared at two granularities and enriched with
+modern-English metadata; a mandatory RAG pipeline in which retrieved
+evidence is demonstrably used and always displayed; four interaction
+modes including a clearly-labelled stylised mode; a baseline-versus-RAG
+comparison; and a structured evaluation with explicit failure analysis.
+The system runs on a standard laptop with cached indices and no GPU,
+satisfying the compute and deployability constraints.
+
+The evaluation revealed a clean separation between the two halves of the
+pipeline. Retrieval is the system's strength: across both scene- and
+utterance-level indices the right passages were consistently surfaced,
+and because retrieval is independent of the generation model, this result
+carries over to the deployed Gemma-based system. Generation was the
+limiting factor in the batch evaluation, where a lightweight stand-in
+generator failed to ground its answers in evidence it had been given.
+
+The most important design choices were therefore about retrieval and
+honesty of comparison: enriching short archaic utterances with
+modern-English context so they embed meaningfully, keeping the baseline
+prompt-only so the contribution of retrieval was measurable, and always
+showing evidence so a beginner could verify every claim. The clearest
+lesson is that retrieval quality and generation quality must be evaluated
+and improved separately; strong retrieval is wasted on a weak generator.
+
+With more time, the priority is to re-run the evaluation harness against
+the deployed Gemma~3~4B model so the strong retrieval scores are matched
+by coherent answers, and to replace the scene-level diversity cap with a
+minimum-coverage rule that guarantees act-level breadth without discarding
+the most relevant passages on focused questions. A systematic sweep over
+$k$ and a comparison of embedding models would further strengthen the
+evaluation. None of these change the system's architecture; they tighten
+the alignment between what the system demonstrably does and what the
+evaluation measures, which is the standard this assignment rightly sets.

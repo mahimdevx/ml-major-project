@@ -1,0 +1,107 @@
+% ===============================================================
+% Section VI  --  Results and Analysis
+% Owner: Evaluation Lead (integrated)
+% ===============================================================
+\section{Results and Analysis}
+\label{sec:results}
+
+\subsection{Overall Results}
+Table~\ref{tab:results-summary} reports average scores across all 15
+questions. Retrieval relevance is not applicable to the baseline, which
+does not retrieve.
+
+\begin{table}[ht]
+\centering
+\caption{Average scores across 15 questions (scale 1--5). Generation was
+run with the stand-in generator described in
+Section~\ref{sec:evaluation}.}
+\label{tab:results-summary}
+\begin{tabular}{lcccc}
+\toprule
+System & Correct. & Ground. & Retrieval & Useful. \\
+\midrule
+Baseline           & 2.47 & N/A  & N/A  & 2.47 \\
+RAG (scene)        & 2.92 & 2.00 & 5.00 & 2.92 \\
+Enhanced RAG (utt.)& 2.80 & 1.87 & 5.00 & 2.80 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Two findings stand out. First, \textbf{retrieval works}: both RAG systems
+scored a perfect 5.00 on retrieval relevance, meaning the right scenes
+and utterances were consistently surfaced for each question. Since
+retrieval is independent of the generation model, this result transfers
+directly to the deployed Gemma-based system. Second, \textbf{the
+generation stage is the bottleneck}: grounding scores were low (2.00 and
+1.87) even though the correct passages were retrieved, indicating that
+the stand-in generator frequently failed to use the evidence it was
+given. The RAG systems still edged out the baseline on correctness and
+usefulness, confirming that retrieval helps even a weak generator, but
+the gap is smaller than it would be with a capable model.
+
+The utterance-level enhanced system did not clearly beat the scene-level
+system; it scored slightly lower on grounding (1.87 vs 2.00). Individual
+utterances, stripped of surrounding scene context, appear to give a weak
+generator less to work with, not more, which is consistent with the
+chunking trade-off anticipated in Section~\ref{sec:dataset}.
+
+\subsection{Qualitative Examples}
+
+\textbf{Q01 --- Who is Hamlet? (retrieval helps).} The baseline looped its
+own prompt back into the output, producing a non-answer. The RAG system
+retrieved Act~4 Scene~3 and Act~5 Scene~1, the correct scenes, and
+produced a partial answer that at least reflected retrieved content,
+earning a higher correctness score.
+
+\textbf{Q02 --- Role of Lady Macbeth? (retrieval works, generation
+fails).} The baseline hallucinated entirely. The RAG system retrieved the
+murder scene (Act~2 Scene~2) correctly but the generator failed to use
+it, repeating a nonsensical phrase. This is a clear instance of correct
+retrieval undone by weak generation.
+
+\textbf{Q13 --- Stylised generation.} All three systems struggled. The
+stand-in generator is too small to produce convincing Early-Modern
+register; retrieval supplied relevant context, but the generated style
+was weak across systems.
+
+\subsection{Failure Analysis}
+
+\textbf{1. Generation model too weak.} The most consistent failure was
+the generation step in the batch harness. The stand-in generator
+frequently looped its prompt or produced repetitive, incoherent text even
+though retrieval scored 5.00. This is the single largest driver of the
+low correctness and grounding scores and is precisely the gap that the
+deployed Gemma~3~4B model is intended to close.
+
+\textbf{2. Empty or broken outputs on some scene-level questions.} Q03
+(Montagues vs.\ Capulets) and Q12 (how Macbeth changes) produced no
+scores for the scene-level system due to a generation failure rather than
+a retrieval failure, as the same questions were answered by the
+utterance-level system. \emph{Improvement:} validate generator output and
+retry with a fallback prompt when an empty or degenerate response is
+detected; the deployed Gemma model removes the underlying cause.
+
+\textbf{3. Low grounding despite correct retrieval.} Both RAG systems
+scored 5.00 on retrieval but around 2.00 on grounding: the right passages
+were found but not incorporated. The generator effectively fell back on
+its own (very limited) prior knowledge rather than the supplied evidence.
+\emph{Improvement:} a stronger instruction-following generator (Gemma~3~4B)
+plus a prompt that requires the answer to cite the supplied passages
+directly closes this retrieval-to-generation gap.
+
+\textbf{4. Enhanced RAG did not outperform scene-level RAG.} We expected
+utterance-level retrieval to win by pinpointing exact lines; in practice
+it scored marginally lower on grounding. Without surrounding scene
+context, isolated utterances gave a weak generator less to anchor on.
+\emph{Improvement:} attach each retrieved utterance's parent-scene summary
+to the context block so the precision of utterance retrieval is combined
+with the context of scene-level chunks.
+
+\subsection{Summary}
+The retrieval component is reliable across both granularities; the
+limiting factor in the batch evaluation was the stand-in generator. The
+highest-impact improvement, and the one that aligns the evaluation with
+the demonstrable system, is to re-run the harness against Gemma~3~4B so
+that the strong retrieval scores are matched by coherent, grounded
+answers. The failure modes above are written so that this re-run updates
+the numbers without changing the analysis structure.

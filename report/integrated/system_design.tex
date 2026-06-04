@@ -1,0 +1,139 @@
+% ===============================================================
+% Section IV  --  System Design and Implementation
+% Owner: Integration and Reporting Lead (interface, repository,
+%        run procedure) with Model Lead implementation detail.
+% ===============================================================
+\section{System Design and Implementation}
+\label{sec:system}
+
+\input{pipeline_diagram}
+
+\subsection{System Pipeline}
+All three systems share the same entry point and generation step but
+differ in how, and whether, they retrieve evidence before passing
+anything to the language model. Figure~\ref{fig:pipeline} shows the full
+pipeline. End to end, a request flows through seven stages:
+
+\begin{enumerate}
+  \item \textbf{User query.} The user enters a natural-language question
+  through \texttt{src/main.py} after selecting a system and mode.
+  \item \textbf{Query embedding.} The question is encoded into a
+  384-dimensional vector with \texttt{all-MiniLM-L6-v2} (skipped by the
+  baseline).
+  \item \textbf{Retrieval.} The vector queries the
+  \texttt{shakespeare\_utterances} ChromaDB collection by cosine
+  similarity, returning candidate utterances with full metadata.
+  \item \textbf{Prompt construction.} The retrieved passages are formatted
+  into a structured context block and inserted into the prompt template
+  selected by the interaction mode.
+  \item \textbf{Response generation.} Gemma~3~4B generates the answer
+  conditioned on the constructed prompt (skipped in \texttt{evidence}
+  mode).
+  \item \textbf{Evidence display.} The retrieved passages are printed
+  \emph{before} the answer with play, act, scene, and speaker, and
+  stylised answers are tagged as creative.
+  \item \textbf{Logging / evaluation output.} In interactive use the
+  labelled answer and evidence are shown to the user; in batch evaluation
+  the same pipeline is driven by \texttt{evaluate.py}, which records each
+  question, retrieved evidence, response, and score to
+  \texttt{results/evaluation\_results.csv} and \texttt{.json}.
+\end{enumerate}
+
+The three systems differ only in stages 2--3 (retrieval), as follows.
+
+\textbf{Baseline.} The query is formatted into a prompt and sent directly
+to Gemma~3~4B via Ollama, with no retrieval. As explained in
+Section~\ref{sec:methodology}, this is a controlled comparison point
+rather than a performant system.
+
+\textbf{Standard RAG.} The query is embedded into a 384-dimensional vector
+and used to search the \texttt{shakespeare\_utterances} ChromaDB
+collection by cosine similarity, returning the top-$k$ utterances with
+full metadata. Those passages are formatted into a structured context
+block and injected into the prompt template chosen by the interaction
+mode. Retrieved passages are always displayed before the answer.
+
+\textbf{Reranked RAG.} Embedding and search proceed as above, but $3k$
+candidates are retrieved in the first stage, rescored by the
+cross-encoder, re-sorted, and filtered by the scene-level diversity
+constraint before the final top-$k$ pass to generation.
+
+\subsection{User Interface}
+Although the specification states that a command-line interaction is
+sufficient and a full graphical interface is not required, usability is
+assessed, so the interface was designed to make the system's behaviour
+legible to a first-time user and reproducible for an examiner. A single
+entry point, \texttt{src/main.py}, drives the whole system through a
+short sequence of numbered prompts:
+
+\begin{enumerate}
+  \item \textbf{System selection.} The user picks one of three systems,
+  baseline, standard RAG, or reranked RAG, with standard RAG as the
+  default. This makes the baseline-versus-RAG comparison a single
+  keystroke during a demonstration.
+  \item \textbf{Mode selection.} For the RAG systems the user chooses one
+  of four interaction modes by number (\,1~=~question answering,
+  2~=~concept explanation, 3~=~evidence only, 4~=~stylised\,). Numbered
+  selection removes the risk of free-text input errors.
+  \item \textbf{Retrieval depth.} The user sets $k$, the number of
+  passages to retrieve, defaulting to the well-tested value of 5; the
+  input is validated and capped at the collection size so an out-of-range
+  value cannot crash retrieval.
+  \item \textbf{Query.} The user enters a question and the session
+  continues until they choose to quit.
+\end{enumerate}
+
+Two interface decisions follow directly from the assignment's
+beginner-user and transparency requirements. First, \emph{evidence is
+always shown before the answer}, regardless of mode, so the user can see
+exactly which passages, with play, act, scene, and speaker, informed the
+response. Second, \emph{stylised output is always tagged}
+\texttt{[Stylised response --- creative, not factual]}, so a beginner is
+never led to treat an invented line as a quotation. The interface also
+fails gracefully: if Ollama or the ChromaDB index is unavailable it
+reports the specific missing dependency rather than aborting with a stack
+trace, and a scripted demonstration mode replays a fixed set of
+instructor questions for reproducible marking.
+
+\subsection{Implementation Details}
+The system is implemented in Python across three pipeline scripts:
+\texttt{baseline.py} (no retrieval), \texttt{rag\_chatbot.py} (standard
+RAG), and \texttt{rag\_chatbot\_reranked.py} (reranked RAG), behind the
+shared \texttt{main.py} entry point. A thin retrieval adapter,
+\texttt{real\_retriever.py}, isolates the ChromaDB interface so the
+pipeline code is independent of the storage backend. Prompt templates
+live as plain-text files under \texttt{prompts/} and are loaded at
+runtime, keeping prompt design decoupled from logic. Core dependencies
+are \texttt{ollama} for local inference,
+\texttt{sentence-transformers} for query embedding and cross-encoder
+reranking, \texttt{chromadb} for vector search, and \texttt{torch} as the
+runtime.
+
+The repository follows the structure recommended in the specification:
+raw and processed data under \texttt{data/}, the pre-built ChromaDB
+collection under \texttt{data/chroma\_utterances/}, source scripts under
+\texttt{src/}, prompt templates under \texttt{prompts/}, evaluation output
+under \texttt{results/}, and the report under \texttt{report/}. A
+top-level \texttt{README} documents the layout, setup, and run steps, and
+a separate demonstration guide lists the exact commands and example
+queries used for marking.
+
+The ChromaDB index is built once and persisted to disk, so no index
+construction is needed at assessment time; all three systems load it at
+startup and the only per-query computation is embedding the question.
+Running the system takes three steps:
+
+\begin{enumerate}
+  \item \texttt{pip install -r requirements.txt}
+  \item \texttt{ollama pull gemma3:4b}
+  \item \texttt{python src/main.py}
+\end{enumerate}
+
+The system runs entirely on a standard laptop without a GPU. Gemma~3~4B
+loads into roughly 2.5\,GB of RAM under Q4\_K\_M quantisation, and
+generation typically takes 15--20 seconds per response on CPU, which is
+acceptable for a coursework demonstration; the cross-encoder reranker
+adds noticeable latency in the enhanced pipeline. A known limitation is
+that the scene-level diversity constraint is implemented as a maximum cap
+rather than a minimum-coverage guarantee, which can reduce retrieval
+quality on focused single-scene questions.

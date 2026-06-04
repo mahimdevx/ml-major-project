@@ -1,0 +1,114 @@
+% ===============================================================
+% config.tex  --  Shared preamble for the Assignment 2 report.
+% IEEE-style two-column layout reproduced on the article class so
+% the report compiles in any standard TeX installation without the
+% IEEEtran class. \documentclass is declared in main.tex.
+% ===============================================================
+
+% ---------------------------------------------------------------
+% Packages
+% ---------------------------------------------------------------
+\usepackage[a4paper, top=20mm, bottom=25mm, left=15mm, right=15mm]{geometry}
+\usepackage{times}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath, amssymb}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{multirow}
+\usepackage{float}
+\usepackage{longtable}
+\usepackage{url}
+\usepackage{microtype}
+\usepackage{caption}
+\usepackage{enumitem}
+\usepackage{fancyhdr}
+\usepackage{listings}
+\usepackage{pgfgantt}
+\usepackage{tikz}
+\usepackage{xcolor}
+\usepackage{titlesec}
+\usepackage{cite}
+\usepackage{hyperref}
+\usepackage{xurl}
+\usetikzlibrary{shapes.geometric, arrows.meta, positioning}
+
+% ---------------------------------------------------------------
+% IEEE-style section headings
+% ---------------------------------------------------------------
+\titleformat{\section}
+  {\normalsize\bfseries\centering}
+  {\Roman{section}.}{0.5em}{}
+
+\titleformat{\subsection}
+  {\normalsize\itshape}
+  {\Alph{subsection}.}{0.5em}{}
+
+\titleformat{\subsubsection}
+  {\normalsize\itshape}
+  {\arabic{subsubsection})}{0.5em}{}
+
+\titlespacing*{\section}{0pt}{8pt}{2pt}
+\titlespacing*{\subsection}{0pt}{4pt}{2pt}
+\titlespacing*{\subsubsection}{0pt}{4pt}{2pt}
+
+% ---------------------------------------------------------------
+% Paragraphs
+% ---------------------------------------------------------------
+\setlength{\parskip}{4pt}
+\setlength{\parindent}{1em}
+
+% ---------------------------------------------------------------
+% Consistent list spacing
+% ---------------------------------------------------------------
+\setlist{topsep=2pt, partopsep=0pt, itemsep=4pt, parsep=2pt, leftmargin=1.4em}
+
+% ---------------------------------------------------------------
+% Float (table/figure) spacing
+% ---------------------------------------------------------------
+\setlength{\textfloatsep}{8pt}
+\setlength{\floatsep}{8pt}
+\setlength{\intextsep}{8pt}
+\setlength{\abovecaptionskip}{4pt}
+\setlength{\belowcaptionskip}{0pt}
+
+% ---------------------------------------------------------------
+% Uniform spacing before a labelled stand-alone paragraph
+% ---------------------------------------------------------------
+\newcommand{\blockskip}{\vspace{2pt}}
+
+% ---------------------------------------------------------------
+% Hyperref colours
+% ---------------------------------------------------------------
+\hypersetup{colorlinks=true, linkcolor=black, citecolor=black, urlcolor=blue}
+
+% ---------------------------------------------------------------
+% Caption style
+% ---------------------------------------------------------------
+\captionsetup{font=small, labelfont=bf}
+
+% ---------------------------------------------------------------
+% Column separation
+% ---------------------------------------------------------------
+\setlength{\columnsep}{5mm}
+
+% ---------------------------------------------------------------
+% Listings (code) style -- safe, no shell-escape required
+% ---------------------------------------------------------------
+\lstset{
+  basicstyle=\footnotesize\ttfamily,
+  breaklines=true,
+  frame=single,
+  xleftmargin=4pt,
+  xrightmargin=4pt,
+  aboveskip=4pt,
+  belowskip=4pt,
+  columns=fullflexible,
+  keepspaces=true
+}
+
+% ---------------------------------------------------------------
+% IEEE-style author block helpers (article-class substitutes)
+% ---------------------------------------------------------------
+\newcommand{\groupline}[1]{{\large #1}\par\vspace{2pt}}

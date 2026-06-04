@@ -1,0 +1,47 @@
+% ===============================================================
+% Section VII  --  Responsible Use of Generative AI
+% Owner: Integration and Reporting Lead (consolidated from all members)
+% ===============================================================
+\section{Responsible Use of Generative AI}
+\label{sec:genai}
+
+Generative AI (Claude, Anthropic) was used by the group as a reasoning
+and consultation tool at decision points, not as a source of finished
+solutions. The pattern across all four roles was the same: use the tool
+to explore options and surface trade-offs, then verify every adopted
+decision against our own data and requirements before committing it.
+
+\textbf{What it was used for.} The data engineering work used it to
+weigh scene- versus utterance-level chunking, to reason about text
+enrichment and the 512-token limit, and to compare vector-index options.
+The model and RAG work used it to compare candidate small models against
+our 8\,GB RAM constraint, to understand the bi-encoder/cross-encoder
+distinction that motivated reranking, and to reason about retrieval depth
+($k$) and how embeddings handle archaic text. The evaluation work used it
+to shape the scoring rubric, to design question types covering expected
+failure modes, and to reason about the LLM-as-judge approach. The
+integration work used it to check report structure and clarity against
+IEEE conventions.
+
+\textbf{How outputs were verified.} Design claims were tested
+empirically: enrichment was confirmed by comparing retrieval with and
+without prepended metadata on the instructor questions; the choice of $k$
+was confirmed by running queries at $k=3,5,8$ and observing where noise
+crept in; model RAM figures were cross-checked against official Ollama
+and vendor documentation; and the embedding dimension was verified by
+direct inspection. All evaluation scores were taken from the results CSV
+and manually reviewed; automated judge scores were treated only as a
+first pass.
+
+\textbf{What was kept, changed, or rejected.} We adopted overlapping
+chunk splitting after confirming it prevented silent truncation, and
+adopted reranking after observing it surfaced different, more relevant
+passages. An early embedding script built on masked language modelling
+was discarded once we identified it as unsuited to a generative task.
+Suggested report text was rewritten wherever it did not match our actual
+implementation.
+
+\textbf{Ownership.} Every design decision was discussed as a group, and
+no approach was adopted that a member could not explain independently.
+The evaluation questions, rubric, and failure analysis are our own. Full,
+per-member usage logs are provided in Appendix~\ref{app:genai-log}.

@@ -1,0 +1,122 @@
+% ===============================================================
+% Section II  --  Dataset and Preprocessing
+% Owner: Data Engineering Lead (integrated)
+% ===============================================================
+\section{Dataset and Preprocessing}
+\label{sec:dataset}
+
+We used the structured Shakespeare corpus provided for the assignment,
+covering three plays: \emph{Hamlet}, \emph{Macbeth}, and \emph{Romeo and
+Juliet}. The corpus is supplied in two granularities, a scene-level JSONL
+file in which each line is one scene, and an utterance-level JSONL file in
+which each line is a single speaker turn. We prepared both granularities
+because they serve different retrieval needs: scene chunks preserve
+narrative context, while utterances give precise, speaker-attributed
+evidence. No external summaries or glossaries were introduced; all
+enrichment metadata (scene summaries and keywords) was taken directly
+from the provided dataset fields, so the report does not mix primary
+Shakespearean text with outside explanatory material.
+
+Table~\ref{tab:dataset-stats} summarises the corpus after preparation.
+
+\begin{table}[ht]
+\centering
+\caption{Dataset statistics after preprocessing.}
+\label{tab:dataset-stats}
+\begin{tabular}{lccc}
+\toprule
+Play & Scenes & Scene chunks & Utterances \\
+\midrule
+Hamlet           & 20 & 63  & 1{,}147 \\
+Macbeth          & 28 & 88  & 658   \\
+Romeo and Juliet & 25 & 78  & 817   \\
+\midrule
+\textbf{Total}   & \textbf{73} & \textbf{229} & \textbf{2{,}622} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The raw utterance files contained 3{,}613 records. Removing 991 stage
+direction records (those whose \texttt{speaker} field was
+\texttt{STAGE\_DIRECTION}) left 2{,}622 spoken utterances. Stage
+directions describe physical action rather than dialogue and add noise to
+retrieval, so they were excluded.
+
+\subsection{Dataset Schema}
+Each processed record follows the structure below, matching the format
+recommended in the assignment specification:
+
+\begin{lstlisting}
+{
+  "play":          "Macbeth",
+  "act":           2,
+  "scene":         2,
+  "speaker":       null,
+  "text":          "So foul and fair a day...",
+  "source_id":     "macbeth_2_2",
+  "scene_summary": "Macbeth murders Duncan; guilt begins.",
+  "keywords":      ["murder", "guilt", "Duncan"]
+}
+\end{lstlisting}
+
+For scene-level chunks the \texttt{speaker} field is \texttt{null}, since
+a scene is kept whole rather than split by speaker. For utterance-level
+chunks \texttt{speaker} holds the character name and \texttt{text} holds
+only that character's line. The \texttt{source\_id} field lets any
+retrieved chunk be traced back to its exact play, act, and scene.
+
+\subsection{Cleaning and Filtering}
+Three cleaning steps were applied to every record before indexing:
+\begin{enumerate}
+  \item \textbf{Stage-direction removal.} A regular expression stripped
+  bracketed stage directions such as \texttt{[Exit Ghost.]} or
+  \texttt{[Aside]}, and whole utterance records with speaker
+  \texttt{STAGE\_DIRECTION} were dropped.
+  \item \textbf{Whitespace normalisation.} Runs of spaces and newlines
+  were collapsed to a single space, and leading/trailing whitespace was
+  stripped from each text field.
+  \item \textbf{Short-chunk removal.} Scene chunks under 50 characters
+  and utterance chunks under 10 characters after cleaning were dropped,
+  as such fragments carry too little meaning for reliable retrieval.
+\end{enumerate}
+
+\subsection{Chunking Strategy}
+The retrieval unit was chosen separately for each index.
+
+\textbf{Scene-level chunks} form the scene index. Each scene becomes one
+chunk. A single line in isolation rarely makes sense to a beginner, the
+line \emph{``To be or not to be''} says little without knowing who speaks
+it and why, whereas a whole scene supplies enough context for a useful
+answer. The trade-off is that scenes are long and may contain material
+unrelated to a given question. To mitigate this, any scene longer than
+400 words was split into overlapping chunks with a 50-word overlap so the
+embedding model's 512-token limit is never silently exceeded. This
+yielded \textbf{229 scene-level chunks}.
+
+\textbf{Utterance-level chunks} form the utterance index. Each speaker
+turn becomes its own chunk, giving precise retrieval and exact
+attribution of who said what, in which scene. The trade-off is the loss
+of surrounding context that scenes provide. The \textbf{2{,}622}
+utterance chunks were stored in a ChromaDB vector collection, which also
+supports filtering by play, act, scene, or speaker.
+
+\textbf{Text enrichment.} For both granularities, the
+\texttt{scene\_summary} and \texttt{keywords} were prepended to the chunk
+text before embedding, so that retrieval operates on meaning rather than
+surface word overlap. An enriched chunk looks like:
+
+\begin{lstlisting}
+[Scene: Guards and Horatio see the ghost
+ and tell Hamlet.]
+[Keywords: ghost, Horatio]
+BERNARDO. Who's there? FRANCISCO. Nay,
+ answer me...
+\end{lstlisting}
+
+This lets a question such as \emph{``Why does the ghost appear?''} match
+the right scene even when the word \emph{appear} never occurs in the
+dialogue. For utterance chunks the speaker name was also prepended so the
+system can distinguish between characters. The chunking trade-off, short
+units that are precise but context-poor versus long units that are
+context-rich but less specific, is examined empirically in
+Section~\ref{sec:results}.

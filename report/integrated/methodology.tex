@@ -1,0 +1,151 @@
+% ===============================================================
+% Section III  --  Methodology
+% Owner: Model Development Lead (integrated)
+% ===============================================================
+\section{Methodology}
+\label{sec:methodology}
+
+This project adapts Gemma~3~4B, a pretrained small language model running
+locally via Ollama, for Shakespeare question answering using
+retrieval-augmented generation (RAG) as the primary adaptation strategy.
+Rather than modifying the model's weights, the system conditions
+responses on passages retrieved from the Shakespeare corpus at query
+time. Three systems were implemented and compared: a prompt-only baseline
+that relies solely on the model's pretrained knowledge; a standard RAG
+system that retrieves relevant utterances from an indexed corpus before
+generating; and an enhanced RAG system that extends retrieval with
+cross-encoder reranking and scene-level diversity filtering. All three
+share the same language model and hardware, isolating retrieval and
+reranking as the variables under study.
+
+\subsection{Baseline System}
+The baseline performs no retrieval. A user question is formatted with a
+prompt template and sent directly to Gemma~3~4B, which answers solely
+from its pretrained weights with no access to the corpus, retrieved
+passages, or metadata. This is a prompt-only baseline rather than a
+retrieval-only one, a deliberate choice: a no-retrieval baseline produces
+a clean separation between the two systems, so that the contribution of
+retrieval is directly measurable. When the model lacks retrieved context,
+failures such as hallucination, vagueness, and unsupported claims become
+visible and attributable to the \emph{absence} of retrieval rather than
+to poor retrieval quality. Because the baseline uses the same model,
+hardware, and prompt structure as the improved system, any difference in
+output quality is attributable to retrieval, not to model capability.
+
+\subsection{RAG-Based System}
+
+\subsubsection{Standard RAG}
+The improved system retrieves from the
+\texttt{shakespeare\_utterances} ChromaDB collection built by the data
+pipeline. Each utterance was indexed using an enriched embedding string
+combining speaker, utterance text, scene summary, and keywords, giving
+the embedding model enough semantic context to represent short archaic
+lines meaningfully.
+
+At query time the user's question is embedded with
+\texttt{sentence-transformers/all-MiniLM-L6-v2}, which maps text into a
+384-dimensional vector space, and compared against the indexed utterance
+vectors via ChromaDB's approximate nearest-neighbour search. Because the
+embedding model was trained on large modern-English corpora, it captures
+semantic proximity between contemporary query language and archaic
+phrasing: a query such as \emph{``Why does Macbeth kill Duncan?''} can
+surface relevant passages even when the words \emph{kill} or \emph{Duncan}
+do not appear in them, because terms like \emph{kill}, \emph{murder}, and
+\emph{do the deed} occupy nearby regions of the space regardless of how
+they are written. The enriched embedding strings, with modern-English
+scene summaries and keywords alongside the archaic text, further bridge
+this vocabulary gap. The top-$k$ results are returned with full metadata
+(play, act, scene, speaker, scene summary), and retrieved passages are
+always displayed to the user before the generated answer, in every mode,
+guaranteeing transparency about the context the model was given.
+
+The system supports four interaction modes. In \texttt{qa} and
+\texttt{concept} modes, retrieved utterances are formatted into a
+structured context block, with provenance labels and scene context, and
+injected into a prompt template alongside the question. In
+\texttt{evidence} mode, generation is skipped and only retrieved passages
+are shown. In \texttt{stylised} mode, a separate template requests a
+Shakespearean-style response limited to 150 words, explicitly labelled as
+creative rather than factual. Prompt templates are external text files,
+decoupling prompt design from pipeline logic.
+
+\subsubsection{Enhanced RAG (Reranking)}
+The enhanced pipeline adds a two-stage retrieve-then-rerank step. In the
+first stage, ChromaDB retrieves a broad set of candidates (15 by default)
+using the bi-encoder, where query and document vectors are computed
+independently and compared by cosine similarity. This is fast but can
+miss fine-grained relevance because the two texts are never compared
+directly. In the second stage, a cross-encoder
+(\texttt{cross-encoder/ms-marco-MiniLM-L-6-v2}) jointly processes each
+query--document pair, attending to interactions between query and
+document terms, and produces more accurate relevance scores at higher
+computational cost, which is why it is applied only to the shortlisted
+candidates. Candidates are re-sorted by cross-encoder score before the
+top-5 are selected for generation.
+
+A scene-level diversity constraint of at most two results per scene is
+applied after reranking. This prevents a single highly relevant scene
+from dominating the context, which matters for multi-act questions such
+as Hamlet's delayed revenge, where evidence spans several scenes. The
+constraint is a known limitation: for focused single-scene questions it
+may discard highly relevant passages in favour of weaker ones elsewhere.
+A minimum-coverage rule, guaranteeing at least one result per act rather
+than capping per scene, is identified as a direction for improvement.
+
+\subsection{Model Choice and Justification}
+Gemma~3~4B was selected as the generation model for both the baseline and
+the improved systems, running locally via Ollama.
+Table~\ref{tab:model_comparison} summarises the candidate models
+considered.
+
+\begin{table}[ht]
+\centering
+\caption{Candidate model comparison. RAM figures from official Ollama
+model pages~\cite{ollama_gemma3,localaimaster_ram}. ``RAG eval genuine''
+reflects whether the model's limited domain knowledge makes retrieval
+genuinely necessary for the comparison.}
+\label{tab:model_comparison}
+\begin{tabular}{llcc}
+\toprule
+\textbf{Model} & \textbf{Type} & \textbf{RAM} & \textbf{RAG eval} \\
+\midrule
+\textbf{Gemma 3 4B} & Local & $\sim$2.5\,GB & 5/5 \\
+Mistral 7B Q4       & Local & $\sim$4.3\,GB & 5/5 \\
+Gemma 4 E4B         & Local & $\sim$8\,GB    & 5/5 \\
+Phi-4 Mini          & Local & $\sim$2.3\,GB & 5/5 \\
+TinyLlama 1.1B      & Local & $\sim$0.7\,GB & 5/5 \\
+Gemini Flash        & API   & 0\,GB         & 1/5 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The deciding hardware constraint was the group's weakest machine at
+8\,GB RAM. At roughly 2.5\,GB under 4-bit
+quantisation~\cite{google_gemma3_qat}, Gemma~3~4B runs comfortably on
+every member's laptop without GPU resources. Mistral~7B~Q4 was eliminated
+despite comparable quality because its 4.3\,GB footprint leaves
+insufficient headroom on 8\,GB systems~\cite{mistral_vram}; Gemma~4~E4B
+sits at the 8\,GB ceiling~\cite{google_gemma4}; Phi-4~Mini fits but is
+optimised for reasoning and STEM rather than stylistic
+generation~\cite{phi4_mini_benchmark}; and TinyLlama~1.1B struggles with
+nuanced synthesis~\cite{tinyllama_eval}.
+
+The choice of a local model over a hosted API was deliberate. Gemma~3~4B
+has limited Shakespeare knowledge, so retrieval quality directly and
+visibly affects answer quality, which makes the baseline-versus-RAG
+comparison meaningful. A powerful hosted model such as Gemini Flash
+already answers many Shakespeare questions correctly without context,
+which would make the comparison inconclusive and undermine the purpose of
+the RAG pipeline.
+
+Fine-tuning was considered and set aside. Adapter methods such as LoRA
+shift the output distribution toward training patterns rather than
+injecting new factual knowledge, so fine-tuning on Shakespeare would
+improve stylistic generation but not factual reliability on plot
+questions; it would also blur the experimental signal, since a fine-tuned
+baseline would differ from the RAG system for reasons unrelated to
+retrieval. Prompt engineering and retrieval are therefore the sole
+adaptation strategies. Gemma~3~4B also follows instructions reliably and
+produces language of sufficient quality for both beginner-friendly
+explanation and stylised generation, making it appropriate for all four
+interaction modes.

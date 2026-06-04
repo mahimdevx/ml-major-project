@@ -1,0 +1,62 @@
+% ===============================================================
+% Section V  --  Evaluation Design
+% Owner: Evaluation Lead (integrated)
+% ===============================================================
+\section{Evaluation Design}
+\label{sec:evaluation}
+
+\subsection{Evaluation Setup}
+We evaluated three systems, the baseline, a scene-level RAG system, and
+an utterance-level RAG system, on a shared set of 15 questions, so that
+the contribution of retrieval, and of finer-grained retrieval, could be
+compared directly. Evaluation was run with \texttt{evaluate.py}, which
+passes every question through all three systems and writes answers and
+scores to \texttt{results/evaluation\_results.csv} and a companion JSON
+file with the full retrieved chunks. An LLM-as-judge component produced
+first-pass scores, which were then reviewed and adjusted manually against
+the actual outputs.
+
+\textbf{Configuration note.} The evaluation reported here isolates the
+two parts of the pipeline separately. \emph{Retrieval} is independent of
+the generation model and is the focus of the retrieval-relevance scores.
+For \emph{generation}, the batch harness was run with a lightweight local
+model (\texttt{distilgpt2}) as a stand-in generator; the deployable,
+demonstrable system described in
+Sections~\ref{sec:methodology}--\ref{sec:system} uses Gemma~3~4B. This
+distinction matters when reading the results: the retrieval findings
+transfer directly to the deployed system, whereas the end-to-end
+generation scores reflect the stand-in generator and therefore lower-bound
+what the deployed model achieves. Re-running the harness against Gemma~3~4B
+is the immediate next step and is discussed in
+Section~\ref{sec:results} and Section~\ref{sec:conclusion}.
+
+\subsection{Evaluation Questions}
+The 15 questions comprise 5 instructor-provided questions and 10
+group-designed questions. The instructor questions are: \emph{Who is
+Hamlet?}; \emph{What is the role of Lady Macbeth?}; \emph{What is the
+conflict between the Montagues and the Capulets?}; \emph{Why does Macbeth
+kill Duncan?}; and \emph{Why does Hamlet delay taking revenge?} The 10
+group-designed questions deliberately span a range of question types,
+concept explanation, multi-scene tracking, beginner explanation,
+cross-character theme, contextual reasoning, and stylised generation, and
+were chosen to probe both parts of the system we expected to work well
+and parts we expected to struggle with, such as questions spanning
+several scenes or requiring metaphorical interpretation. The full set
+appears in Appendix~\ref{app:eval-table}.
+
+\subsection{Scoring Criteria}
+Each answer was scored from 1 to 5 on each applicable criterion:
+\begin{itemize}
+  \item \textbf{Correctness} --- is the answer factually right about the
+  play?
+  \item \textbf{Grounding} --- is it supported by the retrieved passages?
+  (Not applicable to the baseline, which retrieves nothing.)
+  \item \textbf{Retrieval relevance} --- did the system retrieve the
+  right scenes or utterances?
+  \item \textbf{Usefulness} --- would a beginner find the answer helpful?
+  \item \textbf{Style} --- scored only for the stylised question (Q13).
+\end{itemize}
+A score of 1 means the answer was wrong or useless; 3 means partially
+right with clear gaps; 5 means fully correct, well-grounded, and clearly
+useful. The same scale was applied consistently across all questions and
+systems.

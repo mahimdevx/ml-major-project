@@ -1,0 +1,378 @@
+% ===============================================================
+% appendix.tex  --  Appendices (excluded from 10-page main limit)
+% ===============================================================
+\clearpage
+\onecolumn
+\appendix
+\renewcommand{\thesection}{\Alph{section}}
+\titleformat{\section}
+  {\normalsize\bfseries\centering}
+  {Appendix \thesection.}{0.5em}{}
+
+% ---------------------------------------------------------------
+\section{Full Evaluation Results}
+\label{app:eval-table}
+
+\renewcommand{\arraystretch}{1.15}
+\begin{longtable}{@{}p{0.7cm} p{4.3cm} p{2.5cm} c c c c p{4.2cm}@{}}
+\caption{Full evaluation results across all 15 questions and 3 systems.
+Generation in the batch harness used the stand-in generator described in
+Section~\ref{sec:evaluation}; retrieval scores are model-independent.
+Cor.=Correctness, Grd.=Grounding, Ret.=Retrieval relevance,
+Use.=Usefulness. ``--'' = not applicable or generation failed.}
+\label{tab:full-eval}\\
+\toprule
+ID & Question & System & Cor. & Grd. & Ret. & Use. & Notes \\
+\midrule
+\endfirsthead
+\multicolumn{8}{c}{\footnotesize\itshape Table~\ref{tab:full-eval} continued from previous page}\\
+\toprule
+ID & Question & System & Cor. & Grd. & Ret. & Use. & Notes \\
+\midrule
+\endhead
+\midrule \multicolumn{8}{r}{\footnotesize\itshape continued on next page}\\
+\endfoot
+\bottomrule
+\endlastfoot
+Q01 & Who is Hamlet? & Baseline   & 3 & -- & 0 & 3 & Prompt repeated in output \\
+    &                & RAG (scene)& 4 & 3  & 5 & 4 & Best result for this question \\
+    &                & Enh.\ RAG  & 3 & 2  & 5 & 3 & Retrieved correct utterances \\
+\midrule
+Q02 & Role of Lady Macbeth? & Baseline   & 1 & -- & 0 & 1 & Completely hallucinated \\
+    &                       & RAG (scene)& 3 & 2  & 5 & 3 & Retrieved murder scene \\
+    &                       & Enh.\ RAG  & 3 & 2  & 5 & 3 & Similar to scene-level \\
+\midrule
+Q03 & Montagues vs.\ Capulets? & Baseline   & 1 & -- & 0 & 1 & No context available \\
+    &                          & RAG (scene)& -- & -- & -- & -- & Generation failed \\
+    &                          & Enh.\ RAG  & 3 & 2  & 5 & 3 & Utterance retrieval worked \\
+\midrule
+Q04 & Why does Macbeth kill Duncan? & Baseline   & 3 & -- & 0 & 3 & Generic answer \\
+    &                               & RAG (scene)& 3 & 2  & 5 & 3 & Retrieved relevant scenes \\
+    &                               & Enh.\ RAG  & 3 & 2  & 5 & 3 & Similar performance \\
+\midrule
+Q05 & Why does Hamlet delay revenge? & Baseline   & 3 & -- & 0 & 3 & Generic answer \\
+    &                                & RAG (scene)& 3 & 2  & 5 & 3 & Retrieval correct \\
+    &                                & Enh.\ RAG  & 2 & 1  & 5 & 2 & Weaker grounding \\
+\midrule
+Q06 & What happens to Ophelia? & Baseline   & 3 & -- & 0 & 3 & Generic \\
+    &                          & RAG (scene)& 3 & 2  & 5 & 3 & Retrieved Ophelia scenes \\
+    &                          & Enh.\ RAG  & 3 & 2  & 5 & 3 & Similar \\
+\midrule
+Q07 & R\&J relationship development? & Baseline   & 1 & -- & 0 & 1 & Hallucinated \\
+    &                                & RAG (scene)& 3 & 2  & 5 & 3 & Retrieved key scenes \\
+    &                                & Enh.\ RAG  & 3 & 2  & 5 & 3 & Similar \\
+\midrule
+Q08 & ``Wherefore art thou Romeo''? & Baseline   & 1 & -- & 0 & 1 & Missed the meaning \\
+    &                               & RAG (scene)& 3 & 2  & 5 & 3 & Retrieved balcony scene \\
+    &                               & Enh.\ RAG  & 3 & 2  & 5 & 3 & Similar \\
+\midrule
+Q09 & Ambition: Macbeth vs.\ Lady M? & Baseline   & 3 & -- & 0 & 3 & Generic \\
+    &                                & RAG (scene)& 3 & 2  & 5 & 3 & Both characters covered \\
+    &                                & Enh.\ RAG  & 3 & 2  & 5 & 3 & Similar \\
+\midrule
+Q10 & Role of the ghost? & Baseline   & 3 & -- & 0 & 3 & Generic \\
+    &                    & RAG (scene)& 3 & 2  & 5 & 3 & Retrieved ghost scenes \\
+    &                    & Enh.\ RAG  & 1 & 1  & 5 & 1 & Generation failed badly \\
+\midrule
+Q11 & Why does Juliet fake death? & Baseline   & 3 & -- & 0 & 3 & Generic \\
+    &                             & RAG (scene)& 3 & 2  & 5 & 3 & Retrieved relevant scene \\
+    &                             & Enh.\ RAG  & 3 & 2  & 5 & 3 & Similar \\
+\midrule
+Q12 & How does Macbeth change? & Baseline   & 3 & -- & 0 & 3 & Generic \\
+    &                          & RAG (scene)& -- & -- & -- & -- & Generation failed \\
+    &                          & Enh.\ RAG  & 3 & 2  & 5 & 3 & Multi-scene handled \\
+\midrule
+Q13 & Juliet stylised response & Baseline   & 3 & -- & 0 & 3 & No Shakespearean style \\
+    &                          & RAG (scene)& 3 & 2  & 5 & 3 & Retrieved balcony scene \\
+    &                          & Enh.\ RAG  & 3 & 2  & 5 & 3 & Style still weak \\
+\midrule
+Q14 & Significance of three witches? & Baseline   & 3 & -- & 0 & 3 & Generic \\
+    &                                & RAG (scene)& 1 & 1  & 5 & 1 & Generation failed \\
+    &                                & Enh.\ RAG  & 3 & 2  & 5 & 3 & Better than scene-level \\
+\midrule
+Q15 & Who is Mercutio? & Baseline   & 3 & -- & 0 & 3 & Generic \\
+    &                  & RAG (scene)& 3 & 2  & 5 & 3 & Retrieved relevant scene \\
+    &                  & Enh.\ RAG  & 3 & 2  & 5 & 3 & Similar \\
+\end{longtable}
+
+% ---------------------------------------------------------------
+\section{Representative Prompts}
+\label{app:prompts}
+
+\noindent\textbf{RAG system prompt} (\texttt{prompts/system\_prompt.txt}),
+used for \texttt{qa} and \texttt{concept} modes:
+\begin{lstlisting}
+You are a Shakespeare assistant helping a beginner understand the plays
+Hamlet, Macbeth, and Romeo and Juliet. Use the retrieved passages below
+to answer the question. You may reason across multiple passages.
+
+When answering:
+- Explain in plain English a beginner can understand
+- Cite the play, act, and scene you drew from
+- Do not invent details not supported by the passages
+- Keep your answer concise and focused
+
+If the passages are insufficient, say clearly what is missing and suggest
+which play or act might contain the answer.
+
+Retrieved passages:
+{context}
+
+Question: {question}
+Answer:
+\end{lstlisting}
+
+\noindent\textbf{Baseline prompt} (\texttt{prompts/baseline\_prompt.txt}),
+no retrieval:
+\begin{lstlisting}
+You are an assistant who will answer queries related to Shakespeare
+whether or not the user knows about Shakespeare literature.
+
+Answer the following question as best you can. If the question is
+ambiguous, state your interpretation before answering. If unsure, say so
+rather than inventing details.
+
+Question: {question}
+Answer:
+\end{lstlisting}
+
+\noindent\textbf{Stylised prompt} (\texttt{prompts/stylised\_prompt.txt}),
+explicitly creative and capped at 150 words:
+\begin{lstlisting}
+Using the retrieved passages below as inspiration, respond in
+Shakespearean Early Modern English style.
+
+Rules:
+- Use thee, thou, dost, hath, 'tis, wherefore where natural
+- Maximum 150 words
+- This is a creative response, not factual; do not present as evidence
+- Write clearly enough that a beginner can still understand
+- After the stylised response, add one plain-English sentence explaining it
+
+Retrieved passages:
+{context}
+
+Question: {question}
+Response (150 words max):
+\end{lstlisting}
+
+% ---------------------------------------------------------------
+\section{Additional Output Examples}
+\label{app:examples}
+
+These worked examples show, for two instructor questions, the evidence
+retrieved and the response produced by each system. They illustrate the
+report's central finding: retrieval consistently locates the correct
+scene, while the batch harness's stand-in generator
+(Section~\ref{sec:evaluation}) fails to use it. Responses are quoted
+verbatim and truncated; full records are in
+\texttt{results/evaluation\_results.json}.
+
+\noindent\textbf{Q04 --- Why does Macbeth kill Duncan?}
+\begin{itemize}
+  \item \emph{Baseline} (no retrieval): \textit{``Because Duncan was
+  killed in the middle of a fight with Duncan\dots''} --- circular and
+  factually empty; no evidence to draw on.
+  \item \emph{Standard RAG} --- retrieved \emph{Macbeth}, Act~3 Scene~6;
+  response: \textit{``If Duncan were the father of the prince, what would
+  Duncan think?\dots''} --- relevant scene retrieved, but the generator
+  did not ground its answer in it.
+  \item \emph{Enhanced RAG} --- retrieved \emph{Macbeth}, Act~2 Scene~2
+  (Lady Macbeth, the murder scene --- the correct evidence); response:
+  \textit{``In the case of Duncan\dots he is a thief\dots''} --- the most
+  relevant retrieval of the three, undone by generation.
+\end{itemize}
+\emph{Interpretation:} retrieval quality increases from baseline to
+enhanced RAG (the enhanced system finds the actual murder scene), yet
+answer quality does not, isolating generation as the bottleneck.
+
+\noindent\textbf{Q02 --- What is the role of Lady Macbeth?}
+\begin{itemize}
+  \item \emph{Baseline}: \textit{``Lady Macbeth is a poet, poet, singer,
+  dancer, musician\dots''} --- hallucinated, scored 1.
+  \item \emph{Standard RAG} --- retrieved \emph{Macbeth}, Act~3 Scene~2;
+  response: \textit{``Lady Macbeth is a servant, a servant\dots''} ---
+  correct scene, degenerate (looping) generation.
+  \item \emph{Enhanced RAG} --- retrieved a nearby Act~4 scene; response
+  remained incoherent.
+\end{itemize}
+\emph{Interpretation:} a clear case of correct retrieval (the Macbeth
+scenes) wasted by a generator too small to synthesise them --- the
+failure mode the deployed Gemma~3~4B model is chosen to fix.
+
+% ---------------------------------------------------------------
+\section{GenAI Usage Log}
+\label{app:genai-log}
+
+\renewcommand{\arraystretch}{1.25}
+\begin{longtable}{@{}p{3.4cm} p{6.2cm} p{6.2cm}@{}}
+\caption{Consolidated GenAI usage log across all roles. Tool used:
+Claude (Anthropic). Summaries are in our own words.}
+\label{tab:genai-log}\\
+\toprule
+Prompt or task & Useful output & Verification / modification \\
+\midrule
+\endfirsthead
+\multicolumn{3}{c}{\footnotesize\itshape Table~\ref{tab:genai-log} continued}\\
+\toprule
+Prompt or task & Useful output & Verification / modification \\
+\midrule
+\endhead
+\bottomrule
+\endlastfoot
+Compare small models that run locally for a RAG pipeline &
+Comparison of candidate models with parameter count, context window, and
+RAM at 4-bit &
+Cross-checked RAM against the Ollama library; used only to shortlist, not
+copied into the report \\
+Why Gemma~3~4B is suitable for this project &
+Argument that a model with limited Shakespeare knowledge makes the
+RAG-vs-baseline comparison genuine &
+Confirmed by running the model with no context and seeing vague answers;
+basis for the Section~\ref{sec:methodology} justification \\
+Cross-encoder vs.\ bi-encoder: what does reranking improve? &
+Bi-encoder encodes query and document separately; cross-encoder scores
+the pair jointly for finer relevance &
+Confirmed by observing the reranked pipeline surfaced different passages;
+shaped \texttt{rag\_chatbot\_reranked.py} \\
+How to choose retrieval depth $k$ &
+Three-way trade-off of speed, relevance, and noise; suggested $k=5$ and
+retrieve-15-rerank-to-5 &
+Confirmed by running $k=3,5,8$ and seeing noise at $k=8$; kept $k=5$ \\
+How embeddings handle archaic text &
+Related modern and archaic terms occupy nearby regions; enrichment
+bridges the vocabulary gap &
+Confirmed by retrieving relevant passages lacking the query's exact words \\
+Scene- vs.\ utterance-level chunking trade-offs &
+Structured comparison of context preservation vs.\ retrieval noise and
+corpus size &
+Evaluated both against requirements; built both indices and compared
+empirically \\
+Effect of text enrichment on retrieval &
+Prepending summaries and keywords improves query--passage alignment &
+Verified by comparing retrieval with and without enrichment on the
+instructor questions \\
+Handling the 512-token embedding limit &
+Recommended word-level overlap splitting to avoid silent truncation &
+Implemented 400-word chunks with 50-word overlap; verified no truncation \\
+Evaluation design and scoring rubric &
+A 1--5 rubric over correctness, grounding, retrieval, usefulness, style &
+Refined to match the specification; wrote our own 10 questions targeting
+failure modes \\
+LLM-as-judge for first-pass scoring &
+How automated scoring works and where it is unreliable for small models &
+Used as a first pass only; all scores reviewed manually against the CSV \\
+Report structure and IEEE conventions &
+Guidance on section ordering, technical depth, and citation style &
+All content written and verified by us against the implementation \\
+\end{longtable}
+
+% ---------------------------------------------------------------
+\section{Member Contributions}
+\label{app:contributions}
+
+This was a four-person project with the role distribution recommended in
+the specification. All members contributed substantially; the summary
+below gives equal weight to each role.
+
+\renewcommand{\arraystretch}{1.25}
+\begin{longtable}{@{}p{3.6cm} p{12.2cm}@{}}
+\caption{Member roles and contributions.}
+\label{tab:contributions}\\
+\toprule
+Role & Contribution \\
+\midrule
+\endfirsthead
+\toprule
+Role & Contribution \\
+\midrule
+\endhead
+\bottomrule
+\endlastfoot
+\textbf{Data Engineering Lead} &
+Acquired and inspected the provided corpus; performed cleaning
+(stage-direction removal, whitespace normalisation, short-chunk
+filtering); designed the processed record schema; implemented both
+chunking strategies (229 scene-level chunks and 2{,}622 utterance-level
+chunks) with modern-English summary/keyword enrichment; and built the
+retrieval indices. Authored Section~\ref{sec:dataset}. \\
+\textbf{Model Development Lead} &
+Implemented the prompt-only baseline, the standard RAG pipeline, and the
+enhanced reranked pipeline (cross-encoder + scene-level diversity);
+designed the four prompt templates and the four interaction modes;
+conducted the candidate-model comparison and wrote the model
+justification; produced the system pipeline diagram. Authored
+Sections~\ref{sec:methodology} and the implementation detail in
+Section~\ref{sec:system}. \\
+\textbf{Evaluation Lead} &
+Designed the 15-question evaluation set (5 instructor, 10 group-designed)
+and the 1--5 scoring rubric; implemented the automated evaluation harness
+(\texttt{evaluate.py}) with LLM-as-judge first-pass scoring and manual
+review; produced the comparative results, qualitative examples, and
+failure analysis. Authored Sections~\ref{sec:evaluation}
+and~\ref{sec:results}. \\
+\textbf{Integration \& Reporting Lead} &
+Designed and implemented the unified command-line interface
+(\texttt{src/main.py}) with input validation, evidence display, stylised
+labelling, graceful dependency handling, and a scripted demo mode;
+organised the repository and documentation; assembled the four members'
+sections into this single report and resolved cross-section consistency;
+prepared the demonstration guide. Authored the Abstract,
+Section~\ref{sec:intro}, the interface and repository content in
+Section~\ref{sec:system}, Section~\ref{sec:genai},
+Section~\ref{sec:conclusion}, and these appendices. \\
+\end{longtable}
+
+% ---------------------------------------------------------------
+\section{Component Limitations and Integration Findings}
+\label{app:limitations}
+
+The following items were identified while integrating the four components
+into one system and report. They are recorded here for transparency and
+to direct future work; each is framed at the level of the artefact rather
+than the author, and several were already flagged by the responsible
+member.
+
+\begin{enumerate}
+  \item \textbf{Evaluation harness uses a stand-in generator
+  (highest priority).} \texttt{evaluate.py} sets the generation model to
+  \texttt{distilgpt2}, a placeholder, whereas the deployed and demonstrated
+  system uses Gemma~3~4B. Consequently the correctness, grounding, and
+  usefulness figures in Section~\ref{sec:results} and
+  Appendix~\ref{app:eval-table} describe the placeholder, not the deployed
+  model, and under-represent it. Retrieval-relevance scores are
+  model-independent and are unaffected. \emph{Recommended action:} re-run
+  the harness with the same Ollama call used by the interactive system and
+  update the two result tables; the analysis structure is written to
+  accommodate this without rewriting.
+
+  \item \textbf{Two system framings.} The data and evaluation work describe
+  systems as \emph{scene-level RAG} versus \emph{utterance-level enhanced
+  RAG}, while the deployed system is framed as \emph{baseline / standard
+  RAG / reranked RAG}. Both framings are valid, the project genuinely built
+  scene and utterance indices, but a reader benefits from the explicit
+  reconciliation now provided in Sections~\ref{sec:dataset}
+  and~\ref{sec:evaluation}.
+
+  \item \textbf{Generation, not retrieval, is the bottleneck.} Across the
+  evaluation, retrieval relevance scored 5/5 while grounding scored near
+  2/5. This is a genuine and useful finding, but in the current results it
+  is entangled with item~1; separating a weak-placeholder effect from a
+  true retrieval-to-generation gap requires the Gemma re-run.
+
+  \item \textbf{Scene-level diversity cap (self-identified).} The reranked
+  pipeline caps results at two per scene. As the Model Lead notes, on
+  focused single-scene questions this can discard highly relevant passages;
+  a minimum-coverage rule is the suggested replacement.
+
+  \item \textbf{Minor repository cleanliness.} The repository contains a
+  stray empty file (\texttt{results/koko}) that should be removed before
+  submission. The dataset counts were re-verified during integration and
+  reconcile correctly (3{,}613 raw utterances; 991 stage directions
+  removed; 2{,}622 retained, matching the per-play totals).
+\end{enumerate}
+
+The original, unmodified report contributions of each member are retained
+in the repository under \texttt{report/Varshini/}, \texttt{report/bobby/},
+and \texttt{report/moinul/}; this integrated report assembles and
+reconciles that work without altering the source files.

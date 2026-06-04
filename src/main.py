@@ -1,213 +1,205 @@
 # src/main.py
-# Main entry point for the Shakespeare-Aware RAG System.
+# ===============================================================
+# Shakespeare-Aware RAG System -- unified command-line interface.
+# CSCI433/933 Assignment 2.
 #
-# Integration role: this file is the single user-facing entry point.
-# It wires together the three systems implemented by the group
-# (baseline, RAG, RAG+rerank) and the four interaction modes
-# (qa, concept, evidence, stylised) without modifying any of the
-# underlying implementations.
+# This is the single entry point for the whole system. It wraps the
+# three pipelines (baseline / standard RAG / reranked RAG) behind one
+# menu-driven session, validates all input, always shows retrieved
+# evidence before the answer, clearly labels stylised output, and fails
+# gracefully when a dependency (Ollama / ChromaDB) is missing.
 #
-# Two usage modes are supported:
-#   1. Interactive (default):
-#        python src/main.py
-#   2. Non-interactive (useful for the demo and for repeatable runs):
-#        python src/main.py --system rag --mode qa --k 8 --query "Who is Hamlet?"
+#   Run interactively:   python src/main.py
+#   Run the demo script: python src/main.py --demo
 #
-# The script changes the working directory to the project root before
-# importing the team's modules, so relative paths like
-# "prompts/system_prompt.txt" work regardless of where the user runs
-# it from.
+# Run from the project root so that prompt and data paths resolve.
+# ===============================================================
 
-from __future__ import annotations
-
-import argparse
 import os
 import sys
-from pathlib import Path
+
+sys.path.insert(0, os.path.dirname(__file__))
 
 # ---------------------------------------------------------------
-# Path setup -- run from anywhere, behave as if run from project root
+# Static configuration
 # ---------------------------------------------------------------
-SRC_DIR      = Path(__file__).resolve().parent
-PROJECT_ROOT = SRC_DIR.parent
-
-os.chdir(PROJECT_ROOT)
-sys.path.insert(0, str(SRC_DIR))
-
-# ---------------------------------------------------------------
-# Constants
-# ---------------------------------------------------------------
-SYSTEM_LABELS = {
-    "1": ("baseline", "Baseline        (no retrieval, raw LLM)"),
-    "2": ("rag",      "RAG             (utterance-level retrieval)"),
-    "3": ("reranked", "RAG + Reranking (retrieval + cross-encoder reranking)"),
+SYSTEMS = {
+    "1": ("Baseline",        "no retrieval, raw LLM"),
+    "2": ("RAG",             "utterance-level retrieval"),
+    "3": ("RAG + Reranking", "retrieval + cross-encoder reranking"),
 }
 
-MODE_LABELS = {
+MODES = {
     "1": ("qa",       "Question answering"),
     "2": ("concept",  "Character or concept explanation"),
-    "3": ("evidence", "Show source passages only"),
-    "4": ("stylised", "Shakespearean style response"),
+    "3": ("evidence", "Show source passages only (no generation)"),
+    "4": ("stylised", "Shakespearean-style response (creative)"),
 }
 
-VALID_SYSTEMS = {"baseline", "rag", "reranked"}
-VALID_MODES   = {"qa", "concept", "evidence", "stylised"}
+DEFAULT_SYSTEM = "2"
+DEFAULT_MODE = "1"
+DEFAULT_K = 5
+
+# A small, fixed script used by --demo so a marker can reproduce a run
+# without typing. These are the five instructor-provided questions.
+DEMO_QUESTIONS = [
+    ("qa",      "Who is Hamlet?"),
+    ("concept", "What is the role of Lady Macbeth?"),
+    ("qa",      "What is the conflict between the Montagues and the Capulets?"),
+    ("qa",      "Why does Macbeth kill Duncan?"),
+    ("qa",      "Why does Hamlet delay taking revenge?"),
+]
+
 
 # ---------------------------------------------------------------
-# Interactive helpers
+# Presentation helpers
 # ---------------------------------------------------------------
-def prompt_system() -> str:
-    print("\nSystems:")
-    for key, (_, label) in SYSTEM_LABELS.items():
-        print(f"  {key} - {label}")
+def banner():
+    print("\n" + "=" * 60)
+    print("  Shakespeare-Aware RAG System")
+    print("  CSCI433/933 Machine Learning -- Assignment 2")
+    print("=" * 60)
+    print("  Ask about Hamlet, Macbeth, and Romeo and Juliet.")
+    print("  Retrieved evidence is always shown before each answer.")
+    print("  Type 'q' at any question prompt to quit.\n")
+
+
+def rule(title=""):
+    print("\n" + "-" * 60)
+    if title:
+        print(title)
+        print("-" * 60)
+
+
+def choose(prompt, options, default):
+    """Generic validated single-choice selector."""
     print()
-    choice = input("Choose system (1/2/3, default: 2): ").strip() or "2"
-    if choice not in SYSTEM_LABELS:
-        print(f"Invalid choice '{choice}'. Defaulting to RAG.")
-        choice = "2"
-    return SYSTEM_LABELS[choice][0]
+    for key, (name, desc) in options.items():
+        marker = " (default)" if key == default else ""
+        print(f"  {key} - {name:<16}{marker}")
+        print(f"      {desc}")
+    raw = input(f"\n{prompt} (default: {default}): ").strip()
+    if raw == "":
+        return default
+    if raw not in options:
+        print(f"  Invalid choice '{raw}'. Using default ({default}).")
+        return default
+    return raw
 
 
-def prompt_mode() -> str:
-    print("\nModes:")
-    for key, (_, label) in MODE_LABELS.items():
-        print(f"  {key} - {label}")
-    print()
-    choice = input("Select mode (1/2/3/4, default: 1): ").strip() or "1"
-    if choice not in MODE_LABELS:
-        print(f"Invalid choice '{choice}'. Defaulting to question answering.")
-        choice = "1"
-    return MODE_LABELS[choice][0]
-
-
-def prompt_k() -> int:
-    raw = input("Number of passages to retrieve (default: 5): ").strip()
+def select_k():
+    raw = input(f"Passages to retrieve (default: {DEFAULT_K}): ").strip()
     if raw.isdigit() and int(raw) > 0:
         return int(raw)
-    return 5
+    if raw:
+        print(f"  Invalid value '{raw}'. Using default ({DEFAULT_K}).")
+    return DEFAULT_K
 
-
-def prompt_query() -> str:
-    query = input("\nQuestion: ").strip()
-    if not query:
-        print("Empty question. Exiting.")
-        sys.exit(0)
-    return query
 
 # ---------------------------------------------------------------
-# Dispatch
+# Lazy loaders -- only import heavy modules once a system is chosen,
+# and report the specific missing dependency rather than crashing.
 # ---------------------------------------------------------------
-def run_baseline(query: str) -> None:
+def load_baseline():
     try:
         from baseline import answer
+        return answer
     except Exception as e:
-        _fail_with(
-            f"Could not load the baseline module: {e}",
-            hint="Check that Ollama is installed and the model is pulled: "
-                 "`ollama pull gemma3:4b`.",
-        )
-    answer(query)
+        print(f"\n[Baseline unavailable] {e}")
+        print("  Baseline needs Ollama running with 'gemma3:4b' pulled:")
+        print("    ollama pull gemma3:4b")
+        return None
 
 
-def run_rag(query: str, mode: str, k: int) -> None:
+def load_rag(reranked=False):
+    module = "rag_chatbot_reranked" if reranked else "rag_chatbot"
     try:
-        from rag_chatbot import chat
+        mod = __import__(module)
+        return mod.chat
     except Exception as e:
-        _fail_with(
-            f"Could not load the standard RAG module: {e}",
-            hint="Check that the ChromaDB index exists at "
-                 "`data/chroma_utterances/` and Ollama is running.",
-        )
-    chat(query, mode, k)
+        print(f"\n[{module} unavailable] {e}")
+        print("  The RAG systems need:")
+        print("    - the ChromaDB index at data/chroma_utterances/")
+        print("    - Ollama running with 'gemma3:4b' pulled")
+        print("  Run from the project root so data/ resolves correctly.")
+        return None
 
-
-def run_reranked(query: str, mode: str, k: int) -> None:
-    try:
-        from rag_chatbot_reranked import chat
-    except Exception as e:
-        _fail_with(
-            f"Could not load the reranked RAG module: {e}",
-            hint="Check that the ChromaDB index exists at "
-                 "`data/chroma_utterances/`, "
-                 "the cross-encoder model can be downloaded, "
-                 "and Ollama is running.",
-        )
-    chat(query, mode, k)
-
-
-def _fail_with(message: str, hint: str = "") -> None:
-    sys.stderr.write(f"\n[error] {message}\n")
-    if hint:
-        sys.stderr.write(f"[hint]  {hint}\n")
-    sys.exit(1)
 
 # ---------------------------------------------------------------
-# Argument parsing for non-interactive use
+# Session runners
 # ---------------------------------------------------------------
-def parse_args() -> argparse.Namespace:
-    p = argparse.ArgumentParser(
-        prog="shakespeare-rag",
-        description=(
-            "Shakespeare-Aware RAG System (CSCI433/933 Assignment 2). "
-            "Run without arguments for an interactive menu, or pass "
-            "--system / --mode / --query for a non-interactive single run."
-        ),
-    )
-    p.add_argument(
-        "--system",
-        choices=sorted(VALID_SYSTEMS),
-        help="Which system to use. Omit for interactive prompt.",
-    )
-    p.add_argument(
-        "--mode",
-        choices=sorted(VALID_MODES),
-        help="Interaction mode (ignored for baseline). "
-             "Omit for interactive prompt.",
-    )
-    p.add_argument(
-        "--k",
-        type=int,
-        default=None,
-        help="Number of passages to retrieve (RAG systems only, default 5).",
-    )
-    p.add_argument(
-        "--query",
-        type=str,
-        default=None,
-        help="The question to ask. Omit for interactive prompt.",
-    )
-    return p.parse_args()
+def run_baseline_session():
+    answer = load_baseline()
+    if answer is None:
+        return
+    rule("Baseline -- no retrieval (answers from the model alone)")
+    while True:
+        query = input("\nQuestion ('q' to quit): ").strip()
+        if query.lower() in ("q", "quit", "exit"):
+            break
+        if not query:
+            continue
+        answer(query)
+
+
+def run_rag_session(reranked=False):
+    chat = load_rag(reranked=reranked)
+    if chat is None:
+        return
+    label = "RAG + Reranking" if reranked else "RAG"
+    rule(f"{label} -- evidence shown before every answer")
+    while True:
+        mode_key = choose("Select mode", MODES, DEFAULT_MODE)
+        mode = MODES[mode_key][0]
+        k = select_k()
+        query = input("Question ('q' to quit): ").strip()
+        if query.lower() in ("q", "quit", "exit"):
+            break
+        if not query:
+            continue
+        chat(query, mode, k)
+        again = input("\nAnother question? (Y/n): ").strip().lower()
+        if again in ("n", "no", "q"):
+            break
+
+
+def run_demo():
+    """Reproducible scripted run over the five instructor questions
+    through the standard RAG system (k = 5)."""
+    banner()
+    print("DEMO MODE -- standard RAG, k=5, five instructor questions.\n")
+    chat = load_rag(reranked=False)
+    if chat is None:
+        return
+    for i, (mode, question) in enumerate(DEMO_QUESTIONS, 1):
+        rule(f"[{i}/{len(DEMO_QUESTIONS)}] mode={mode} | {question}")
+        chat(question, mode, DEFAULT_K)
+    print("\nDemo complete.\n")
+
 
 # ---------------------------------------------------------------
-# Main
+# Entry point
 # ---------------------------------------------------------------
-def main() -> None:
-    args = parse_args()
-
-    print("\n=== Shakespeare-Aware RAG System ===")
-    print("CSCI433/933 Assignment 2\n")
-
-    # Resolve each parameter: prefer CLI argument, fall back to prompt.
-    system = args.system or prompt_system()
-
-    if system == "baseline":
-        query = args.query or prompt_query()
-        run_baseline(query)
+def main():
+    if "--demo" in sys.argv:
+        run_demo()
         return
 
-    mode  = args.mode  if args.mode  in VALID_MODES else prompt_mode()
-    k     = args.k     if args.k     and args.k > 0 else prompt_k()
-    query = args.query or prompt_query()
+    banner()
+    system_key = choose("Choose system", SYSTEMS, DEFAULT_SYSTEM)
 
-    if system == "reranked":
-        run_reranked(query, mode, k)
+    if system_key == "1":
+        run_baseline_session()
+    elif system_key == "3":
+        run_rag_session(reranked=True)
     else:
-        run_rag(query, mode, k)
+        run_rag_session(reranked=False)
+
+    print("\nGoodbye.\n")
 
 
 if __name__ == "__main__":
     try:
         main()
-    except KeyboardInterrupt:
-        sys.stderr.write("\n[aborted]\n")
-        sys.exit(130)
+    except (KeyboardInterrupt, EOFError):
+        print("\nInterrupted. Goodbye.\n")

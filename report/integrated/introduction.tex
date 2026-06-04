@@ -1,0 +1,73 @@
+% ===============================================================
+% Section I  --  Introduction and Problem Formulation
+% Owner: Integration and Reporting Lead
+% ===============================================================
+\section{Introduction and Problem Formulation}
+\label{sec:intro}
+
+Recent progress in natural language processing has been driven largely
+by very large foundation models. In practice, however, many
+organisations cannot afford, govern, or justify hosting such models for
+narrow, bounded tasks. This has motivated growing interest in
+\emph{small language models} (SLMs): compact, deployable models that can
+be adapted to a specific domain under realistic constraints on cost,
+privacy, latency, and maintainability. The central question this project
+addresses is therefore not how to build the largest possible system, but
+how to make a small, constrained model reliable and useful on a
+well-defined domain task.
+
+\subsection{The Task}
+We build a Shakespeare-aware language system that lets a user with little
+or no prior exposure to Shakespeare interrogate three plays,
+\emph{Hamlet}, \emph{Macbeth}, and \emph{Romeo and Juliet}, and receive
+explanations that are accurate, beginner-friendly, and traceable to the
+source text. Concretely, the system must support four capabilities:
+explain characters, events, and themes; answer contextual questions
+about motivations and events; retrieve and display the source passages
+that support each answer; and produce short, clearly-labelled responses
+in a Shakespearean style without presenting them as fact.
+
+\subsection{Why This Is a Domain Adaptation Problem}
+Shakespearean English departs sharply from contemporary English in
+vocabulary, syntax, idiom, and cultural reference. A pretrained model
+that is fluent in modern English does not, by default, map a plain
+modern question onto the archaic language that actually answers it. As
+the course material on language modelling emphasises, words carry meaning
+through the contexts in which they appear, and a useful system must be
+able to retrieve relevant information \emph{even when the query and the
+source do not share the same words}. Bridging that gap, between a
+beginner's modern phrasing and the early-modern text, is precisely the
+domain adaptation challenge here. We address it through retrieval and
+prompt design rather than by retraining the model, so that the model's
+answers are anchored to evidence drawn from the plays themselves.
+
+\subsection{Intended User and Design Implications}
+The intended user is a newcomer who has not studied Shakespeare. This
+single assumption shapes the entire design. Explanations must avoid
+assuming literary background; every substantive answer must be backed by
+visible evidence so the user can verify it; and creative, stylised output
+must be unmistakably separated from factual explanation so a beginner is
+never misled into treating an invented line as a quotation.
+
+\subsection{Constraints}
+Three constraints framed our design decisions. \emph{Compute:} the system
+must run on a standard laptop without specialised hardware, which ruled
+out large models and steered us toward a compact, locally-hosted model
+and cached indices. \emph{Architecture:} a retrieval-augmented generation
+pipeline is mandatory, and retrieved passages must demonstrably inform
+generation rather than decorate it. \emph{Scope:} pretraining or
+full-scale fine-tuning is out of scope; adaptation is achieved through
+retrieval and prompting. Working within these constraints, the project's
+goal is a system that is well-designed, well-evaluated, and clearly
+explained, rather than merely large or complex.
+
+\subsection{Contributions and Report Structure}
+The remainder of this report is organised around the system we built.
+Section~\ref{sec:dataset} describes how the corpus was prepared, chunked,
+and enriched. Section~\ref{sec:methodology} sets out the baseline and
+RAG methodology and justifies the choice of model.
+Section~\ref{sec:system} describes the end-to-end system, its command-line
+interface, and how to run it. Sections~\ref{sec:evaluation}
+and~\ref{sec:results} present the evaluation protocol, results, and
+failure analysis. Section~\ref{sec:genai} documents our use of generative
+AI, and Section~\ref{sec:conclusion} concludes.

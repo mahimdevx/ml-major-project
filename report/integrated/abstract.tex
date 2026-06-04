@@ -1,0 +1,23 @@
+% ===============================================================
+% Abstract  --  Integration and Reporting Lead
+% ===============================================================
+This report presents a Shakespeare-aware language system that helps a
+user with no prior exposure to Shakespeare ask questions about
+\emph{Hamlet}, \emph{Macbeth}, and \emph{Romeo and Juliet} and receive
+accurate, evidence-grounded explanations. We treat the task as one of
+domain adaptation: rather than pretraining or full fine-tuning, we adapt
+a compact pretrained model, Gemma~3~4B running locally via Ollama, using
+retrieval-augmented generation (RAG) and prompt design. The provided
+structured corpus is prepared at two granularities, scene-level chunks
+and speaker-level utterances, with each retrieval unit enriched by a
+modern-English scene summary and keywords and indexed by a MiniLM
+sentence embedding. Three systems are compared: a no-retrieval baseline,
+a standard RAG pipeline, and an enhanced pipeline that adds
+cross-encoder reranking and scene-level diversity. The system supports
+four interaction modes, concept explanation, contextual question
+answering, evidence retrieval, and clearly labelled stylised generation,
+and always displays retrieved evidence alongside its answers. We
+evaluate on fifteen questions (five instructor-provided, ten
+group-designed) using a five-criterion rubric. Retrieval relevance is
+consistently strong, while the analysis isolates the generation stage as
+the primary bottleneck and the main target for future improvement.

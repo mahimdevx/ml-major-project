@@ -1,0 +1,48 @@
+% ===============================================================
+% main.tex  --  Integrated technical report (assembly file)
+% CSCI433/933 Assignment 2: Domain Adaptation with Small
+% Language Models -- Shakespeare-Aware RAG System.
+%
+% Build:  pdflatex main  ->  bibtex main  ->  pdflatex main x2
+% Each section lives in its own file and is pulled in below.
+% ===============================================================
+\documentclass[10pt,twocolumn,a4paper]{article}
+
+\input{config}
+
+\begin{document}
+
+% ---------------------------------------------------------------
+% Full-width title block + abstract (spans both columns)
+% ---------------------------------------------------------------
+\twocolumn[{%
+  \centering
+  {\LARGE\bfseries Domain Adaptation with Small Language Models\\
+   for Shakespearean Text Understanding\par}
+  \vspace{8pt}
+  {\large Group Number: \emph{[Insert Group Number]}\par}
+  \vspace{3pt}
+  {CSCI433/933 Machine Learning Algorithms and Applications\par}
+  {Student Names and Numbers: \emph{[Insert Details]}\par}
+  \vspace{12pt}
+  \begin{minipage}{0.9\textwidth}
+    \small\noindent\textbf{Abstract---}\input{abstract}
+  \end{minipage}
+  \vspace{14pt}
+}]
+
+\input{introduction}
+\input{dataset}
+\input{methodology}
+\input{system_design}
+\input{evaluation}
+\input{results}
+\input{genai}
+\input{conclusion}
+
+\bibliographystyle{ieeetr}
+\bibliography{references}
+
+\input{appendix}
+
+\end{document}
