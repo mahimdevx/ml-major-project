@@ -502,8 +502,6 @@ def run_evaluation() -> None:
         print(f"  {sys_name}: {info['count']} answers, {info['scored']} auto-scored")
 
     print(f"\nResults saved to {RESULTS_DIR.resolve()}")
-    print("Open evaluation_results.csv in Excel to review and fill in manual scores.")
-
 
 if __name__ == "__main__":
     run_evaluation()
